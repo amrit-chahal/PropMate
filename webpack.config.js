@@ -7,7 +7,9 @@ module.exports = {
   mode: 'development',
   devtool: 'cheap-module-source-map',
   entry: {
-    popup: path.resolve('src/popup/popup.tsx')
+    popup: path.resolve('src/popup/popup.tsx'),
+    background: path.resolve('src/background/background.ts'),
+    contentScript: path.resolve('src/contentScript/contentScript.ts')
   },
   module: {
     rules: [
@@ -15,6 +17,14 @@ module.exports = {
         use: 'ts-loader',
         test: /\.tsx?$/,
         exclude: /node_modules/
+      },
+      {
+        use: ['style-loader', 'csss-loader'],
+        test: /\.css$/i
+      },
+      {
+        type: 'asset/resource',
+        test: /\.(jpeg|jpg|png|woff|woff2|ttf|svg)$/
       }
     ]
   },
@@ -22,7 +32,7 @@ module.exports = {
     new CopyPlugin({
       patterns: [
         {
-          from: path.resolve('src/manifest.json'),
+          from: path.resolve('src/static'),
           to: path.resolve('dist')
         }
       ]

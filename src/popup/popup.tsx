@@ -1,2 +1,3 @@
 import React from 'react';
-import ReactDOM from 'ReactDOM';
+import ReactDOM from 'react-dom';
+
