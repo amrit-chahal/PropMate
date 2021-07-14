@@ -24,5 +24,6 @@
       ],
       "js": ["contentScript.js"]
     }
-  ]
+  ],
+  "host_permissions": ["https://maps.googleapis.com/*"]
 }

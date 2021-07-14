@@ -2,10 +2,9 @@ const path = require('path');
 const CopyPlugin = require('copy-webpack-plugin');
 const { copyFile } = require('fs');
 const HtmlPlugin = require('html-webpack-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 module.exports = {
-  mode: 'development',
-  devtool: 'cheap-module-source-map',
   entry: {
     popup: path.resolve('src/popup/popup.tsx'),
     background: path.resolve('src/background/background.ts'),
@@ -19,7 +18,7 @@ module.exports = {
         exclude: /node_modules/
       },
       {
-        use: ['style-loader', 'csss-loader'],
+        use: ['style-loader', 'css-loader'],
         test: /\.css$/i
       },
       {
@@ -29,6 +28,9 @@ module.exports = {
     ]
   },
   plugins: [
+    new CleanWebpackPlugin({
+      cleanStaleWebpackAssets: false
+    }),
     new CopyPlugin({
       patterns: [
         {
@@ -44,7 +46,7 @@ module.exports = {
     })
   ],
   resolve: {
-    extensions: ['.tsx', 'ts', '.js']
+    extensions: ['.tsx', '.ts', '.js']
   },
   output: {
     filename: '[name].js',
