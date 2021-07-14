@@ -4,7 +4,7 @@
   "description": "Enhance your property browsing experience on trademe with propmate",
   "main": "index.js",
   "scripts": {
-    "start": "webpack --watch --progress --config webpack.dev.js",
+    "start": "webpack --progress --config webpack.dev.js",
     "build": "webpack --watch --progress --config webpack.prod.js"
   },
   "repository": {
@@ -24,6 +24,7 @@
   },
   "devDependencies": {
     "@material-ui/core": "^4.12.1",
+    "@material-ui/icons": "^4.11.2",
     "@types/chrome": "0.0.146",
     "@types/react": "^17.0.14",
     "@types/react-dom": "^17.0.9",
