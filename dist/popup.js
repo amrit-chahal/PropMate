@@ -1,5 +1,4 @@
 /******/ (() => { // webpackBootstrap
-/******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
 /***/ "./node_modules/css-loader/dist/cjs.js!./src/popup/popup.css":
@@ -8,6 +7,7 @@
   \*******************************************************************/
 /***/ ((module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
@@ -21,7 +21,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_cssWithMappingToString_js__WEBPACK_IMPORTED_MODULE_0___default()));
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "", "",{"version":3,"sources":[],"names":[],"mappings":"","sourceRoot":""}]);
+___CSS_LOADER_EXPORT___.push([module.id, "body {\r\n  background-color: aliceblue;\r\n  width: 380px;\r\n  height: 500px;\r\n}\r\n", "",{"version":3,"sources":["webpack://./src/popup/popup.css"],"names":[],"mappings":"AAAA;EACE,2BAA2B;EAC3B,YAAY;EACZ,aAAa;AACf","sourcesContent":["body {\r\n  background-color: aliceblue;\r\n  width: 380px;\r\n  height: 500px;\r\n}\r\n"],"sourceRoot":""}]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -34,6 +34,7 @@ ___CSS_LOADER_EXPORT___.push([module.id, "", "",{"version":3,"sources":[],"names
   \*****************************************************/
 /***/ ((module) => {
 
+"use strict";
 
 
 /*
@@ -109,6 +110,7 @@ module.exports = function (cssWithMappingToString) {
   \************************************************************************/
 /***/ ((module) => {
 
+"use strict";
 
 
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
@@ -150,6 +152,7 @@ module.exports = function cssWithMappingToString(item) {
   \*********************************************/
 /***/ ((module) => {
 
+"use strict";
 /*
 object-assign
 (c) Sindre Sorhus
@@ -250,6 +253,7 @@ module.exports = shouldUseNative() ? Object.assign : function (target, source) {
   \*************************************************************/
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
 
+"use strict";
 /** @license React v17.0.2
  * react-dom.development.js
  *
@@ -26517,6 +26521,7 @@ exports.version = ReactVersion;
   \*****************************************/
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
+"use strict";
 
 
 function checkDCE() {
@@ -26560,6 +26565,7 @@ if (false) {} else {
   \*****************************************************/
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
 
+"use strict";
 /** @license React v17.0.2
  * react.development.js
  *
@@ -28903,6 +28909,7 @@ exports.version = ReactVersion;
   \*************************************/
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
+"use strict";
 
 
 if (false) {} else {
@@ -28918,6 +28925,7 @@ if (false) {} else {
   \*********************************************************************/
 /***/ ((__unused_webpack_module, exports) => {
 
+"use strict";
 /** @license React v0.20.2
  * scheduler-tracing.development.js
  *
@@ -29275,6 +29283,7 @@ exports.unstable_wrap = unstable_wrap;
   \*************************************************************/
 /***/ ((__unused_webpack_module, exports) => {
 
+"use strict";
 /** @license React v0.20.2
  * scheduler.development.js
  *
@@ -29931,6 +29940,7 @@ exports.unstable_wrapCallback = unstable_wrapCallback;
   \*****************************************/
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
+"use strict";
 
 
 if (false) {} else {
@@ -29946,6 +29956,7 @@ if (false) {} else {
   \*******************************************/
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
+"use strict";
 
 
 if (false) {} else {
@@ -29961,6 +29972,7 @@ if (false) {} else {
   \*****************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
@@ -30015,6 +30027,7 @@ var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js
   \****************************************************************************/
 /***/ ((module) => {
 
+"use strict";
 
 
 var stylesInDom = [];
@@ -30121,6 +30134,7 @@ module.exports = function (list, options) {
   \********************************************************************/
 /***/ ((module) => {
 
+"use strict";
 
 
 var memo = {};
@@ -30169,6 +30183,7 @@ module.exports = insertBySelector;
   \**********************************************************************/
 /***/ ((module) => {
 
+"use strict";
 
 
 /* istanbul ignore next  */
@@ -30189,6 +30204,7 @@ module.exports = insertStyleElement;
   \**********************************************************************************/
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
+"use strict";
 
 
 /* istanbul ignore next  */
@@ -30210,6 +30226,7 @@ module.exports = setAttributesWithoutAttributes;
   \***************************************************************/
 /***/ ((module) => {
 
+"use strict";
 
 
 /* istanbul ignore next  */
@@ -30267,6 +30284,7 @@ module.exports = domAPI;
   \*********************************************************************/
 /***/ ((module) => {
 
+"use strict";
 
 
 /* istanbul ignore next  */
@@ -30286,37 +30304,30 @@ module.exports = styleTagTransform;
 
 /***/ }),
 
-/***/ "./src/utils/api.ts":
-/*!**************************!*\
-  !*** ./src/utils/api.ts ***!
-  \**************************/
+/***/ "./src/popup/LocationCard/LocationCard.tsx":
+/*!*************************************************!*\
+  !*** ./src/popup/LocationCard/LocationCard.tsx ***!
+  \*************************************************/
+/***/ (() => {
+
+throw new Error("Module parse failed: Unexpected token (11:12)\nFile was processed with these loaders:\n * ./node_modules/ts-loader/index.js\nYou may need an additional loader to handle the result of these loaders.\n|             .catch((error) => console.log(error));\n|     }, [userLocation, listingLocation]);\n>     return ();\n| };\n| ");
+
+/***/ }),
+
+/***/ "./src/popup/LocationCard/index.tsx":
+/*!******************************************!*\
+  !*** ./src/popup/LocationCard/index.tsx ***!
+  \******************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "fetchTimeAndDistance": () => (/* binding */ fetchTimeAndDistance)
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
-const MAPS_API_KEY = 'AIzaSyBpFP18AqDjajnKCUAZDLhIAMKErjy6HuA';
-function fetchTimeAndDistance(userLocation, listingLocation) {
-    return __awaiter(this, void 0, void 0, function* () {
-        const res = yield fetch(`https://maps.googleapis.com/maps/api/distancematrix/json?units=metric&origins=
-    ${userLocation}&destinations=${listingLocation}&key=${MAPS_API_KEY}`);
-        if (!res.ok) {
-            throw new Error('Invalid Address');
-        }
-        const data = yield res.json();
-        return data;
-    });
-}
+/* harmony import */ var _LocationCard__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./LocationCard */ "./src/popup/LocationCard/LocationCard.tsx");
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_LocationCard__WEBPACK_IMPORTED_MODULE_0__.LocationCard);
 
 
 /***/ })
@@ -30390,8 +30401,9 @@ function fetchTimeAndDistance(userLocation, listingLocation) {
 /******/ 	
 /************************************************************************/
 var __webpack_exports__ = {};
-// This entry need to be wrapped in an IIFE because it need to be isolated against other modules in the chunk.
+// This entry need to be wrapped in an IIFE because it need to be in strict mode.
 (() => {
+"use strict";
 /*!*****************************!*\
   !*** ./src/popup/popup.tsx ***!
   \*****************************/
@@ -30399,19 +30411,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
 /* harmony import */ var _popup_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./popup.css */ "./src/popup/popup.css");
-/* harmony import */ var _utils_api__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../utils/api */ "./src/utils/api.ts");
+/* harmony import */ var _LocationCard__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./LocationCard */ "./src/popup/LocationCard/index.tsx");
 
 
 
 
 const App = () => {
-    (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
-        (0,_utils_api__WEBPACK_IMPORTED_MODULE_3__.fetchTimeAndDistance)('porirua', 'pipitea')
-            .then((data) => console.log(data.rows[0].elements[0].distance.text))
-            .catch((error) => console.log(error));
-    }, []);
     return (react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", null,
-        react__WEBPACK_IMPORTED_MODULE_0__.createElement("p", null, "PropMate")));
+        react__WEBPACK_IMPORTED_MODULE_0__.createElement(_LocationCard__WEBPACK_IMPORTED_MODULE_3__.default, { userLocation: 'pipitea', listingLocation: 'porirua' })));
 };
 const root = document.createElement('div');
 document.body.appendChild(root);

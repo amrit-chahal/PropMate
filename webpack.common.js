@@ -3,7 +3,7 @@ const CopyPlugin = require('copy-webpack-plugin');
 const { copyFile } = require('fs');
 const HtmlPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
-
+const Dotenv = require('dotenv-webpack');
 module.exports = {
   entry: {
     popup: path.resolve('src/popup/popup.tsx'),
@@ -30,6 +30,9 @@ module.exports = {
   plugins: [
     new CleanWebpackPlugin({
       cleanStaleWebpackAssets: false
+    }),
+    new Dotenv({
+      path: path.resolve('src/utils', '.env')
     }),
     new CopyPlugin({
       patterns: [

@@ -1,4 +1,4 @@
-const MAPS_API_KEY = 'AIzaSyBpFP18AqDjajnKCUAZDLhIAMKErjy6HuA';
+const MAPS_API_KEY = process.env.MAPS_API_KEY;
 
 export interface MapsData {
   destination_addresses: string[];
