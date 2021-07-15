@@ -25,5 +25,6 @@
       "js": ["contentScript.js"]
     }
   ],
-  "host_permissions": ["https://maps.googleapis.com/*"]
+  "host_permissions": ["https://maps.googleapis.com/*"],
+  "permissions": ["storage"]
 }

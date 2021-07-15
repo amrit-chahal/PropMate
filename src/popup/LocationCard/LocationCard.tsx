@@ -4,6 +4,7 @@ import {
   Box,
   IconButton,
   Card,
+  CardActions,
   CardContent,
   Grid,
   Typography
@@ -14,11 +15,14 @@ import { Delete, Edit, LocationOn } from '@material-ui/icons';
 export const LocationCard: React.FC<{
   userLocation: string;
   listingLocation: string;
-}> = ({ userLocation, listingLocation }) => {
+  onEdit?: () => void;
+  onDelete?: () => void;
+}> = ({ userLocation, listingLocation, onEdit, onDelete }) => {
   const [distance, setDistance] = useState<string | null>(null);
   useEffect(() => {
     fetchTimeAndDistance(userLocation, listingLocation)
       .then((data) => {
+        console.log(data);
         setDistance(data.rows[0].elements[0].distance.text);
       })
       .catch((error) => console.log(error));
@@ -37,22 +41,26 @@ export const LocationCard: React.FC<{
             justifyContent='center'
             alignItems='center'
           >
-            <Grid item alignItems='center' xs={2}>
+            <Grid item xs={2}>
               <LocationOn />
             </Grid>
-            <Grid item alignItems='center' xs={6}>
+            <Grid item xs={6}>
               <Typography variant='subtitle2'>{userLocation}</Typography>
               <Typography variant='subtitle2'>({distance})</Typography>
             </Grid>
-            <Grid item alignItems='center' xs={2}>
-              <IconButton>
-                <Edit color='primary' />
-              </IconButton>
+            <Grid item xs={2}>
+              <CardActions onClick={onEdit}>
+                <IconButton>
+                  <Edit color='primary' />
+                </IconButton>
+              </CardActions>
             </Grid>
-            <Grid item alignItems='center' xs={2}>
-              <IconButton>
-                <Delete color='secondary' />
-              </IconButton>
+            <Grid item xs={2}>
+              <CardActions onClick={onDelete}>
+                <IconButton>
+                  <Delete color='secondary' />
+                </IconButton>
+              </CardActions>
             </Grid>
           </Grid>
         </CardContent>
