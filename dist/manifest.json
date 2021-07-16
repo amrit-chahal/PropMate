@@ -22,6 +22,7 @@
         "*://*.trademe.co.nz/a/property/residential/sale*",
         "*://*.trademe.co.nz/a/property/residential/rent*"
       ],
+      "run_at": "document_idle",
       "js": ["contentScript.js"]
     }
   ],

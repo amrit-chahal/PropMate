@@ -14,10 +14,11 @@ import { Delete, Edit, LocationOn } from '@material-ui/icons';
 
 export const LocationCard: React.FC<{
   userLocation: string;
+  locationTitle: string;
   listingLocation: string;
   onEdit?: () => void;
   onDelete?: () => void;
-}> = ({ userLocation, listingLocation, onEdit, onDelete }) => {
+}> = ({ userLocation, locationTitle, listingLocation, onEdit, onDelete }) => {
   const [distance, setDistance] = useState<string | null>(null);
   useEffect(() => {
     fetchTimeAndDistance(userLocation, listingLocation)
@@ -45,8 +46,8 @@ export const LocationCard: React.FC<{
               <LocationOn />
             </Grid>
             <Grid item xs={6}>
-              <Typography variant='subtitle2'>{userLocation}</Typography>
-              <Typography variant='subtitle2'>({distance})</Typography>
+              <Typography variant='body1'>({locationTitle})</Typography>
+              <Typography variant='caption'>{userLocation}</Typography>
             </Grid>
             <Grid item xs={2}>
               <CardActions onClick={onEdit}>
