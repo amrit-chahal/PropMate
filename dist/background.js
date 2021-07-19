@@ -2,6 +2,47 @@
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
+/***/ "./src/utils/api.ts":
+/*!**************************!*\
+  !*** ./src/utils/api.ts ***!
+  \**************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "fetchTimeAndDistance": () => (/* binding */ fetchTimeAndDistance)
+/* harmony export */ });
+var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+const MAPS_API_KEY = "AIzaSyAdOskc_QLpLZ9xrV-mv1Er3Da1jDtFuqI";
+function fetchTimeAndDistance(userLocations, listingLocations) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const userLocationsToString = userLocations
+            .map((item) => item.userLocation)
+            .join('|');
+        const listingLocationsToString = listingLocations
+            .map((item) => item)
+            .join('|');
+        const res = yield fetch(`https://maps.googleapis.com/maps/api/distancematrix/json?units=metric&origins=
+    ${userLocationsToString}&destinations=${listingLocationsToString}&key=${MAPS_API_KEY}`);
+        if (!res.ok) {
+            throw new Error('Invalid Address');
+        }
+        const data = yield res.json();
+        return data;
+    });
+}
+
+
+/***/ }),
+
 /***/ "./src/utils/storage.ts":
 /*!******************************!*\
   !*** ./src/utils/storage.ts ***!
@@ -99,10 +140,23 @@ var __webpack_exports__ = {};
   !*** ./src/background/background.ts ***!
   \**************************************/
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _utils_storage__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../utils/storage */ "./src/utils/storage.ts");
+/* harmony import */ var _utils_api__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../utils/api */ "./src/utils/api.ts");
+/* harmony import */ var _utils_storage__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../utils/storage */ "./src/utils/storage.ts");
+
 
 chrome.runtime.onInstalled.addListener(() => {
-    (0,_utils_storage__WEBPACK_IMPORTED_MODULE_0__.setUserLocationsInStorage)([]);
+    (0,_utils_storage__WEBPACK_IMPORTED_MODULE_1__.setUserLocationsInStorage)([]);
+});
+chrome.runtime.onMessage.addListener((message, sender, response) => {
+    if (message.userLocations && message.listingLocations) {
+        console.log(message.userLocations, message.listingLocation);
+        (0,_utils_api__WEBPACK_IMPORTED_MODULE_0__.fetchTimeAndDistance)(message.userLocations, message.listingLocations)
+            .then((data) => {
+            response(data);
+        })
+            .catch((err) => console.log(err));
+    }
+    return true;
 });
 
 })();

@@ -18,8 +18,7 @@ import {
 } from '../utils/storage';
 import GoogleMaps from '../utils/autoComplete';
 
-const App: React.FC<{}> = () => {
-  const listingLocationRef = useRef('Auckland');
+const App: React.FC<{}> = () => {  
   const [userLocations, setUserLocations] = useState<UserLocationItems>([]);
   const [locationInput, setLocationInput] = useState<string>('');
   const [titleInput, setTitleInput] = useState<string>('');
@@ -104,8 +103,7 @@ const App: React.FC<{}> = () => {
       {userLocations.map((location, index) => (
         <LocationCard
           userLocation={location.userLocation}
-          locationTitle={location.locationTitle}
-          listingLocation={listingLocationRef.current}
+          locationTitle={location.locationTitle}          
           key={index}
           onDelete={() => handleLocationDeleteBtnClick(index)}
           onEdit={() => {}}

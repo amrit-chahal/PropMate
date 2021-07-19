@@ -15,19 +15,10 @@ import { Delete, Edit, LocationOn } from '@material-ui/icons';
 export const LocationCard: React.FC<{
   userLocation: string;
   locationTitle: string;
-  listingLocation: string;
   onEdit?: () => void;
   onDelete?: () => void;
-}> = ({ userLocation, locationTitle, listingLocation, onEdit, onDelete }) => {
+}> = ({ userLocation, locationTitle, onEdit, onDelete }) => {
   const [distance, setDistance] = useState<string | null>(null);
-  useEffect(() => {
-    fetchTimeAndDistance(userLocation, listingLocation)
-      .then((data) => {
-        console.log(data);
-        setDistance(data.rows[0].elements[0].distance.text);
-      })
-      .catch((error) => console.log(error));
-  }, [userLocation, listingLocation]);
 
   if (!location) {
     return <div>Loading...</div>;
