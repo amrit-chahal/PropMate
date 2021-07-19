@@ -41948,7 +41948,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 const InformationChip = ({ timeAndDistanceInformaton }) => {
-    return (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_1__.default, { style: { margin: 4 }, icon: react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_icons__WEBPACK_IMPORTED_MODULE_2__.default, null), label: timeAndDistanceInformaton }));
+    return (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_1__.default, { icon: react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_icons__WEBPACK_IMPORTED_MODULE_2__.default, null), label: timeAndDistanceInformaton }));
 };
 
 
@@ -42077,14 +42077,18 @@ __webpack_require__.r(__webpack_exports__);
 
 const App = () => {
     const [userLocations, setUserLocations] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]);
+    const listingLocation = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)('');
     const [timeAndDistanceInfoArray, setTimeAndDistanceInfoArray] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]);
     (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
         (0,_utils_storage__WEBPACK_IMPORTED_MODULE_3__.getUserLocationsInStorage)().then((userLocations) => {
+            var _a;
             console.log(userLocations);
             setUserLocations(userLocations);
+            listingLocation.current = (_a = document.querySelector('.tm-property-listing-body__location')) === null || _a === void 0 ? void 0 : _a.textContent;
+            console.log(listingLocation.current);
             chrome.runtime.sendMessage({
                 userLocations: userLocations,
-                listingLocations: ['porirua']
+                listingLocations: [listingLocation.current]
             }, (response) => {
                 console.log(response);
                 setTimeAndDistanceInfoArray((prevTimeAndDistanceInfoArray) => [

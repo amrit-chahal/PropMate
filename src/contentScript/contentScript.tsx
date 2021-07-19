@@ -12,6 +12,7 @@ import { fetchTimeAndDistance, MapsData } from '../utils/api';
 
 const App: React.FC<{}> = () => {
   const [userLocations, setUserLocations] = useState<UserLocationItems>([]);
+  const listingLocation = useRef<string | null | undefined>('');
 
   const [timeAndDistanceInfoArray, setTimeAndDistanceInfoArray] = useState<
     string[]
@@ -20,10 +21,14 @@ const App: React.FC<{}> = () => {
     getUserLocationsInStorage().then((userLocations) => {
       console.log(userLocations);
       setUserLocations(userLocations);
+      listingLocation.current = document.querySelector(
+        '.tm-property-listing-body__location'
+      )?.textContent;
+      console.log(listingLocation.current);
       chrome.runtime.sendMessage(
         {
           userLocations: userLocations,
-          listingLocations: ['porirua']
+          listingLocations: [listingLocation.current]
         },
         (response) => {
           console.log(response);
