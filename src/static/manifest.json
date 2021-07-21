@@ -18,11 +18,8 @@
   },
   "content_scripts": [
     {
-      "matches": [
-        "*://*.trademe.co.nz/a/property/residential/sale*",
-        "*://*.trademe.co.nz/a/property/residential/rent*"
-      ],
-      "run_at": "document_idle",
+      "matches": ["*://*.trademe.co.nz/*"],
+      "run_at": "document_end",
       "js": ["contentScript.js"]
     }
   ],

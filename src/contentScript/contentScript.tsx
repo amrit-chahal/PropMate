@@ -8,7 +8,8 @@ import {
   UserLocationItems
 } from '../utils/storage';
 import { InformationChip } from './InformationChip/InformationChip';
-import { fetchTimeAndDistance, MapsData } from '../utils/api';
+import { MapsData } from '../utils/api';
+import { ChildCareOutlined } from '@material-ui/icons';
 
 const App: React.FC<{}> = () => {
   const [userLocations, setUserLocations] = useState<UserLocationItems>([]);
@@ -67,11 +68,39 @@ const App: React.FC<{}> = () => {
   );
 };
 
-window.addEventListener('load', () => {
-  const root = document.createElement('div');
-  const element: HTMLElement | null = document.querySelector(
-    '.tm-property-listing-body__location'
-  );
-  element!.appendChild(root);
-  ReactDOM.render(<App />, root);
-});
+if (document.readyState !== 'complete') {
+  document.addEventListener('readystatechange', function (event) {
+    console.log('event listner loaded');
+
+    if (this.readyState === 'complete') {
+      const observer = new MutationObserver(() => {
+        const element: HTMLElement | null = document.querySelector(
+          '.tm-property-listing-body__location'
+        );
+        const chipLabel: HTMLElement | null =
+          document.querySelector('.MuiChip-label');
+        if (!chipLabel && element) {
+          console.log('element found');
+          observer.disconnect();
+
+          const root = document.createElement('div');
+          console.log('root injected');
+          element.appendChild(root);
+          ReactDOM.render(<App />, root);
+          setTimeout(() => {
+            observe();
+          }, 3000);
+        }
+      });
+      observe();
+      function observe() {
+        observer.observe(document, {
+          childList: true,
+          subtree: true,
+          characterData: true,
+          attributes: true
+        });
+      }
+    }
+  });
+}

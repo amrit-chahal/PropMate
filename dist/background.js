@@ -145,7 +145,10 @@ __webpack_require__.r(__webpack_exports__);
 
 
 chrome.runtime.onInstalled.addListener(() => {
-    (0,_utils_storage__WEBPACK_IMPORTED_MODULE_1__.setUserLocationsInStorage)([]);
+    (0,_utils_storage__WEBPACK_IMPORTED_MODULE_1__.setUserLocationsInStorage)([
+        { locationTitle: 'Home', userLocation: 'Auckland' },
+        { locationTitle: 'Work', userLocation: 'Porirua' }
+    ]);
 });
 chrome.runtime.onMessage.addListener((message, sender, response) => {
     if (message.userLocations && message.listingLocations) {

@@ -42110,12 +42110,37 @@ const App = () => {
     };
     return (react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", null, timeAndDistanceInfoArray.map((item, index) => (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_InformationChip_InformationChip__WEBPACK_IMPORTED_MODULE_4__.InformationChip, { timeAndDistanceInformaton: item, key: index })))));
 };
-window.addEventListener('load', () => {
-    const root = document.createElement('div');
-    const element = document.querySelector('.tm-property-listing-body__location');
-    element.appendChild(root);
-    react_dom__WEBPACK_IMPORTED_MODULE_1__.render(react__WEBPACK_IMPORTED_MODULE_0__.createElement(App, null), root);
-});
+if (document.readyState !== 'complete') {
+    document.addEventListener('readystatechange', function (event) {
+        console.log('event listner loaded');
+        if (this.readyState === 'complete') {
+            const observer = new MutationObserver(() => {
+                const element = document.querySelector('.tm-property-listing-body__location');
+                const chipLabel = document.querySelector('.MuiChip-label');
+                if (!chipLabel && element) {
+                    console.log('element found');
+                    observer.disconnect();
+                    const root = document.createElement('div');
+                    console.log('root injected');
+                    element.appendChild(root);
+                    react_dom__WEBPACK_IMPORTED_MODULE_1__.render(react__WEBPACK_IMPORTED_MODULE_0__.createElement(App, null), root);
+                    setTimeout(() => {
+                        observe();
+                    }, 3000);
+                }
+            });
+            observe();
+            function observe() {
+                observer.observe(document, {
+                    childList: true,
+                    subtree: true,
+                    characterData: true,
+                    attributes: true
+                });
+            }
+        }
+    });
+}
 
 })();
 
