@@ -1,19 +1,16 @@
 import React, { useEffect, useRef, useState } from 'react';
 import ReactDOM from 'react-dom';
-import { Box, Grid, InputBase, IconButton, Paper } from '@material-ui/core';
+
 import './contentScript.css';
-import {
-  getUserLocationsInStorage,
-  UserLocationItem,
-  UserLocationItems
-} from '../utils/storage';
+import { getUserLocationsInStorage, UserLocationItems } from '../utils/storage';
 import { InformationChip } from './InformationChip/InformationChip';
 import { MapsData } from '../utils/api';
-import { ChildCareOutlined } from '@material-ui/icons';
 
-const App: React.FC<{}> = () => {
+const App: React.FC<{ listingLocations: (string | null)[] }> = ({
+  listingLocations
+}) => {
   const [userLocations, setUserLocations] = useState<UserLocationItems>([]);
-  const listingLocation = useRef<string | null | undefined>('');
+  //const listingLocation = useRef<string | null | undefined>('');
 
   const [timeAndDistanceInfoArray, setTimeAndDistanceInfoArray] = useState<
     string[]
@@ -22,14 +19,12 @@ const App: React.FC<{}> = () => {
     getUserLocationsInStorage().then((userLocations) => {
       console.log(userLocations);
       setUserLocations(userLocations);
-      listingLocation.current = document.querySelector(
-        '.tm-property-listing-body__location'
-      )?.textContent;
-      console.log(listingLocation.current);
+
+      console.log(listingLocations);
       chrome.runtime.sendMessage(
         {
           userLocations: userLocations,
-          listingLocations: [listingLocation.current]
+          listingLocations: listingLocations
         },
         (response) => {
           console.log(response);
@@ -74,22 +69,45 @@ if (document.readyState !== 'complete') {
 
     if (this.readyState === 'complete') {
       const observer = new MutationObserver(() => {
-        const element: HTMLElement | null = document.querySelector(
-          '.tm-property-listing-body__location'
+        const propertyCards = document.querySelectorAll(
+          'tm-property-search-card-address-subtitle'
         );
-        const chipLabel: HTMLElement | null =
-          document.querySelector('.MuiChip-label');
-        if (!chipLabel && element) {
-          console.log('element found');
-          observer.disconnect();
+        if (propertyCards.length > 0) {
+          propertyCards.forEach((element) => {
+            if (!document.querySelector('.MuiChip-label')) {
+              observer.disconnect();
+              const listingLocations = [element.textContent];
+              const root = document.createElement('div');
+              console.log('root injected');
+              element.parentElement?.parentElement?.parentElement?.parentElement?.appendChild(
+                root
+              );
+              ReactDOM.render(
+                <App listingLocations={listingLocations} />,
+                root
+              );
+              setTimeout(() => {
+                observe();
+              }, 3000);
+            }
+          });
+        } else {
+          const listingLocation: HTMLElement | null = document.querySelector(
+            '.tm-property-listing-body__location'
+          );
 
-          const root = document.createElement('div');
-          console.log('root injected');
-          element.appendChild(root);
-          ReactDOM.render(<App />, root);
-          setTimeout(() => {
-            observe();
-          }, 3000);
+          if (!document.querySelector('.MuiChip-label') && listingLocation) {
+            console.log('listingLocation found');
+            observer.disconnect();
+            const listingLocations = [listingLocation.textContent];
+            const root = document.createElement('div');
+            console.log('root injected');
+            listingLocation.appendChild(root);
+            ReactDOM.render(<App listingLocations={listingLocations} />, root);
+            setTimeout(() => {
+              observe();
+            }, 3000);
+          }
         }
       });
       observe();

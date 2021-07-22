@@ -4,6 +4,7 @@ import { Chip } from '@material-ui/core';
 import { LocationOn } from '@material-ui/icons';
 export const InformationChip: React.FC<{ timeAndDistanceInformaton: string }> =
   ({ timeAndDistanceInformaton }) => {
+   
     return (
       <Chip
         

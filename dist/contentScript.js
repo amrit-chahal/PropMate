@@ -42075,20 +42075,18 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-const App = () => {
+const App = ({ listingLocations }) => {
     const [userLocations, setUserLocations] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]);
-    const listingLocation = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)('');
+    //const listingLocation = useRef<string | null | undefined>('');
     const [timeAndDistanceInfoArray, setTimeAndDistanceInfoArray] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]);
     (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
         (0,_utils_storage__WEBPACK_IMPORTED_MODULE_3__.getUserLocationsInStorage)().then((userLocations) => {
-            var _a;
             console.log(userLocations);
             setUserLocations(userLocations);
-            listingLocation.current = (_a = document.querySelector('.tm-property-listing-body__location')) === null || _a === void 0 ? void 0 : _a.textContent;
-            console.log(listingLocation.current);
+            console.log(listingLocations);
             chrome.runtime.sendMessage({
                 userLocations: userLocations,
-                listingLocations: [listingLocation.current]
+                listingLocations: listingLocations
             }, (response) => {
                 console.log(response);
                 setTimeAndDistanceInfoArray((prevTimeAndDistanceInfoArray) => [
@@ -42115,18 +42113,37 @@ if (document.readyState !== 'complete') {
         console.log('event listner loaded');
         if (this.readyState === 'complete') {
             const observer = new MutationObserver(() => {
-                const element = document.querySelector('.tm-property-listing-body__location');
-                const chipLabel = document.querySelector('.MuiChip-label');
-                if (!chipLabel && element) {
-                    console.log('element found');
-                    observer.disconnect();
-                    const root = document.createElement('div');
-                    console.log('root injected');
-                    element.appendChild(root);
-                    react_dom__WEBPACK_IMPORTED_MODULE_1__.render(react__WEBPACK_IMPORTED_MODULE_0__.createElement(App, null), root);
-                    setTimeout(() => {
-                        observe();
-                    }, 3000);
+                const propertyCards = document.querySelectorAll('tm-property-search-card-address-subtitle');
+                if (propertyCards.length > 0) {
+                    propertyCards.forEach((element) => {
+                        var _a, _b, _c, _d;
+                        if (!document.querySelector('.MuiChip-label')) {
+                            observer.disconnect();
+                            const listingLocations = [element.textContent];
+                            const root = document.createElement('div');
+                            console.log('root injected');
+                            (_d = (_c = (_b = (_a = element.parentElement) === null || _a === void 0 ? void 0 : _a.parentElement) === null || _b === void 0 ? void 0 : _b.parentElement) === null || _c === void 0 ? void 0 : _c.parentElement) === null || _d === void 0 ? void 0 : _d.appendChild(root);
+                            react_dom__WEBPACK_IMPORTED_MODULE_1__.render(react__WEBPACK_IMPORTED_MODULE_0__.createElement(App, { listingLocations: listingLocations }), root);
+                            setTimeout(() => {
+                                observe();
+                            }, 3000);
+                        }
+                    });
+                }
+                else {
+                    const listingLocation = document.querySelector('.tm-property-listing-body__location');
+                    if (!document.querySelector('.MuiChip-label') && listingLocation) {
+                        console.log('listingLocation found');
+                        observer.disconnect();
+                        const listingLocations = [listingLocation.textContent];
+                        const root = document.createElement('div');
+                        console.log('root injected');
+                        listingLocation.appendChild(root);
+                        react_dom__WEBPACK_IMPORTED_MODULE_1__.render(react__WEBPACK_IMPORTED_MODULE_0__.createElement(App, { listingLocations: listingLocations }), root);
+                        setTimeout(() => {
+                            observe();
+                        }, 3000);
+                    }
                 }
             });
             observe();
