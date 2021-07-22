@@ -43,12 +43,13 @@ const App: React.FC<{ listingLocations: (string | null)[] }> = ({
   ): string[] => {
     const infoArray: string[] = [];
     for (var i = 0; i < data.rows.length; i++) {
-      const title = userLocations[i];
-      for (var j = 0; j < data.rows[i].elements.length; j++) {
-        infoArray.push(
-          `${userLocations[i].locationTitle}: ${data.rows[i].elements[j].distance.text}, ${data.rows[i].elements[j].duration.text}`
-        );
-      }
+      if (data.rows[i].elements[0].status !== 'ZERO_RESULTS') {
+        for (var j = 0; j < data.rows[i].elements.length; j++) {
+          infoArray.push(
+            `${userLocations[i].locationTitle}: ${data.rows[i].elements[j].distance.text}, ${data.rows[i].elements[j].duration.text}`
+          );
+        }
+      } else infoArray.push('Error: Invalid Address');
     }
 
     return infoArray;
