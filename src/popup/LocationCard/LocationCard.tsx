@@ -9,7 +9,7 @@ import {
   Grid,
   Typography
 } from '@material-ui/core';
-import { fetchTimeAndDistance } from '../../utils/api';
+
 import { Delete, Edit, LocationOn } from '@material-ui/icons';
 
 export const LocationCard: React.FC<{
@@ -18,15 +18,13 @@ export const LocationCard: React.FC<{
   onEdit?: () => void;
   onDelete?: () => void;
 }> = ({ userLocation, locationTitle, onEdit, onDelete }) => {
-  const [distance, setDistance] = useState<string | null>(null);
-
   if (!location) {
     return <div>Loading...</div>;
   }
   return (
-    <Box mx='4px' my='8px'>
+    <Box mx='6px' my='6px'>
       <Card>
-        <CardContent>
+        <CardContent >
           <Grid
             container
             direction='row'

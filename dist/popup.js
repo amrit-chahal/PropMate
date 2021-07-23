@@ -21,7 +21,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_cssWithMappingToString_js__WEBPACK_IMPORTED_MODULE_0___default()));
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "body {\r\n  background-color: aliceblue;\r\n  width: 380px;\r\n  height: 500px;\r\n}\r\n", "",{"version":3,"sources":["webpack://./src/popup/popup.css"],"names":[],"mappings":"AAAA;EACE,2BAA2B;EAC3B,YAAY;EACZ,aAAa;AACf","sourcesContent":["body {\r\n  background-color: aliceblue;\r\n  width: 380px;\r\n  height: 500px;\r\n}\r\n"],"sourceRoot":""}]);
+___CSS_LOADER_EXPORT___.push([module.id, "body {\r\n  background-color: rgb(245, 239, 225);\r\n  width: 280px;\r\n  height: 400px;\r\n}\r\n", "",{"version":3,"sources":["webpack://./src/popup/popup.css"],"names":[],"mappings":"AAAA;EACE,oCAAoC;EACpC,YAAY;EACZ,aAAa;AACf","sourcesContent":["body {\r\n  background-color: rgb(245, 239, 225);\r\n  width: 280px;\r\n  height: 400px;\r\n}\r\n"],"sourceRoot":""}]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -107,11 +107,10 @@ __webpack_require__.r(__webpack_exports__);
 
 
 const LocationCard = ({ userLocation, locationTitle, onEdit, onDelete }) => {
-    const [distance, setDistance] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null);
     if (!location) {
         return react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", null, "Loading...");
     }
-    return (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_1__.default, { mx: '4px', my: '8px' },
+    return (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_1__.default, { mx: '6px', my: '6px' },
         react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_2__.default, null,
             react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_3__.default, null,
                 react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_4__.default, { container: true, direction: 'row', justifyContent: 'center', alignItems: 'center' },
@@ -188,15 +187,20 @@ const App = () => {
     const handleSubmit = (event) => {
         event.preventDefault();
         if (titleInput && locationInput) {
+            const title = capitalizeFirstLetter(titleInput);
+            const location = capitalizeFirstLetter(locationInput);
             setUserLocations((prevUserLocation) => [
                 ...prevUserLocation,
-                { locationTitle: titleInput, userLocation: locationInput }
+                { locationTitle: title, userLocation: location }
             ]);
             setLocationInput((previousLocationInput) => (previousLocationInput = ''));
             setTitleInput((previousTitleInput) => (previousTitleInput = ''));
             (0,_utils_storage__WEBPACK_IMPORTED_MODULE_4__.setUserLocationsInStorage)([
                 ...userLocations,
-                { locationTitle: titleInput, userLocation: locationInput }
+                {
+                    locationTitle: title,
+                    userLocation: location
+                }
             ]);
             console.log(userLocations);
         }
@@ -206,25 +210,35 @@ const App = () => {
         setUserLocations((prevUserlocations) => [...prevUserlocations]);
         (0,_utils_storage__WEBPACK_IMPORTED_MODULE_4__.setUserLocationsInStorage)(userLocations);
     };
+    const capitalizeFirstLetter = (input) => {
+        var wordArray = input.split(' ');
+        const arrayCapitalized = [];
+        wordArray.map((item) => {
+            arrayCapitalized.push(item[0].toUpperCase() + item.substring(1));
+        });
+        return arrayCapitalized.join(' ');
+    };
     return (react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", null,
-        react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_5__.default, { mx: '4px', my: '8px' },
+        react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_5__.default, { mx: '6px', my: '6px' },
             react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_6__.default, null,
-                react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_5__.default, { px: '16px', py: '4px' },
+                react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_5__.default, { px: '8px', py: '4px' },
                     react__WEBPACK_IMPORTED_MODULE_0__.createElement("form", { noValidate: true, autoComplete: 'off', onSubmit: handleSubmit },
                         react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_7__.default, { container: true, direction: 'row', justifyContent: 'center', alignItems: 'center' },
                             react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_7__.default, { item: true, xs: 3 },
-                                react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_8__.default, { label: 'Title', variant: 'outlined', color: 'primary', value: titleInput, onChange: (event) => setTitleInput((input) => (input = event.target.value)) })),
+                                react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_5__.default, { mr: '5px' },
+                                    react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_8__.default, { autoFocus: true, size: 'small', label: 'Title', variant: 'outlined', color: 'primary', value: titleInput, onChange: (event) => setTitleInput((input) => (input = event.target.value)) }))),
                             react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_7__.default, { item: true, xs: 7 },
-                                react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_8__.default, { label: 'Address', variant: 'outlined', color: 'primary', value: locationInput, onChange: (event) => setLocationInput((input) => (input = event.target.value)), onKeyUp: (event) => {
-                                        if (event.key === 'Enter') {
-                                            handleSubmit;
-                                        }
-                                    } })),
+                                react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_5__.default, { mr: '5px' },
+                                    react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_8__.default, { size: 'small', label: 'Address', variant: 'outlined', color: 'primary', value: locationInput, onChange: (event) => setLocationInput((input) => (input = event.target.value)), onKeyUp: (event) => {
+                                            if (event.key === 'Enter') {
+                                                handleSubmit;
+                                            }
+                                        } }))),
                             react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_7__.default, { item: true, xs: 2 },
                                 react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_9__.default, { type: 'submit' },
                                     react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_icons__WEBPACK_IMPORTED_MODULE_10__.default, { color: 'primary' })))))))),
         userLocations.map((location, index) => (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_LocationCard__WEBPACK_IMPORTED_MODULE_3__.default, { userLocation: location.userLocation, locationTitle: location.locationTitle, key: index, onDelete: () => handleLocationDeleteBtnClick(index), onEdit: () => { } }))),
-        react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_5__.default, { height: '8px' })));
+        react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_5__.default, { height: '4px' })));
 };
 const root = document.createElement('div');
 document.body.appendChild(root);
@@ -424,7 +438,7 @@ function getUserLocationsInStorage() {
 /******/ 	// startup
 /******/ 	// Load entry module and return exports
 /******/ 	// This entry module depends on other loaded chunks and execution need to be delayed
-/******/ 	var __webpack_exports__ = __webpack_require__.O(undefined, ["vendors-node_modules_material-ui_core_esm_Box_Box_js-node_modules_material-ui_core_esm_CardAc-bbcb49"], () => (__webpack_require__("./src/popup/popup.tsx")))
+/******/ 	var __webpack_exports__ = __webpack_require__.O(undefined, ["vendors-node_modules_prop-types_index_js-node_modules_react-dom_index_js","vendors-node_modules_material-ui_core_esm_Box_Box_js-node_modules_material-ui_core_esm_CardAc-bbcb49"], () => (__webpack_require__("./src/popup/popup.tsx")))
 /******/ 	__webpack_exports__ = __webpack_require__.O(__webpack_exports__);
 /******/ 	
 /******/ })()

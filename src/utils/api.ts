@@ -36,7 +36,7 @@ export async function fetchTimeAndDistance(
   );
 
   if (!res.ok) {
-    throw new Error('Invalid Address');
+    throw new Error('Sorry something went wrong :(');
   }
 
   const data: MapsData = await res.json();

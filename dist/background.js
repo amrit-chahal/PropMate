@@ -33,7 +33,7 @@ function fetchTimeAndDistance(userLocations, listingLocations) {
         const res = yield fetch(`https://maps.googleapis.com/maps/api/distancematrix/json?units=metric&origins=
     ${userLocationsToString}&destinations=${listingLocationsToString}&key=${MAPS_API_KEY}`);
         if (!res.ok) {
-            throw new Error('Invalid Address');
+            throw new Error('Sorry something went wrong :(');
         }
         const data = yield res.json();
         return data;

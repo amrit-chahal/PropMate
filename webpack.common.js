@@ -8,7 +8,8 @@ module.exports = {
   entry: {
     popup: path.resolve('src/popup/popup.tsx'),
     background: path.resolve('src/background/background.ts'),
-    contentScript: path.resolve('src/contentScript/contentScript.tsx')
+    contentScript: path.resolve('src/contentScript/contentScript.tsx'),
+    options: path.resolve('src/options/options.tsx')
   },
   module: {
     rules: [
@@ -42,11 +43,7 @@ module.exports = {
         }
       ]
     }),
-    new HtmlPlugin({
-      title: 'PropMate',
-      filename: 'popup.html',
-      chunks: ['popup']
-    })
+    ...getHtmlPlugins(['popup', 'options'])
   ],
   resolve: {
     extensions: ['.tsx', '.ts', '.js']
@@ -58,8 +55,18 @@ module.exports = {
   optimization: {
     splitChunks: {
       chunks(chunk) {
-        return chunk.name !== 'contentScript'
+        return chunk.name !== 'contentScript';
       }
     }
   }
 };
+function getHtmlPlugins(chunks) {
+  return chunks.map(
+    (chunk) =>
+      new HtmlPlugin({
+        title: 'PropMate',
+        filename: `${chunk}.html`,
+        chunks: [chunk]
+      })
+  );
+}

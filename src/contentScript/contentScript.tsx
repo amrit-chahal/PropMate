@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import ReactDOM from 'react-dom';
+import { Box } from '@material-ui/core';
 
 import './contentScript.css';
 import { getUserLocationsInStorage, UserLocationItems } from '../utils/storage';
@@ -18,7 +19,7 @@ const App: React.FC<{ listingLocations: (string | null)[] }> = ({
   useEffect(() => {
     getUserLocationsInStorage().then((userLocations) => {
       console.log(userLocations);
-      setUserLocations(userLocations);
+     // setUserLocations(userLocations);
 
       console.log(listingLocations);
       chrome.runtime.sendMessage(
@@ -43,13 +44,16 @@ const App: React.FC<{ listingLocations: (string | null)[] }> = ({
   ): string[] => {
     const infoArray: string[] = [];
     for (var i = 0; i < data.rows.length; i++) {
-      if (data.rows[i].elements[0].status !== 'ZERO_RESULTS') {
+      if (data.rows[i].elements[0].status === 'OK') {
         for (var j = 0; j < data.rows[i].elements.length; j++) {
           infoArray.push(
             `${userLocations[i].locationTitle}: ${data.rows[i].elements[j].distance.text}, ${data.rows[i].elements[j].duration.text}`
           );
         }
-      } else infoArray.push('Error: Invalid Address');
+      } else
+        infoArray.push(
+          `Error: Incorrect address for ${userLocations[i].locationTitle}`
+        );
     }
 
     return infoArray;
@@ -57,9 +61,11 @@ const App: React.FC<{ listingLocations: (string | null)[] }> = ({
 
   return (
     <div>
-      {timeAndDistanceInfoArray.map((item, index) => (
-        <InformationChip timeAndDistanceInformaton={item} key={index} />
-      ))}
+      <Box display='flex' mb='5px' flexWrap='wrap'>
+        {timeAndDistanceInfoArray.map((item, index) => (
+          <InformationChip timeAndDistanceInformaton={item} key={index} />
+        ))}
+      </Box>
     </div>
   );
 };
