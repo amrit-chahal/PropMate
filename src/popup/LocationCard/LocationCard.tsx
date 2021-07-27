@@ -24,15 +24,15 @@ export const LocationCard: React.FC<{
   return (
     <Box mx='6px' my='6px'>
       <Card>
-        <CardContent >
+        <CardContent style={{ padding: 0 }}>
           <Grid
             container
             direction='row'
             justifyContent='center'
             alignItems='center'
           >
-            <Grid item xs={2}>
-              <LocationOn />
+            <Grid item xs={2} style={{ textAlign: 'center' }}>
+              <LocationOn style={{ color: '#55c1db' }} />
             </Grid>
             <Grid item xs={6}>
               <Typography variant='body1'>({locationTitle})</Typography>

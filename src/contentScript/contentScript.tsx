@@ -19,7 +19,7 @@ const App: React.FC<{ listingLocations: (string | null)[] }> = ({
   useEffect(() => {
     getUserLocationsInStorage().then((userLocations) => {
       console.log(userLocations);
-     // setUserLocations(userLocations);
+      // setUserLocations(userLocations);
 
       console.log(listingLocations);
       chrome.runtime.sendMessage(
@@ -109,6 +109,7 @@ if (document.readyState !== 'complete') {
             const listingLocations = [listingLocation.textContent];
             const root = document.createElement('div');
             console.log('root injected');
+            console.log(listingLocation);
             listingLocation.appendChild(root);
             ReactDOM.render(<App listingLocations={listingLocations} />, root);
             setTimeout(() => {

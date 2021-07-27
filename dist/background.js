@@ -10,7 +10,8 @@
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "fetchTimeAndDistance": () => (/* binding */ fetchTimeAndDistance)
+/* harmony export */   "fetchTimeAndDistance": () => (/* binding */ fetchTimeAndDistance),
+/* harmony export */   "checkForValidAddress": () => (/* binding */ checkForValidAddress)
 /* harmony export */ });
 var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
@@ -37,6 +38,17 @@ function fetchTimeAndDistance(userLocations, listingLocations) {
         }
         const data = yield res.json();
         return data;
+    });
+}
+function checkForValidAddress(address) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const res = yield fetch(`https://maps.googleapis.com/maps/api/distancematrix/json?units=metric&origins=
+    ${address}&destinations=auckland%20newzealand&key=${MAPS_API_KEY}`);
+        if (res.ok) {
+            const data = yield res.json();
+            return data.rows[0].elements[0].status !== 'ZERO_RESULTS';
+        }
+        return false;
     });
 }
 

@@ -43103,6 +43103,7 @@ if (document.readyState !== 'complete') {
                         const listingLocations = [listingLocation.textContent];
                         const root = document.createElement('div');
                         console.log('root injected');
+                        console.log(listingLocation);
                         listingLocation.appendChild(root);
                         react_dom__WEBPACK_IMPORTED_MODULE_1__.render(react__WEBPACK_IMPORTED_MODULE_0__.createElement(App, { listingLocations: listingLocations }), root);
                         setTimeout(() => {

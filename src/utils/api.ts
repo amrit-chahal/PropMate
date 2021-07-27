@@ -43,3 +43,15 @@ export async function fetchTimeAndDistance(
 
   return data;
 }
+
+export async function checkForValidAddress(address: string): Promise<boolean> {
+  const res = await fetch(
+    `https://maps.googleapis.com/maps/api/distancematrix/json?units=metric&origins=
+    ${address}&destinations=auckland%20newzealand&key=${MAPS_API_KEY}`
+  );
+  if (res.ok) {
+    const data: MapsData = await res.json();
+    return data.rows[0].elements[0].status !== 'ZERO_RESULTS';
+  }
+  return false;
+}
