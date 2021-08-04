@@ -82,6 +82,319 @@ var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js
 
 /***/ }),
 
+/***/ "./src/popup/FormInput/FormInput.tsx":
+/*!*******************************************!*\
+  !*** ./src/popup/FormInput/FormInput.tsx ***!
+  \*******************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "ACTIONS": () => (/* binding */ ACTIONS),
+/* harmony export */   "FormInput": () => (/* binding */ FormInput)
+/* harmony export */ });
+/* harmony import */ var _material_ui_core__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @material-ui/core */ "./node_modules/@material-ui/core/esm/Box/Box.js");
+/* harmony import */ var _material_ui_core__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @material-ui/core */ "./node_modules/@material-ui/core/esm/Paper/Paper.js");
+/* harmony import */ var _material_ui_core__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @material-ui/core */ "./node_modules/@material-ui/core/esm/Grid/Grid.js");
+/* harmony import */ var _material_ui_core__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @material-ui/core */ "./node_modules/@material-ui/core/esm/Typography/Typography.js");
+/* harmony import */ var _material_ui_core__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @material-ui/core */ "./node_modules/@material-ui/core/esm/TextField/TextField.js");
+/* harmony import */ var _material_ui_core__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @material-ui/core */ "./node_modules/@material-ui/core/esm/Button/Button.js");
+/* harmony import */ var _material_ui_core__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! @material-ui/core */ "./node_modules/@material-ui/core/esm/CircularProgress/CircularProgress.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var _material_ui_icons__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @material-ui/icons */ "./node_modules/@material-ui/icons/esm/Save.js");
+/* harmony import */ var _material_ui_icons__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @material-ui/icons */ "./node_modules/@material-ui/icons/esm/AddCircle.js");
+/* harmony import */ var _formUtil__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./formUtil */ "./src/popup/FormInput/formUtil.ts");
+var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+
+
+
+
+const ACTIONS = {
+    EDIT: 'edit',
+    ADD: 'add',
+    INPUT_CHANGE: 'input change'
+};
+const initialState = {
+    title: { value: '', touched: false, hasError: false, error: '' },
+    location: { value: '', touched: false, hasError: false, error: '' },
+    isFormValid: false
+};
+const formReducer = (state, action) => {
+    switch (action.type) {
+        case ACTIONS.ADD: {
+            const { name, value, hasError, error, touched, isFormValid } = action.data;
+            return Object.assign(Object.assign({}, state), { [name]: Object.assign(Object.assign({}, state[name]), { value,
+                    hasError,
+                    error,
+                    touched }), isFormValid });
+        }
+        case ACTIONS.EDIT: {
+            const { name, value } = action.data;
+            return Object.assign(Object.assign({}, state), { [name]: Object.assign(Object.assign({}, state[name]), { value }) });
+        }
+        case ACTIONS.INPUT_CHANGE: {
+            const { name, value } = action.data;
+            return Object.assign(Object.assign({}, state), { [name]: Object.assign(Object.assign({}, state[name]), { value }) });
+        }
+        default:
+            return state;
+    }
+};
+const FormInput = ({ title, location, addUserLocation, updateUserLocation }) => {
+    const [formState, dispatch] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useReducer)(formReducer, initialState);
+    const [isLoading, setIsLoading] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
+    const [formHeading, setFormHeading] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('Add new place');
+    const [formMode, setFormMode] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('Add');
+    const [sucessMessage, setSucessMessage] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('Sucess: New place added');
+    const [isSubmitted, setIsSubmitted] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
+    (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
+        console.log('Initial render formstate' + formState.isFormValid);
+        if (title && location) {
+            dispatch({
+                type: ACTIONS.EDIT,
+                data: {
+                    name: 'title',
+                    value: title
+                }
+            });
+            dispatch({
+                type: ACTIONS.EDIT,
+                data: {
+                    name: 'location',
+                    value: location
+                }
+            });
+            setFormHeading('Update place');
+            setFormMode('Update');
+            setSucessMessage('Sucess: Place updated');
+        }
+    }, []);
+    const handleFormSubmit = (event) => __awaiter(void 0, void 0, void 0, function* () {
+        event.preventDefault();
+        console.log('Before submit ');
+        console.log(formState);
+        let isFormValid = true;
+        setIsLoading(true);
+        console.log('isloading ' + isLoading);
+        let name;
+        for (name in formState) {
+            const item = formState[name];
+            const { value } = item;
+            const { hasError, error } = yield (0,_formUtil__WEBPACK_IMPORTED_MODULE_1__.default)(name, value);
+            if (hasError) {
+                isFormValid = false;
+            }
+            if (name) {
+                dispatch({
+                    type: ACTIONS.ADD,
+                    data: {
+                        name,
+                        value,
+                        hasError,
+                        error,
+                        touched: true,
+                        isFormValid
+                    }
+                });
+            }
+            console.log('name ' + name + ' value ' + value + ' has Error ' + hasError);
+        }
+        console.log('After submit ');
+        console.log(formState);
+        console.log('form valid ' + isFormValid);
+        console.log('formstate valid ' + formState.isFormValid);
+        if (isFormValid) {
+            if (formMode === 'Add' && addUserLocation) {
+                addUserLocation(formState.title.value, formState.location.value);
+            }
+            if (formMode === 'Update' && updateUserLocation) {
+                updateUserLocation(formState.title.value, formState.location.value);
+            }
+        }
+        setIsLoading(false);
+        setIsSubmitted(true);
+        setTimeout(() => {
+            setIsSubmitted(false);
+        }, 5000);
+    });
+    const formatInput = (input) => {
+        if (!input) {
+            return '';
+        }
+        var wordArray = input.trim().split(/(\s|,)+/);
+        const arrayCapitalized = [];
+        wordArray.map((item) => {
+            arrayCapitalized.push(item[0].toUpperCase() + item.substring(1).toLowerCase());
+        });
+        return arrayCapitalized.join(' ');
+    };
+    return (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_2__.default, { margin: '8px' },
+        react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_3__.default, { elevation: 3 },
+            react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_2__.default, { px: '8px', py: '4px' },
+                react__WEBPACK_IMPORTED_MODULE_0__.createElement("form", { noValidate: true, autoComplete: 'off', onSubmit: (event) => {
+                        handleFormSubmit(event);
+                    } },
+                    react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_4__.default, { container: true, direction: 'column', justifyContent: 'center', alignItems: 'center' },
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_4__.default, { item: true },
+                            react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_2__.default, { margin: '5px' },
+                                react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_5__.default, { variant: 'subtitle2', color: 'primary' },
+                                    react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_2__.default, { fontWeight: 'bold' }, formHeading)))),
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_4__.default, { item: true },
+                            react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_2__.default, { margin: '5px' },
+                                react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_6__.default, { error: formState.title.hasError, size: 'small', autoFocus: true, name: 'title', label: 'Title', variant: 'outlined', color: 'primary', value: formState.title.value, onChange: (event) => dispatch({
+                                        type: ACTIONS.INPUT_CHANGE,
+                                        data: {
+                                            name: 'title',
+                                            value: event.target.value
+                                        }
+                                    }), onBlur: (event) => __awaiter(void 0, void 0, void 0, function* () {
+                                        yield (0,_formUtil__WEBPACK_IMPORTED_MODULE_1__.onFocusOut)('title', formatInput(event.target.value), dispatch, formState);
+                                    }) }))),
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_4__.default, { item: true },
+                            react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_2__.default, { height: '10px', marginBottom: '5px' }, formState.title.touched && formState.title.hasError && (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_5__.default, { variant: 'caption', color: 'secondary' },
+                                react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", { className: 'propMate-submit-message' }, formState.title.error))))),
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_4__.default, { item: true },
+                            react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_2__.default, { margin: '5px' },
+                                react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_6__.default, { size: 'small', error: formState.location.hasError, name: 'location', label: 'Address', variant: 'outlined', color: 'primary', value: formState.location.value, onChange: (event) => dispatch({
+                                        type: ACTIONS.INPUT_CHANGE,
+                                        data: {
+                                            name: 'location',
+                                            value: event.target.value
+                                        }
+                                    }), onBlur: (event) => __awaiter(void 0, void 0, void 0, function* () {
+                                        yield (0,_formUtil__WEBPACK_IMPORTED_MODULE_1__.onFocusOut)('location', formatInput(event.target.value), dispatch, formState);
+                                    }) }))),
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_4__.default, { item: true },
+                            react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_2__.default, { height: '35px', marginBottom: '5px', textAlign: 'center' },
+                                formState.location.touched && formState.location.hasError && (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_5__.default, { variant: 'caption', color: 'secondary' },
+                                    react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", null, formState.location.error))),
+                                formState.isFormValid && isSubmitted && (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_5__.default, { variant: 'caption', style: { color: 'green' } }, sucessMessage)))),
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_4__.default, { item: true },
+                            react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_2__.default, { margin: '5px' },
+                                react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_7__.default, { disabled: isLoading, type: 'submit', variant: 'contained', color: 'primary', size: 'small', startIcon: formMode === 'Update' ? react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_icons__WEBPACK_IMPORTED_MODULE_8__.default, null) : react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_icons__WEBPACK_IMPORTED_MODULE_9__.default, null), onClick: handleFormSubmit }, formMode),
+                                isLoading && (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_10__.default, { size: 20, style: {
+                                        position: 'absolute',
+                                        zIndex: 1,
+                                        top: '260px',
+                                        left: '130px'
+                                    } }))))))))));
+};
+
+
+/***/ }),
+
+/***/ "./src/popup/FormInput/formUtil.ts":
+/*!*****************************************!*\
+  !*** ./src/popup/FormInput/formUtil.ts ***!
+  \*****************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "onFocusOut": () => (/* binding */ onFocusOut),
+/* harmony export */   "default": () => (/* binding */ validateInput)
+/* harmony export */ });
+/* harmony import */ var _utils_api__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../utils/api */ "./src/utils/api.ts");
+/* harmony import */ var _FormInput__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./FormInput */ "./src/popup/FormInput/FormInput.tsx");
+var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+
+
+function onFocusOut(name, value, dispatch, formState) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const { hasError, error } = yield validateInput(name, value);
+        let isFormValid = true;
+        let key;
+        for (key in formState) {
+            const item = formState[key];
+            if (key === name && hasError) {
+                isFormValid = false;
+                break;
+            }
+            else if (key !== name && item.hasError) {
+                isFormValid = false;
+                break;
+            }
+        }
+        dispatch({
+            type: _FormInput__WEBPACK_IMPORTED_MODULE_1__.ACTIONS.ADD,
+            data: {
+                name,
+                value,
+                hasError,
+                error,
+                touched: true,
+                isFormValid
+            }
+        });
+    });
+}
+function validateInput(name, value) {
+    return __awaiter(this, void 0, void 0, function* () {
+        let hasError = false, error = '';
+        switch (name) {
+            case 'title':
+                if (value.trim() === '') {
+                    hasError = true;
+                    error = 'Title cannot be empty';
+                }
+                else if (value.trim().length > 16) {
+                    hasError = true;
+                    error = 'Title cannot be longer than 16 characters';
+                }
+                else {
+                    hasError = false;
+                    error = '';
+                }
+                break;
+            case 'location':
+                const addressIsValid = yield (0,_utils_api__WEBPACK_IMPORTED_MODULE_0__.checkForValidAddress)(value.trim());
+                if (value.trim() === '') {
+                    hasError = true;
+                    error = 'Address cannot be empty';
+                }
+                else if (value.trim().length > 60) {
+                    hasError = true;
+                    error = 'Address too long! Please enter a shorter address';
+                }
+                else if (!/^(\d{0,10}\s)?(((\d{0,10}[a-zA-Z]{0,3})|(\d{0,10}(\/|\\)(([a-zA-Z]{0,3})|(\d{1,5}))))\s)?([a-zA-Z]{1,30},?\s?)*(\s?[a-zA-Z]{1,30})$/.test(value.trim())) {
+                    hasError = true;
+                    error = 'Error: Please check the address';
+                }
+                else if (!addressIsValid) {
+                    hasError = true;
+                    error = 'Cannot find address please enter correct address';
+                }
+                else {
+                    hasError = false;
+                    error = '';
+                }
+                break;
+            default:
+                break;
+        }
+        return { hasError, error };
+    });
+}
+
+
+/***/ }),
+
 /***/ "./src/popup/LocationCard/LocationCard.tsx":
 /*!*************************************************!*\
   !*** ./src/popup/LocationCard/LocationCard.tsx ***!
@@ -100,6 +413,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _material_ui_core__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @material-ui/core */ "./node_modules/@material-ui/core/esm/Typography/Typography.js");
 /* harmony import */ var _material_ui_core__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @material-ui/core */ "./node_modules/@material-ui/core/esm/CardActions/CardActions.js");
 /* harmony import */ var _material_ui_core__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @material-ui/core */ "./node_modules/@material-ui/core/esm/IconButton/IconButton.js");
+/* harmony import */ var _material_ui_core__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! @material-ui/core */ "./node_modules/@material-ui/core/esm/Dialog/Dialog.js");
+/* harmony import */ var _material_ui_core__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! @material-ui/core */ "./node_modules/@material-ui/core/esm/DialogTitle/DialogTitle.js");
+/* harmony import */ var _material_ui_core__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! @material-ui/core */ "./node_modules/@material-ui/core/esm/DialogActions/DialogActions.js");
+/* harmony import */ var _material_ui_core__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! @material-ui/core */ "./node_modules/@material-ui/core/esm/Button/Button.js");
 /* harmony import */ var _material_ui_icons__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @material-ui/icons */ "./node_modules/@material-ui/icons/esm/LocationOn.js");
 /* harmony import */ var _material_ui_icons__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @material-ui/icons */ "./node_modules/@material-ui/icons/esm/Edit.js");
 /* harmony import */ var _material_ui_icons__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! @material-ui/icons */ "./node_modules/@material-ui/icons/esm/Delete.js");
@@ -107,9 +424,17 @@ __webpack_require__.r(__webpack_exports__);
 
 
 const LocationCard = ({ userLocation, locationTitle, onEdit, onDelete }) => {
-    if (!location) {
-        return react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", null, "Loading...");
-    }
+    const [open, setOpen] = react__WEBPACK_IMPORTED_MODULE_0__.useState(false);
+    const handleClickOpen = () => {
+        setOpen(true);
+    };
+    const onDeleteClick = (event) => {
+        onDelete(event);
+        setOpen(false);
+    };
+    const handleClose = () => {
+        setOpen(false);
+    };
     return (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_1__.default, { mx: '6px', my: '6px' },
         react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_2__.default, null,
             react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_3__.default, { style: { padding: 0 } },
@@ -117,19 +442,23 @@ const LocationCard = ({ userLocation, locationTitle, onEdit, onDelete }) => {
                     react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_4__.default, { item: true, xs: 2, style: { textAlign: 'center' } },
                         react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_icons__WEBPACK_IMPORTED_MODULE_5__.default, { style: { color: '#55c1db' } })),
                     react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_4__.default, { item: true, xs: 6 },
-                        react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_6__.default, { variant: 'body1' },
-                            "(",
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_6__.default, { variant: 'subtitle2', style: { fontWeight: 'bold' } },
                             locationTitle,
-                            ")"),
+                            ":"),
                         react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_6__.default, { variant: 'caption' }, userLocation)),
                     react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_4__.default, { item: true, xs: 2 },
-                        react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_7__.default, { onClick: onEdit },
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_7__.default, { style: { padding: '0' }, onClick: onEdit },
                             react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_8__.default, null,
                                 react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_icons__WEBPACK_IMPORTED_MODULE_9__.default, { color: 'primary' })))),
                     react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_4__.default, { item: true, xs: 2 },
-                        react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_7__.default, { onClick: onDelete },
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_7__.default, { style: { padding: '0' }, onClick: handleClickOpen },
                             react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_8__.default, null,
-                                react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_icons__WEBPACK_IMPORTED_MODULE_10__.default, { color: 'secondary' })))))))));
+                                react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_icons__WEBPACK_IMPORTED_MODULE_10__.default, { color: 'secondary' })))))),
+            react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_11__.default, { open: open, onClose: handleClose, "aria-labelledby": 'draggable-dialog-title' },
+                react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_12__.default, { id: 'draggable-dialog-title' }, "Are you sure?"),
+                react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_13__.default, null,
+                    react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_14__.default, { autoFocus: true, onClick: (event) => onDeleteClick(event), color: 'primary' }, "Yes"),
+                    react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_14__.default, { onClick: handleClose, color: 'secondary' }, "No"))))));
 };
 
 
@@ -172,147 +501,140 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _material_ui_core__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! @material-ui/core */ "./node_modules/@material-ui/core/esm/FormControlLabel/FormControlLabel.js");
 /* harmony import */ var _material_ui_core__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! @material-ui/core */ "./node_modules/@material-ui/core/esm/Switch/Switch.js");
 /* harmony import */ var _material_ui_core__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! @material-ui/core */ "./node_modules/@material-ui/core/esm/Box/Box.js");
-/* harmony import */ var _material_ui_core__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! @material-ui/core */ "./node_modules/@material-ui/core/esm/Paper/Paper.js");
-/* harmony import */ var _material_ui_core__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! @material-ui/core */ "./node_modules/@material-ui/core/esm/TextField/TextField.js");
-/* harmony import */ var _material_ui_core__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! @material-ui/core */ "./node_modules/@material-ui/core/esm/Button/Button.js");
-/* harmony import */ var _material_ui_core__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! @material-ui/core */ "./node_modules/@material-ui/core/esm/CircularProgress/CircularProgress.js");
-/* harmony import */ var _material_ui_core__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! @material-ui/core */ "./node_modules/@material-ui/core/esm/BottomNavigation/BottomNavigation.js");
-/* harmony import */ var _material_ui_core__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! @material-ui/core */ "./node_modules/@material-ui/core/esm/BottomNavigationAction/BottomNavigationAction.js");
+/* harmony import */ var _material_ui_core__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! @material-ui/core */ "./node_modules/@material-ui/core/esm/BottomNavigation/BottomNavigation.js");
+/* harmony import */ var _material_ui_core__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! @material-ui/core */ "./node_modules/@material-ui/core/esm/BottomNavigationAction/BottomNavigationAction.js");
+/* harmony import */ var _material_ui_icons__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! @material-ui/icons */ "./node_modules/@material-ui/icons/esm/LocationOn.js");
 /* harmony import */ var _material_ui_icons__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! @material-ui/icons */ "./node_modules/@material-ui/icons/esm/AddCircle.js");
-/* harmony import */ var _material_ui_icons__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! @material-ui/icons */ "./node_modules/@material-ui/icons/esm/LocationOn.js");
 /* harmony import */ var _utils_storage__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../utils/storage */ "./src/utils/storage.ts");
-/* harmony import */ var _utils_api__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../utils/api */ "./src/utils/api.ts");
-var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
+/* harmony import */ var _FormInput_FormInput__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./FormInput/FormInput */ "./src/popup/FormInput/FormInput.tsx");
+
+
+
+
+
+
+
+
+const ACTIONS = {
+    STARTUP: 'startup',
+    OFFSTATE: 'offstate',
+    EDITSTATE: 'editstate',
+    ADDSTATE: 'addstate',
+    ERRORSTATE: 'errorstate',
+    SWITCH: 'switch'
 };
-
-
-
-
-
-
-
-
+const initialState = {
+    extensionEnabled: true,
+    bottomNavigation: 'myPlaces',
+    functionalError: false
+};
+const popupReducer = (state, action) => {
+    switch (action.type) {
+        // case ACTIONS.STARTUP:
+        //   return {
+        //     ...state,
+        //     extensionEnabled: true,
+        //     bottomNavigation: 'myPlaces',
+        //     functionalError: false,
+        //     formMode: 'AddNew',
+        //     headingText:'Add new place'
+        //   };
+        // case ACTIONS.ADDSTATE:
+        //   return {
+        //     ...state,
+        //     extensionEnabled: true,
+        //     bottomNavigation: 'addNewPlace',
+        //     functionalError: false,
+        //     formMode: 'AddNew',
+        //     headingText: 'Add new place'
+        //   };
+        // case ACTIONS.OFFSTATE:
+        //   return {
+        //     ...state,
+        //     extensionEnabled: false,
+        //     bottomNavigation: 'addNewPlace',
+        //     functionalError: false,
+        //     formMode: 'AddNew',
+        //     headingText: 'Add new place'
+        //   };
+        // case ACTIONS.ERRORSTATE:
+        //   return {
+        //     ...state,
+        //     extensionEnabled: true,
+        //     bottomNavigation: 'addNewPlace',
+        //     functionalError: true,
+        //     formMode: 'AddNew',
+        //     headingText: 'Add new place'
+        //   };
+        case ACTIONS.EDITSTATE:
+            return Object.assign(Object.assign({}, state), { bottomNavigation: action.data.bottomNavigation });
+        case ACTIONS.SWITCH:
+            return Object.assign(Object.assign({}, state), { bottomNavigation: action.data.bottomNavigation });
+        default:
+            return state;
+    }
+};
 const App = () => {
     const [userLocations, setUserLocations] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]);
-    const [locationInput, setLocationInput] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('');
-    const [titleInput, setTitleInput] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('');
-    const [extensionEnabled, setExtensionEnabled] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
-    const titleRef = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)(null);
-    const [bottomNavigation, setBottomNavigation] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('myPlaces');
-    const [inputFeedback, setFeedback] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({
-        isTitleValid: true,
-        isLocationValid: true,
-        isFormValid: false,
-        feedback: []
-    });
-    const [loading, setLoading] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
+    const [popupState, dispatch] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useReducer)(popupReducer, initialState);
+    const [location, setLocation] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('');
+    const [title, setTitle] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('');
+    const [editIndex, setEditIndex] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)();
     (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
         (0,_utils_storage__WEBPACK_IMPORTED_MODULE_4__.getUserLocationsInStorage)().then((userLocations) => setUserLocations(userLocations));
     }, []);
-    const checkForEmptyInputs = (title, location) => {
-        if (title.trim() === '' && location) {
-            setFeedback({
-                isTitleValid: false,
-                isLocationValid: true,
-                isFormValid: false,
-                feedback: ['Error: Title cannot be empty']
-            });
-            return false;
-        }
-        else if (location.trim() === '' && title) {
-            setFeedback({
-                isTitleValid: true,
-                isLocationValid: false,
-                isFormValid: false,
-                feedback: ['Error: Address cannot be empty']
-            });
-            return false;
-        }
-        else if (!title && !location) {
-            setFeedback({
-                isTitleValid: false,
-                isLocationValid: false,
-                isFormValid: false,
-                feedback: ['Error: Title and Address cannot be empty']
-            });
-            return false;
-        }
-        console.log(location);
-        return true;
+    const updateUserLocation = (titleInput, locationInput) => {
+        const newUserLocations = [...userLocations];
+        newUserLocations[editIndex] = {
+            locationTitle: titleInput,
+            userLocation: locationInput
+        };
+        setUserLocations((prevUserLocations) => (prevUserLocations = [...newUserLocations]));
+        (0,_utils_storage__WEBPACK_IMPORTED_MODULE_4__.setUserLocationsInStorage)(newUserLocations);
+        console.log('popuptitle from Update ' +
+            titleInput +
+            ' popuplocation from update ' +
+            locationInput);
+        console.log('Userlocations ' + userLocations);
     };
-    const handleSubmit = (event) => __awaiter(void 0, void 0, void 0, function* () {
-        event.preventDefault();
-        if (!checkForEmptyInputs(titleInput, locationInput))
-            return;
-        setLoading(true);
-        (0,_utils_api__WEBPACK_IMPORTED_MODULE_5__.checkForValidAddress)(locationInput).then((result) => {
-            var _a;
-            if (result) {
-                setFeedback({
-                    isTitleValid: true,
-                    isLocationValid: true,
-                    isFormValid: true,
-                    feedback: ['Sucess: New place added']
-                });
-                const title = formatInput(titleInput);
-                const location = formatInput(locationInput);
-                setUserLocations((prevUserLocation) => [
-                    ...prevUserLocation,
-                    { locationTitle: title, userLocation: location }
-                ]);
-                setLoading(false);
-                setTitleInput((previousTitleInput) => (previousTitleInput = ''));
-                setLocationInput((previousLocationInput) => (previousLocationInput = ''));
-                if (titleRef.current) {
-                    (_a = titleRef.current) === null || _a === void 0 ? void 0 : _a.focus();
-                }
-                (0,_utils_storage__WEBPACK_IMPORTED_MODULE_4__.setUserLocationsInStorage)([
-                    ...userLocations,
-                    {
-                        locationTitle: title,
-                        userLocation: location
-                    }
-                ]);
-                console.log(userLocations);
+    const addUserLocation = (titleInput, locationInput) => {
+        setUserLocations((prevUserLocations) => (prevUserLocations = [
+            ...prevUserLocations,
+            { locationTitle: titleInput, userLocation: locationInput }
+        ]));
+        (0,_utils_storage__WEBPACK_IMPORTED_MODULE_4__.setUserLocationsInStorage)([
+            ...userLocations,
+            {
+                locationTitle: titleInput,
+                userLocation: locationInput
             }
-            else {
-                setFeedback({
-                    isTitleValid: true,
-                    isLocationValid: false,
-                    isFormValid: false,
-                    feedback: ['Error: Incorrect address']
-                });
-                setLoading(false);
-            }
-        });
-    });
+        ]);
+        console.log('popuptitle ' + titleInput + ' popuplocation ' + locationInput);
+        console.log(userLocations);
+    };
     const handleLocationDeleteBtnClick = (index) => {
         userLocations.splice(index, 1);
         setUserLocations((prevUserlocations) => [...prevUserlocations]);
         (0,_utils_storage__WEBPACK_IMPORTED_MODULE_4__.setUserLocationsInStorage)(userLocations);
     };
-    const handleBottomNavigationChange = (event, newValue) => {
-        setBottomNavigation(newValue);
-        // if (newValue === 'addNewPlace') {
-        //   if (titleRef.current) {
-        //     titleRef.current?.focus();
-        //   }
-        // }
-    };
-    const formatInput = (input) => {
-        var wordArray = input.trim().split(' ');
-        const arrayCapitalized = [];
-        wordArray.map((item) => {
-            arrayCapitalized.push(item[0].toUpperCase() + item.substring(1));
+    const handleLocationEditBtnClick = (index) => {
+        setEditIndex(index);
+        setTitle(userLocations[index].locationTitle);
+        setLocation(userLocations[index].userLocation);
+        dispatch({
+            type: ACTIONS.EDITSTATE,
+            data: {
+                bottomNavigation: 'editPlace'
+            }
         });
-        return arrayCapitalized.join(' ');
+    };
+    const handleBottomNavigationChange = (event, newValue) => {
+        dispatch({
+            type: ACTIONS.SWITCH,
+            data: {
+                bottomNavigation: newValue
+            }
+        });
     };
     return (react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { className: 'propMate-container' },
         react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_6__.default, { position: 'static' },
@@ -325,45 +647,15 @@ const App = () => {
                         react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_10__.default, { align: 'center', variant: 'h6', noWrap: true }, "Propmate")),
                     react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_8__.default, { item: true, xs: 3 },
                         react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_11__.default, null,
-                            react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_12__.default, { control: react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_13__.default, { size: 'small', checked: extensionEnabled, "aria-label": 'turn on or off' }), label: extensionEnabled ? 'On' : 'Off' })))))),
+                            react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_12__.default, { control: react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_13__.default, { size: 'small', checked: popupState.extensionEnabled, "aria-label": 'turn on or off' }), label: popupState.extensionEnabled ? 'On' : 'Off' })))))),
         react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { className: 'propMate-inner' },
-            bottomNavigation === 'addNewPlace' && (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_14__.default, { margin: '8px' },
-                react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_15__.default, { elevation: 3 },
-                    react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_14__.default, { px: '8px', py: '4px' },
-                        react__WEBPACK_IMPORTED_MODULE_0__.createElement("form", { noValidate: true, autoComplete: 'off', onSubmit: handleSubmit },
-                            react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_8__.default, { container: true, direction: 'column', justifyContent: 'center', alignItems: 'center' },
-                                react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_8__.default, { item: true },
-                                    react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_14__.default, { margin: '5px' },
-                                        react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_10__.default, { variant: 'subtitle2', color: 'primary' },
-                                            react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_14__.default, { fontWeight: 'bold' }, "Add new place")))),
-                                react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_8__.default, { item: true },
-                                    react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_14__.default, { margin: '5px' },
-                                        react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_16__.default, { error: !(inputFeedback === null || inputFeedback === void 0 ? void 0 : inputFeedback.isTitleValid), inputRef: titleRef, autoFocus: true, label: 'Title', variant: 'outlined', color: 'primary', value: titleInput, onChange: (event) => setTitleInput((input) => (input = event.target.value)) }))),
-                                react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_8__.default, { item: true },
-                                    react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_14__.default, { margin: '5px' },
-                                        react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_16__.default, { error: !(inputFeedback === null || inputFeedback === void 0 ? void 0 : inputFeedback.isLocationValid), label: 'Address', variant: 'outlined', color: 'primary', value: locationInput, onChange: (event) => setLocationInput((input) => (input = event.target.value)), onKeyUp: (event) => {
-                                                if (event.key === 'Enter') {
-                                                    handleSubmit;
-                                                }
-                                            } }))),
-                                react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_8__.default, { item: true },
-                                    react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_14__.default, { margin: '5px', height: '20px' },
-                                        inputFeedback.isFormValid && (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_10__.default, { variant: 'caption', style: { color: 'green' } }, inputFeedback === null || inputFeedback === void 0 ? void 0 : inputFeedback.feedback.toString())),
-                                        !inputFeedback.isFormValid && (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_10__.default, { variant: 'caption', color: 'secondary' }, inputFeedback === null || inputFeedback === void 0 ? void 0 : inputFeedback.feedback.toString())))),
-                                react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_8__.default, { item: true },
-                                    react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_14__.default, { margin: '5px' },
-                                        react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_17__.default, { disabled: loading, type: 'submit', variant: 'contained', color: 'primary', size: 'small', startIcon: react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_icons__WEBPACK_IMPORTED_MODULE_18__.default, null) }, "Add"),
-                                        loading && (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_19__.default, { size: 24, style: {
-                                                position: 'absolute',
-                                                zIndex: 1,
-                                                top: '270px',
-                                                left: '130px'
-                                            } })))))))))),
-            bottomNavigation === 'myPlaces' && (react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { className: 'propMate-location-cards' }, userLocations.map((location, index) => (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_LocationCard__WEBPACK_IMPORTED_MODULE_3__.default, { userLocation: location.userLocation, locationTitle: location.locationTitle, key: index, onDelete: () => handleLocationDeleteBtnClick(index), onEdit: () => { } })))))),
-        react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_14__.default, { width: '100%', position: 'fixed', bottom: '0', borderTop: '1px solid rgba(0, 0, 0, 0.1);' },
-            react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_20__.default, { showLabels: true, value: bottomNavigation, onChange: handleBottomNavigationChange },
-                react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_21__.default, { label: 'My places', value: 'myPlaces', icon: react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_icons__WEBPACK_IMPORTED_MODULE_22__.default, null) }),
-                react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_21__.default, { label: 'Add new place', value: 'addNewPlace', icon: react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_icons__WEBPACK_IMPORTED_MODULE_18__.default, null) })))));
+            popupState.bottomNavigation === 'editPlace' && (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_FormInput_FormInput__WEBPACK_IMPORTED_MODULE_5__.FormInput, { title: title, location: location, updateUserLocation: updateUserLocation })),
+            popupState.bottomNavigation === 'addNewPlace' && (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_FormInput_FormInput__WEBPACK_IMPORTED_MODULE_5__.FormInput, { addUserLocation: addUserLocation })),
+            popupState.bottomNavigation === 'myPlaces' && (react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { className: 'propMate-location-cards' }, userLocations.map((location, index) => (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_LocationCard__WEBPACK_IMPORTED_MODULE_3__.default, { userLocation: location.userLocation, locationTitle: location.locationTitle, key: index, onDelete: () => handleLocationDeleteBtnClick(index), onEdit: () => handleLocationEditBtnClick(index) })))))),
+        react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_14__.default, { width: '100%', position: 'fixed', bottom: '0', borderTop: '1px solid rgba(0, 0, 0, 0.1)' },
+            react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_15__.default, { showLabels: true, value: popupState.bottomNavigation, onChange: handleBottomNavigationChange },
+                react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_16__.default, { label: 'My places', value: 'myPlaces', icon: react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_icons__WEBPACK_IMPORTED_MODULE_17__.default, null), style: { borderRight: '1px solid rgba(0, 0, 0, 0.1)' } }),
+                react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_16__.default, { label: 'Add new place', value: 'addNewPlace', icon: react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_icons__WEBPACK_IMPORTED_MODULE_18__.default, null) })))));
 };
 const root = document.createElement('div');
 document.body.appendChild(root);
@@ -421,6 +713,7 @@ function checkForValidAddress(address) {
         return false;
     });
 }
+;
 
 
 /***/ }),
@@ -616,7 +909,7 @@ function getUserLocationsInStorage() {
 /******/ 	// startup
 /******/ 	// Load entry module and return exports
 /******/ 	// This entry module depends on other loaded chunks and execution need to be delayed
-/******/ 	var __webpack_exports__ = __webpack_require__.O(undefined, ["vendors-node_modules_prop-types_index_js-node_modules_react-dom_index_js","vendors-node_modules_material-ui_core_esm_AppBar_AppBar_js-node_modules_material-ui_core_esm_-c54574"], () => (__webpack_require__("./src/popup/popup.tsx")))
+/******/ 	var __webpack_exports__ = __webpack_require__.O(undefined, ["vendors-node_modules_prop-types_index_js-node_modules_react-dom_index_js","vendors-node_modules_material-ui_core_esm_AppBar_AppBar_js-node_modules_material-ui_core_esm_-d8aa20"], () => (__webpack_require__("./src/popup/popup.tsx")))
 /******/ 	__webpack_exports__ = __webpack_require__.O(__webpack_exports__);
 /******/ 	
 /******/ })()

@@ -51,6 +51,7 @@ function checkForValidAddress(address) {
         return false;
     });
 }
+;
 
 
 /***/ }),

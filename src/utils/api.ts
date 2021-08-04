@@ -54,4 +54,4 @@ export async function checkForValidAddress(address: string): Promise<boolean> {
     return data.rows[0].elements[0].status !== 'ZERO_RESULTS';
   }
   return false;
-}
+};

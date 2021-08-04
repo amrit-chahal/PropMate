@@ -7,7 +7,11 @@ import {
   CardActions,
   CardContent,
   Grid,
-  Typography
+  Typography,
+  Dialog,
+  DialogTitle,
+  DialogActions,
+  Button
 } from '@material-ui/core';
 
 import { Delete, Edit, LocationOn } from '@material-ui/icons';
@@ -15,12 +19,23 @@ import { Delete, Edit, LocationOn } from '@material-ui/icons';
 export const LocationCard: React.FC<{
   userLocation: string;
   locationTitle: string;
-  onEdit?: () => void;
-  onDelete?: () => void;
+  onEdit: () => void;
+  onDelete: (event: any) => void;
 }> = ({ userLocation, locationTitle, onEdit, onDelete }) => {
-  if (!location) {
-    return <div>Loading...</div>;
-  }
+  const [open, setOpen] = React.useState(false);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+  const onDeleteClick = (event: any) => {
+    onDelete(event);
+    setOpen(false);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
   return (
     <Box mx='6px' my='6px'>
       <Card>
@@ -35,18 +50,20 @@ export const LocationCard: React.FC<{
               <LocationOn style={{ color: '#55c1db' }} />
             </Grid>
             <Grid item xs={6}>
-              <Typography variant='body1'>({locationTitle})</Typography>
+              <Typography variant='subtitle2' style={{ fontWeight: 'bold' }}>
+                {locationTitle}:
+              </Typography>
               <Typography variant='caption'>{userLocation}</Typography>
             </Grid>
             <Grid item xs={2}>
-              <CardActions onClick={onEdit}>
+              <CardActions style={{ padding: '0' }} onClick={onEdit}>
                 <IconButton>
                   <Edit color='primary' />
                 </IconButton>
               </CardActions>
             </Grid>
             <Grid item xs={2}>
-              <CardActions onClick={onDelete}>
+              <CardActions style={{ padding: '0' }} onClick={handleClickOpen}>
                 <IconButton>
                   <Delete color='secondary' />
                 </IconButton>
@@ -54,6 +71,25 @@ export const LocationCard: React.FC<{
             </Grid>
           </Grid>
         </CardContent>
+        <Dialog
+          open={open}
+          onClose={handleClose}
+          aria-labelledby='draggable-dialog-title'
+        >
+          <DialogTitle id='draggable-dialog-title'>Are you sure?</DialogTitle>
+          <DialogActions>
+            <Button
+              autoFocus
+              onClick={(event) => onDeleteClick(event)}
+              color='primary'
+            >
+              Yes
+            </Button>
+            <Button onClick={handleClose} color='secondary'>
+              No
+            </Button>
+          </DialogActions>
+        </Dialog>
       </Card>
     </Box>
   );
