@@ -7,6 +7,8 @@ import {
   BottomNavigation,
   BottomNavigationAction,
   Box,
+  Card,
+  CardContent,
   FormControlLabel,
   FormGroup,
   Grid,
@@ -23,7 +25,9 @@ import {
 import {
   setUserLocationsInStorage,
   getUserLocationsInStorage,
-  UserLocationItems
+  UserLocationItems,
+  setIsExtensionEnabledInStorage,
+  getIsExtensionEnabledInStorage
 } from '../utils/storage';
 import { FormInput } from './FormInput/FormInput';
 interface PopupState {
@@ -34,54 +38,33 @@ interface PopupState {
 interface PopupActions {
   type: string;
   data: {
-    bottomNavigation: string;
+    bottomNavigation?: string;
+    extensionEnabled?: boolean;
   };
 }
 const ACTIONS = {
   STARTUP: 'startup',
-  OFFSTATE: 'offstate',
+  CHANGEENABLEDSTATE: 'offstate',
   EDITSTATE: 'editstate',
   ADDSTATE: 'addstate',
   ERRORSTATE: 'errorstate',
-  SWITCH: 'switch'
+  SWITCHTABS: 'switchtabs'
 };
+
 const initialState: PopupState = {
   extensionEnabled: true,
   bottomNavigation: 'myPlaces',
   functionalError: false
 };
 
-const popupReducer = (state: PopupState, action: PopupActions) => {
+const popupReducer = (state: PopupState, action: any) => {
   switch (action.type) {
-    // case ACTIONS.STARTUP:
-    //   return {
-    //     ...state,
-    //     extensionEnabled: true,
-    //     bottomNavigation: 'myPlaces',
-    //     functionalError: false,
-    //     formMode: 'AddNew',
-    //     headingText:'Add new place'
-    //   };
-
-    // case ACTIONS.ADDSTATE:
-    //   return {
-    //     ...state,
-    //     extensionEnabled: true,
-    //     bottomNavigation: 'addNewPlace',
-    //     functionalError: false,
-    //     formMode: 'AddNew',
-    //     headingText: 'Add new place'
-    //   };
-
-    // case ACTIONS.OFFSTATE:
-    //   return {
-    //     ...state,
-    //     extensionEnabled: false,
-    //     bottomNavigation: 'addNewPlace',
-    //     functionalError: false,
-    //     formMode: 'AddNew',
-    //     headingText: 'Add new place'
-    //   };
+    case ACTIONS.CHANGEENABLEDSTATE:
+      return {
+        ...state,
+        bottomNavigation: action.data.bottomNavigation,
+        extensionEnabled: action.data.extensionEnabled
+      };
 
     // case ACTIONS.ERRORSTATE:
     //   return {
@@ -89,8 +72,6 @@ const popupReducer = (state: PopupState, action: PopupActions) => {
     //     extensionEnabled: true,
     //     bottomNavigation: 'addNewPlace',
     //     functionalError: true,
-    //     formMode: 'AddNew',
-    //     headingText: 'Add new place'
     //   };
     case ACTIONS.EDITSTATE:
       return {
@@ -98,7 +79,7 @@ const popupReducer = (state: PopupState, action: PopupActions) => {
         bottomNavigation: action.data.bottomNavigation
       };
 
-    case ACTIONS.SWITCH:
+    case ACTIONS.SWITCHTABS:
       return {
         ...state,
         bottomNavigation: action.data.bottomNavigation
@@ -117,11 +98,20 @@ const App: React.FC<{}> = () => {
   const [editIndex, setEditIndex] = useState<number>();
 
   useEffect(() => {
-    getUserLocationsInStorage().then((userLocations) =>
-      setUserLocations(userLocations)
-    );
+    getIsExtensionEnabledInStorage().then((response) => {
+      dispatch({
+        type: ACTIONS.CHANGEENABLEDSTATE,
+        data: {
+          extensionEnabled: response,
+          bottomNavigation: response ? 'myPlaces' : 'extensionDisabled'
+        }
+      });
+      getUserLocationsInStorage().then((userLocations) =>
+        setUserLocations(userLocations)
+      );
+    });
   }, []);
- 
+
   const updateUserLocation = (titleInput: string, locationInput: string) => {
     const newUserLocations = [...userLocations];
     newUserLocations[editIndex!] = {
@@ -139,7 +129,7 @@ const App: React.FC<{}> = () => {
         locationInput
     );
 
-    console.log('Userlocations '+userLocations);
+    console.log('Userlocations ' + userLocations);
   };
   const addUserLocation = (titleInput: string, locationInput: string) => {
     setUserLocations(
@@ -184,16 +174,39 @@ const App: React.FC<{}> = () => {
     newValue: string
   ) => {
     dispatch({
-      type: ACTIONS.SWITCH,
+      type: ACTIONS.SWITCHTABS,
       data: {
         bottomNavigation: newValue
       }
     });
   };
+  const handleExtensionEnabledChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    dispatch({
+      type: ACTIONS.CHANGEENABLEDSTATE,
+      data: {
+        bottomNavigation: event.target.checked
+          ? 'myPlaces'
+          : 'extensionDisabled',
+        extensionEnabled: event.target.checked
+      }
+    });
+    setIsExtensionEnabledInStorage(event.target.checked);
+
+    if (event.target.checked) {
+      chrome.action.setIcon({ path: 'icon.png' });
+    } else {
+      chrome.action.setIcon({ path: 'icon-disabled.png' });
+    }
+  };
 
   return (
     <div className='propMate-container'>
-      <AppBar position='static'>
+      <AppBar
+        position='static'
+        color={popupState.extensionEnabled ? 'primary' : 'transparent'}
+      >
         <Toolbar>
           <Grid
             container
@@ -208,17 +221,19 @@ const App: React.FC<{}> = () => {
             </Grid>
             <Grid item xs={6}>
               <Typography align='center' variant='h6' noWrap>
-                Propmate
+                Propmate<sup>beta</sup>
               </Typography>
             </Grid>
             <Grid item xs={3}>
               <FormGroup>
                 <FormControlLabel
+                  style={{ margin: 0 }}
                   control={
                     <Switch
                       size='small'
                       checked={popupState.extensionEnabled}
                       aria-label='turn on or off'
+                      onChange={handleExtensionEnabledChange}
                     />
                   }
                   label={popupState.extensionEnabled ? 'On' : 'Off'}
@@ -252,6 +267,18 @@ const App: React.FC<{}> = () => {
             ))}
           </div>
         )}
+        {popupState.bottomNavigation === 'extensionDisabled' && (
+          <div>
+            <Card style={{ margin: '70px 40px' }}>
+              <CardContent style={{ textAlign: 'center' }}>
+                <Typography variant='body2' style={{ color: 'grey' }}>
+                  Propmate is currently turned off, Please click the enable
+                  button on top right corner in order to turn it on.
+                </Typography>
+              </CardContent>
+            </Card>
+          </div>
+        )}
       </div>
       <Box
         width='100%'
@@ -267,11 +294,13 @@ const App: React.FC<{}> = () => {
           <BottomNavigationAction
             label='My places'
             value='myPlaces'
+            disabled={!popupState.extensionEnabled}
             icon={<LocationOn />}
             style={{ borderRight: '1px solid rgba(0, 0, 0, 0.1)' }}
           />
 
           <BottomNavigationAction
+            disabled={!popupState.extensionEnabled}
             label='Add new place'
             value='addNewPlace'
             icon={<AddIcon />}

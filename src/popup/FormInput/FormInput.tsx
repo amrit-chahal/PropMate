@@ -97,7 +97,7 @@ export const FormInput: React.FC<{
   );
   const [isSubmitted,setIsSubmitted] = useState<boolean>(false)
   useEffect(() => {
-    console.log('Initial render formstate' + formState.isFormValid);
+    console.log('Initial render formstate ' + formState.isFormValid);
     if (title && location) {
       dispatch({
         type: ACTIONS.EDIT,
@@ -194,8 +194,8 @@ export const FormInput: React.FC<{
           <form
             noValidate
             autoComplete='off'
-            onSubmit={(event) => {
-              handleFormSubmit(event);
+            onSubmit={async (event) => {
+             await  handleFormSubmit(event);
             }}
           >
             <Grid

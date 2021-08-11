@@ -7,10 +7,13 @@
 }
 body {
   padding: 0;
-  margin: 0;
+  margin: 0 !important;
   background-color: var(--main-bg-color);
   width: 280px;
   height: 380px;
+}
+sup{
+  font-size: xx-small;
 }
 
 .propMate-location-cards {

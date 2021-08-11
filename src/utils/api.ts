@@ -53,5 +53,8 @@ export async function checkForValidAddress(address: string): Promise<boolean> {
     const data: MapsData = await res.json();
     return data.rows[0].elements[0].status !== 'ZERO_RESULTS';
   }
-  return false;
+  else {
+    return false;
+  }
+  
 };

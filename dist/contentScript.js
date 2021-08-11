@@ -42923,7 +42923,9 @@ const InformationChip = ({ timeAndDistanceInformaton }) => {
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "setUserLocationsInStorage": () => (/* binding */ setUserLocationsInStorage),
-/* harmony export */   "getUserLocationsInStorage": () => (/* binding */ getUserLocationsInStorage)
+/* harmony export */   "getUserLocationsInStorage": () => (/* binding */ getUserLocationsInStorage),
+/* harmony export */   "setIsExtensionEnabledInStorage": () => (/* binding */ setIsExtensionEnabledInStorage),
+/* harmony export */   "getIsExtensionEnabledInStorage": () => (/* binding */ getIsExtensionEnabledInStorage)
 /* harmony export */ });
 function setUserLocationsInStorage(userLocations) {
     const vals = {
@@ -42941,6 +42943,25 @@ function getUserLocationsInStorage() {
         chrome.storage.sync.get(keys, (res) => {
             var _a;
             resolve((_a = res.userLocations) !== null && _a !== void 0 ? _a : []);
+        });
+    });
+}
+function setIsExtensionEnabledInStorage(isExtensionEnabled) {
+    const vals = {
+        isExtensionEnabled
+    };
+    return new Promise((resolve) => {
+        chrome.storage.sync.set(vals, () => {
+            resolve();
+        });
+    });
+}
+function getIsExtensionEnabledInStorage() {
+    const key = ['isExtensionEnabled'];
+    return new Promise((resolve) => {
+        chrome.storage.sync.get(key, (res) => {
+            var _a;
+            resolve((_a = res.isExtensionEnabled) !== null && _a !== void 0 ? _a : true);
         });
     });
 }
@@ -43037,24 +43058,28 @@ __webpack_require__.r(__webpack_exports__);
 
 
 const App = ({ listingLocations }) => {
-    const [userLocations, setUserLocations] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]);
-    //const listingLocation = useRef<string | null | undefined>('');
+    const [isExtensionEnabled, setIsExtensionEnabled] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(true);
     const [timeAndDistanceInfoArray, setTimeAndDistanceInfoArray] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]);
     (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
-        (0,_utils_storage__WEBPACK_IMPORTED_MODULE_3__.getUserLocationsInStorage)().then((userLocations) => {
-            console.log(userLocations);
-            // setUserLocations(userLocations);
-            console.log(listingLocations);
-            chrome.runtime.sendMessage({
-                userLocations: userLocations,
-                listingLocations: listingLocations
-            }, (response) => {
-                console.log(response);
-                setTimeAndDistanceInfoArray((prevTimeAndDistanceInfoArray) => [
-                    ...prevTimeAndDistanceInfoArray,
-                    ...TimeAndDistanceInfoArrayFromResponse(userLocations, response)
-                ]);
-            });
+        (0,_utils_storage__WEBPACK_IMPORTED_MODULE_3__.getIsExtensionEnabledInStorage)().then((isExtensionEnabled) => {
+            setIsExtensionEnabled(isExtensionEnabled);
+            console.log(isExtensionEnabled);
+            if (isExtensionEnabled) {
+                (0,_utils_storage__WEBPACK_IMPORTED_MODULE_3__.getUserLocationsInStorage)().then((userLocations) => {
+                    console.log(userLocations);
+                    console.log(listingLocations);
+                    chrome.runtime.sendMessage({
+                        userLocations: userLocations,
+                        listingLocations: listingLocations
+                    }, (response) => {
+                        console.log(response);
+                        setTimeAndDistanceInfoArray((prevTimeAndDistanceInfoArray) => [
+                            ...prevTimeAndDistanceInfoArray,
+                            ...TimeAndDistanceInfoArrayFromResponse(userLocations, response)
+                        ]);
+                    });
+                });
+            }
         });
     }, []);
     const TimeAndDistanceInfoArrayFromResponse = (userLocations, data) => {
@@ -43066,7 +43091,7 @@ const App = ({ listingLocations }) => {
                 }
             }
             else
-                infoArray.push(`Error: Incorrect address for ${userLocations[i].locationTitle}`);
+                infoArray.push(`Error: Unable to retrieve information`);
         }
         return infoArray;
     };
@@ -43078,7 +43103,7 @@ if (document.readyState !== 'complete') {
         console.log('event listner loaded');
         if (this.readyState === 'complete') {
             const observer = new MutationObserver(() => {
-                const propertyCards = document.querySelectorAll('tm-property-search-card-address-subtitle');
+                const propertyCards = document.querySelectorAll('tm-property-search-card-listing-title');
                 if (propertyCards.length > 0) {
                     propertyCards.forEach((element) => {
                         var _a, _b, _c, _d;

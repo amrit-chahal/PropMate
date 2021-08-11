@@ -48,7 +48,9 @@ function checkForValidAddress(address) {
             const data = yield res.json();
             return data.rows[0].elements[0].status !== 'ZERO_RESULTS';
         }
-        return false;
+        else {
+            return false;
+        }
     });
 }
 ;
@@ -65,7 +67,9 @@ function checkForValidAddress(address) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "setUserLocationsInStorage": () => (/* binding */ setUserLocationsInStorage),
-/* harmony export */   "getUserLocationsInStorage": () => (/* binding */ getUserLocationsInStorage)
+/* harmony export */   "getUserLocationsInStorage": () => (/* binding */ getUserLocationsInStorage),
+/* harmony export */   "setIsExtensionEnabledInStorage": () => (/* binding */ setIsExtensionEnabledInStorage),
+/* harmony export */   "getIsExtensionEnabledInStorage": () => (/* binding */ getIsExtensionEnabledInStorage)
 /* harmony export */ });
 function setUserLocationsInStorage(userLocations) {
     const vals = {
@@ -83,6 +87,25 @@ function getUserLocationsInStorage() {
         chrome.storage.sync.get(keys, (res) => {
             var _a;
             resolve((_a = res.userLocations) !== null && _a !== void 0 ? _a : []);
+        });
+    });
+}
+function setIsExtensionEnabledInStorage(isExtensionEnabled) {
+    const vals = {
+        isExtensionEnabled
+    };
+    return new Promise((resolve) => {
+        chrome.storage.sync.set(vals, () => {
+            resolve();
+        });
+    });
+}
+function getIsExtensionEnabledInStorage() {
+    const key = ['isExtensionEnabled'];
+    return new Promise((resolve) => {
+        chrome.storage.sync.get(key, (res) => {
+            var _a;
+            resolve((_a = res.isExtensionEnabled) !== null && _a !== void 0 ? _a : true);
         });
     });
 }

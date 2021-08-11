@@ -21,7 +21,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_cssWithMappingToString_js__WEBPACK_IMPORTED_MODULE_0___default()));
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, ":root {\r\n  --main-bg-color: rgb(232, 234, 246);\r\n  --edit-icon: rgb(216, 67, 21);\r\n  --add-icon: rgb(1, 87, 155);\r\n  --bottom-menu: rgb(197, 202, 233);\r\n  --top-menu: rgb(235, 138, 101);\r\n}\r\nbody {\r\n  padding: 0;\r\n  margin: 0;\r\n  background-color: var(--main-bg-color);\r\n  width: 280px;\r\n  height: 380px;\r\n}\r\n\r\n.propMate-location-cards {\r\n  max-height: 266px;\r\n  overflow-y: scroll;\r\n}\r\n::-webkit-scrollbar {\r\n  width: 6px;\r\n  height: 6px;\r\n}\r\n::-webkit-scrollbar-track {\r\n  border-radius: 10px;\r\n  background: rgba(0, 0, 0, 0.1);\r\n}\r\n::-webkit-scrollbar-thumb {\r\n  border-radius: 10px;\r\n  background: rgba(0, 0, 0, 0.2);\r\n}\r\n::-webkit-scrollbar-thumb:hover {\r\n  background: rgba(0, 0, 0, 0.4);\r\n}\r\n::-webkit-scrollbar-thumb:active {\r\n  background: rgba(0, 0, 0, 0.9);\r\n}\r\n", "",{"version":3,"sources":["webpack://./src/popup/popup.css"],"names":[],"mappings":"AAAA;EACE,mCAAmC;EACnC,6BAA6B;EAC7B,2BAA2B;EAC3B,iCAAiC;EACjC,8BAA8B;AAChC;AACA;EACE,UAAU;EACV,SAAS;EACT,sCAAsC;EACtC,YAAY;EACZ,aAAa;AACf;;AAEA;EACE,iBAAiB;EACjB,kBAAkB;AACpB;AACA;EACE,UAAU;EACV,WAAW;AACb;AACA;EACE,mBAAmB;EACnB,8BAA8B;AAChC;AACA;EACE,mBAAmB;EACnB,8BAA8B;AAChC;AACA;EACE,8BAA8B;AAChC;AACA;EACE,8BAA8B;AAChC","sourcesContent":[":root {\r\n  --main-bg-color: rgb(232, 234, 246);\r\n  --edit-icon: rgb(216, 67, 21);\r\n  --add-icon: rgb(1, 87, 155);\r\n  --bottom-menu: rgb(197, 202, 233);\r\n  --top-menu: rgb(235, 138, 101);\r\n}\r\nbody {\r\n  padding: 0;\r\n  margin: 0;\r\n  background-color: var(--main-bg-color);\r\n  width: 280px;\r\n  height: 380px;\r\n}\r\n\r\n.propMate-location-cards {\r\n  max-height: 266px;\r\n  overflow-y: scroll;\r\n}\r\n::-webkit-scrollbar {\r\n  width: 6px;\r\n  height: 6px;\r\n}\r\n::-webkit-scrollbar-track {\r\n  border-radius: 10px;\r\n  background: rgba(0, 0, 0, 0.1);\r\n}\r\n::-webkit-scrollbar-thumb {\r\n  border-radius: 10px;\r\n  background: rgba(0, 0, 0, 0.2);\r\n}\r\n::-webkit-scrollbar-thumb:hover {\r\n  background: rgba(0, 0, 0, 0.4);\r\n}\r\n::-webkit-scrollbar-thumb:active {\r\n  background: rgba(0, 0, 0, 0.9);\r\n}\r\n"],"sourceRoot":""}]);
+___CSS_LOADER_EXPORT___.push([module.id, ":root {\r\n  --main-bg-color: rgb(232, 234, 246);\r\n  --edit-icon: rgb(216, 67, 21);\r\n  --add-icon: rgb(1, 87, 155);\r\n  --bottom-menu: rgb(197, 202, 233);\r\n  --top-menu: rgb(235, 138, 101);\r\n}\r\nbody {\r\n  padding: 0;\r\n  margin: 0 !important;\r\n  background-color: var(--main-bg-color);\r\n  width: 280px;\r\n  height: 380px;\r\n}\r\nsup{\r\n  font-size: xx-small;\r\n}\r\n\r\n.propMate-location-cards {\r\n  max-height: 266px;\r\n  overflow-y: scroll;\r\n}\r\n::-webkit-scrollbar {\r\n  width: 6px;\r\n  height: 6px;\r\n}\r\n::-webkit-scrollbar-track {\r\n  border-radius: 10px;\r\n  background: rgba(0, 0, 0, 0.1);\r\n}\r\n::-webkit-scrollbar-thumb {\r\n  border-radius: 10px;\r\n  background: rgba(0, 0, 0, 0.2);\r\n}\r\n::-webkit-scrollbar-thumb:hover {\r\n  background: rgba(0, 0, 0, 0.4);\r\n}\r\n::-webkit-scrollbar-thumb:active {\r\n  background: rgba(0, 0, 0, 0.9);\r\n}\r\n", "",{"version":3,"sources":["webpack://./src/popup/popup.css"],"names":[],"mappings":"AAAA;EACE,mCAAmC;EACnC,6BAA6B;EAC7B,2BAA2B;EAC3B,iCAAiC;EACjC,8BAA8B;AAChC;AACA;EACE,UAAU;EACV,oBAAoB;EACpB,sCAAsC;EACtC,YAAY;EACZ,aAAa;AACf;AACA;EACE,mBAAmB;AACrB;;AAEA;EACE,iBAAiB;EACjB,kBAAkB;AACpB;AACA;EACE,UAAU;EACV,WAAW;AACb;AACA;EACE,mBAAmB;EACnB,8BAA8B;AAChC;AACA;EACE,mBAAmB;EACnB,8BAA8B;AAChC;AACA;EACE,8BAA8B;AAChC;AACA;EACE,8BAA8B;AAChC","sourcesContent":[":root {\r\n  --main-bg-color: rgb(232, 234, 246);\r\n  --edit-icon: rgb(216, 67, 21);\r\n  --add-icon: rgb(1, 87, 155);\r\n  --bottom-menu: rgb(197, 202, 233);\r\n  --top-menu: rgb(235, 138, 101);\r\n}\r\nbody {\r\n  padding: 0;\r\n  margin: 0 !important;\r\n  background-color: var(--main-bg-color);\r\n  width: 280px;\r\n  height: 380px;\r\n}\r\nsup{\r\n  font-size: xx-small;\r\n}\r\n\r\n.propMate-location-cards {\r\n  max-height: 266px;\r\n  overflow-y: scroll;\r\n}\r\n::-webkit-scrollbar {\r\n  width: 6px;\r\n  height: 6px;\r\n}\r\n::-webkit-scrollbar-track {\r\n  border-radius: 10px;\r\n  background: rgba(0, 0, 0, 0.1);\r\n}\r\n::-webkit-scrollbar-thumb {\r\n  border-radius: 10px;\r\n  background: rgba(0, 0, 0, 0.2);\r\n}\r\n::-webkit-scrollbar-thumb:hover {\r\n  background: rgba(0, 0, 0, 0.4);\r\n}\r\n::-webkit-scrollbar-thumb:active {\r\n  background: rgba(0, 0, 0, 0.9);\r\n}\r\n"],"sourceRoot":""}]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -176,7 +176,7 @@ const FormInput = ({ title, location, addUserLocation, updateUserLocation }) => 
             setFormMode('Update');
             setSucessMessage('Sucess: Place updated');
         }
-    }, []);
+    }, [formState.isFormValid]);
     const handleFormSubmit = (event) => __awaiter(void 0, void 0, void 0, function* () {
         event.preventDefault();
         console.log('Before submit ');
@@ -239,9 +239,9 @@ const FormInput = ({ title, location, addUserLocation, updateUserLocation }) => 
     return (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_2__.default, { margin: '8px' },
         react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_3__.default, { elevation: 3 },
             react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_2__.default, { px: '8px', py: '4px' },
-                react__WEBPACK_IMPORTED_MODULE_0__.createElement("form", { noValidate: true, autoComplete: 'off', onSubmit: (event) => {
-                        handleFormSubmit(event);
-                    } },
+                react__WEBPACK_IMPORTED_MODULE_0__.createElement("form", { noValidate: true, autoComplete: 'off', onSubmit: (event) => __awaiter(void 0, void 0, void 0, function* () {
+                        yield handleFormSubmit(event);
+                    }) },
                     react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_4__.default, { container: true, direction: 'column', justifyContent: 'center', alignItems: 'center' },
                         react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_4__.default, { item: true },
                             react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_2__.default, { margin: '5px' },
@@ -270,7 +270,7 @@ const FormInput = ({ title, location, addUserLocation, updateUserLocation }) => 
                                             value: event.target.value
                                         }
                                     }), onBlur: (event) => __awaiter(void 0, void 0, void 0, function* () {
-                                        yield (0,_formUtil__WEBPACK_IMPORTED_MODULE_1__.onFocusOut)('location', formatInput(event.target.value), dispatch, formState);
+                                        yield (0,_formUtil__WEBPACK_IMPORTED_MODULE_1__.onFocusOut)('location', event.target.value, dispatch, formState);
                                     }) }))),
                         react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_4__.default, { item: true },
                             react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_2__.default, { height: '35px', marginBottom: '5px', textAlign: 'center' },
@@ -500,11 +500,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _material_ui_core__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! @material-ui/core */ "./node_modules/@material-ui/core/esm/FormGroup/FormGroup.js");
 /* harmony import */ var _material_ui_core__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! @material-ui/core */ "./node_modules/@material-ui/core/esm/FormControlLabel/FormControlLabel.js");
 /* harmony import */ var _material_ui_core__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! @material-ui/core */ "./node_modules/@material-ui/core/esm/Switch/Switch.js");
-/* harmony import */ var _material_ui_core__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! @material-ui/core */ "./node_modules/@material-ui/core/esm/Box/Box.js");
-/* harmony import */ var _material_ui_core__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! @material-ui/core */ "./node_modules/@material-ui/core/esm/BottomNavigation/BottomNavigation.js");
-/* harmony import */ var _material_ui_core__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! @material-ui/core */ "./node_modules/@material-ui/core/esm/BottomNavigationAction/BottomNavigationAction.js");
-/* harmony import */ var _material_ui_icons__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! @material-ui/icons */ "./node_modules/@material-ui/icons/esm/LocationOn.js");
-/* harmony import */ var _material_ui_icons__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! @material-ui/icons */ "./node_modules/@material-ui/icons/esm/AddCircle.js");
+/* harmony import */ var _material_ui_core__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! @material-ui/core */ "./node_modules/@material-ui/core/esm/Card/Card.js");
+/* harmony import */ var _material_ui_core__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! @material-ui/core */ "./node_modules/@material-ui/core/esm/CardContent/CardContent.js");
+/* harmony import */ var _material_ui_core__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! @material-ui/core */ "./node_modules/@material-ui/core/esm/Box/Box.js");
+/* harmony import */ var _material_ui_core__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! @material-ui/core */ "./node_modules/@material-ui/core/esm/BottomNavigation/BottomNavigation.js");
+/* harmony import */ var _material_ui_core__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! @material-ui/core */ "./node_modules/@material-ui/core/esm/BottomNavigationAction/BottomNavigationAction.js");
+/* harmony import */ var _material_ui_icons__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! @material-ui/icons */ "./node_modules/@material-ui/icons/esm/LocationOn.js");
+/* harmony import */ var _material_ui_icons__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! @material-ui/icons */ "./node_modules/@material-ui/icons/esm/AddCircle.js");
 /* harmony import */ var _utils_storage__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../utils/storage */ "./src/utils/storage.ts");
 /* harmony import */ var _FormInput_FormInput__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./FormInput/FormInput */ "./src/popup/FormInput/FormInput.tsx");
 
@@ -517,11 +519,11 @@ __webpack_require__.r(__webpack_exports__);
 
 const ACTIONS = {
     STARTUP: 'startup',
-    OFFSTATE: 'offstate',
+    CHANGEENABLEDSTATE: 'offstate',
     EDITSTATE: 'editstate',
     ADDSTATE: 'addstate',
     ERRORSTATE: 'errorstate',
-    SWITCH: 'switch'
+    SWITCHTABS: 'switchtabs'
 };
 const initialState = {
     extensionEnabled: true,
@@ -530,45 +532,18 @@ const initialState = {
 };
 const popupReducer = (state, action) => {
     switch (action.type) {
-        // case ACTIONS.STARTUP:
-        //   return {
-        //     ...state,
-        //     extensionEnabled: true,
-        //     bottomNavigation: 'myPlaces',
-        //     functionalError: false,
-        //     formMode: 'AddNew',
-        //     headingText:'Add new place'
-        //   };
-        // case ACTIONS.ADDSTATE:
-        //   return {
-        //     ...state,
-        //     extensionEnabled: true,
-        //     bottomNavigation: 'addNewPlace',
-        //     functionalError: false,
-        //     formMode: 'AddNew',
-        //     headingText: 'Add new place'
-        //   };
-        // case ACTIONS.OFFSTATE:
-        //   return {
-        //     ...state,
-        //     extensionEnabled: false,
-        //     bottomNavigation: 'addNewPlace',
-        //     functionalError: false,
-        //     formMode: 'AddNew',
-        //     headingText: 'Add new place'
-        //   };
+        case ACTIONS.CHANGEENABLEDSTATE:
+            return Object.assign(Object.assign({}, state), { bottomNavigation: action.data.bottomNavigation, extensionEnabled: action.data.extensionEnabled });
         // case ACTIONS.ERRORSTATE:
         //   return {
         //     ...state,
         //     extensionEnabled: true,
         //     bottomNavigation: 'addNewPlace',
         //     functionalError: true,
-        //     formMode: 'AddNew',
-        //     headingText: 'Add new place'
         //   };
         case ACTIONS.EDITSTATE:
             return Object.assign(Object.assign({}, state), { bottomNavigation: action.data.bottomNavigation });
-        case ACTIONS.SWITCH:
+        case ACTIONS.SWITCHTABS:
             return Object.assign(Object.assign({}, state), { bottomNavigation: action.data.bottomNavigation });
         default:
             return state;
@@ -581,7 +556,16 @@ const App = () => {
     const [title, setTitle] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('');
     const [editIndex, setEditIndex] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)();
     (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
-        (0,_utils_storage__WEBPACK_IMPORTED_MODULE_4__.getUserLocationsInStorage)().then((userLocations) => setUserLocations(userLocations));
+        (0,_utils_storage__WEBPACK_IMPORTED_MODULE_4__.getIsExtensionEnabledInStorage)().then((response) => {
+            dispatch({
+                type: ACTIONS.CHANGEENABLEDSTATE,
+                data: {
+                    extensionEnabled: response,
+                    bottomNavigation: response ? 'myPlaces' : 'extensionDisabled'
+                }
+            });
+            (0,_utils_storage__WEBPACK_IMPORTED_MODULE_4__.getUserLocationsInStorage)().then((userLocations) => setUserLocations(userLocations));
+        });
     }, []);
     const updateUserLocation = (titleInput, locationInput) => {
         const newUserLocations = [...userLocations];
@@ -630,32 +614,56 @@ const App = () => {
     };
     const handleBottomNavigationChange = (event, newValue) => {
         dispatch({
-            type: ACTIONS.SWITCH,
+            type: ACTIONS.SWITCHTABS,
             data: {
                 bottomNavigation: newValue
             }
         });
     };
+    const handleExtensionEnabledChange = (event) => {
+        dispatch({
+            type: ACTIONS.CHANGEENABLEDSTATE,
+            data: {
+                bottomNavigation: event.target.checked
+                    ? 'myPlaces'
+                    : 'extensionDisabled',
+                extensionEnabled: event.target.checked
+            }
+        });
+        (0,_utils_storage__WEBPACK_IMPORTED_MODULE_4__.setIsExtensionEnabledInStorage)(event.target.checked);
+        if (event.target.checked) {
+            chrome.action.setIcon({ path: 'icon.png' });
+        }
+        else {
+            chrome.action.setIcon({ path: 'icon-disabled.png' });
+        }
+    };
     return (react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { className: 'propMate-container' },
-        react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_6__.default, { position: 'static' },
+        react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_6__.default, { position: 'static', color: popupState.extensionEnabled ? 'primary' : 'transparent' },
             react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_7__.default, null,
                 react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_8__.default, { container: true, direction: 'row', justifyContent: 'space-between', alignItems: 'center' },
                     react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_8__.default, { item: true, xs: 3 },
                         react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_9__.default, null,
                             react__WEBPACK_IMPORTED_MODULE_0__.createElement("img", { height: '32px', className: 'proMate-icon', src: 'icon.svg' }))),
                     react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_8__.default, { item: true, xs: 6 },
-                        react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_10__.default, { align: 'center', variant: 'h6', noWrap: true }, "Propmate")),
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_10__.default, { align: 'center', variant: 'h6', noWrap: true },
+                            "Propmate",
+                            react__WEBPACK_IMPORTED_MODULE_0__.createElement("sup", null, "beta"))),
                     react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_8__.default, { item: true, xs: 3 },
                         react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_11__.default, null,
-                            react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_12__.default, { control: react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_13__.default, { size: 'small', checked: popupState.extensionEnabled, "aria-label": 'turn on or off' }), label: popupState.extensionEnabled ? 'On' : 'Off' })))))),
+                            react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_12__.default, { style: { margin: 0 }, control: react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_13__.default, { size: 'small', checked: popupState.extensionEnabled, "aria-label": 'turn on or off', onChange: handleExtensionEnabledChange }), label: popupState.extensionEnabled ? 'On' : 'Off' })))))),
         react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { className: 'propMate-inner' },
             popupState.bottomNavigation === 'editPlace' && (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_FormInput_FormInput__WEBPACK_IMPORTED_MODULE_5__.FormInput, { title: title, location: location, updateUserLocation: updateUserLocation })),
             popupState.bottomNavigation === 'addNewPlace' && (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_FormInput_FormInput__WEBPACK_IMPORTED_MODULE_5__.FormInput, { addUserLocation: addUserLocation })),
-            popupState.bottomNavigation === 'myPlaces' && (react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { className: 'propMate-location-cards' }, userLocations.map((location, index) => (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_LocationCard__WEBPACK_IMPORTED_MODULE_3__.default, { userLocation: location.userLocation, locationTitle: location.locationTitle, key: index, onDelete: () => handleLocationDeleteBtnClick(index), onEdit: () => handleLocationEditBtnClick(index) })))))),
-        react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_14__.default, { width: '100%', position: 'fixed', bottom: '0', borderTop: '1px solid rgba(0, 0, 0, 0.1)' },
-            react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_15__.default, { showLabels: true, value: popupState.bottomNavigation, onChange: handleBottomNavigationChange },
-                react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_16__.default, { label: 'My places', value: 'myPlaces', icon: react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_icons__WEBPACK_IMPORTED_MODULE_17__.default, null), style: { borderRight: '1px solid rgba(0, 0, 0, 0.1)' } }),
-                react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_16__.default, { label: 'Add new place', value: 'addNewPlace', icon: react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_icons__WEBPACK_IMPORTED_MODULE_18__.default, null) })))));
+            popupState.bottomNavigation === 'myPlaces' && (react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { className: 'propMate-location-cards' }, userLocations.map((location, index) => (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_LocationCard__WEBPACK_IMPORTED_MODULE_3__.default, { userLocation: location.userLocation, locationTitle: location.locationTitle, key: index, onDelete: () => handleLocationDeleteBtnClick(index), onEdit: () => handleLocationEditBtnClick(index) }))))),
+            popupState.bottomNavigation === 'extensionDisabled' && (react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", null,
+                react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_14__.default, { style: { margin: '70px 40px' } },
+                    react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_15__.default, { style: { textAlign: 'center' } },
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_10__.default, { variant: 'body2', style: { color: 'grey' } }, "Propmate is currently turned off, Please click the enable button on top right corner in order to turn it on.")))))),
+        react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_16__.default, { width: '100%', position: 'fixed', bottom: '0', borderTop: '1px solid rgba(0, 0, 0, 0.1)' },
+            react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_17__.default, { showLabels: true, value: popupState.bottomNavigation, onChange: handleBottomNavigationChange },
+                react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_18__.default, { label: 'My places', value: 'myPlaces', disabled: !popupState.extensionEnabled, icon: react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_icons__WEBPACK_IMPORTED_MODULE_19__.default, null), style: { borderRight: '1px solid rgba(0, 0, 0, 0.1)' } }),
+                react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_18__.default, { disabled: !popupState.extensionEnabled, label: 'Add new place', value: 'addNewPlace', icon: react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_icons__WEBPACK_IMPORTED_MODULE_20__.default, null) })))));
 };
 const root = document.createElement('div');
 document.body.appendChild(root);
@@ -710,7 +718,9 @@ function checkForValidAddress(address) {
             const data = yield res.json();
             return data.rows[0].elements[0].status !== 'ZERO_RESULTS';
         }
-        return false;
+        else {
+            return false;
+        }
     });
 }
 ;
@@ -727,7 +737,9 @@ function checkForValidAddress(address) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "setUserLocationsInStorage": () => (/* binding */ setUserLocationsInStorage),
-/* harmony export */   "getUserLocationsInStorage": () => (/* binding */ getUserLocationsInStorage)
+/* harmony export */   "getUserLocationsInStorage": () => (/* binding */ getUserLocationsInStorage),
+/* harmony export */   "setIsExtensionEnabledInStorage": () => (/* binding */ setIsExtensionEnabledInStorage),
+/* harmony export */   "getIsExtensionEnabledInStorage": () => (/* binding */ getIsExtensionEnabledInStorage)
 /* harmony export */ });
 function setUserLocationsInStorage(userLocations) {
     const vals = {
@@ -745,6 +757,25 @@ function getUserLocationsInStorage() {
         chrome.storage.sync.get(keys, (res) => {
             var _a;
             resolve((_a = res.userLocations) !== null && _a !== void 0 ? _a : []);
+        });
+    });
+}
+function setIsExtensionEnabledInStorage(isExtensionEnabled) {
+    const vals = {
+        isExtensionEnabled
+    };
+    return new Promise((resolve) => {
+        chrome.storage.sync.set(vals, () => {
+            resolve();
+        });
+    });
+}
+function getIsExtensionEnabledInStorage() {
+    const key = ['isExtensionEnabled'];
+    return new Promise((resolve) => {
+        chrome.storage.sync.get(key, (res) => {
+            var _a;
+            resolve((_a = res.isExtensionEnabled) !== null && _a !== void 0 ? _a : true);
         });
     });
 }

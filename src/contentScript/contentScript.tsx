@@ -3,38 +3,45 @@ import ReactDOM from 'react-dom';
 import { Box } from '@material-ui/core';
 
 import './contentScript.css';
-import { getUserLocationsInStorage, UserLocationItems } from '../utils/storage';
+import {
+  getIsExtensionEnabledInStorage,
+  getUserLocationsInStorage,
+  UserLocationItems
+} from '../utils/storage';
 import { InformationChip } from './InformationChip/InformationChip';
 import { MapsData } from '../utils/api';
 
 const App: React.FC<{ listingLocations: (string | null)[] }> = ({
   listingLocations
 }) => {
-  const [userLocations, setUserLocations] = useState<UserLocationItems>([]);
-  //const listingLocation = useRef<string | null | undefined>('');
+  const [isExtensionEnabled, setIsExtensionEnabled] = useState<boolean>(true);
 
   const [timeAndDistanceInfoArray, setTimeAndDistanceInfoArray] = useState<
     string[]
   >([]);
   useEffect(() => {
-    getUserLocationsInStorage().then((userLocations) => {
-      console.log(userLocations);
-      // setUserLocations(userLocations);
-
-      console.log(listingLocations);
-      chrome.runtime.sendMessage(
-        {
-          userLocations: userLocations,
-          listingLocations: listingLocations
-        },
-        (response) => {
-          console.log(response);
-          setTimeAndDistanceInfoArray((prevTimeAndDistanceInfoArray) => [
-            ...prevTimeAndDistanceInfoArray,
-            ...TimeAndDistanceInfoArrayFromResponse(userLocations, response)
-          ]);
-        }
-      );
+    getIsExtensionEnabledInStorage().then((isExtensionEnabled) => {
+      setIsExtensionEnabled(isExtensionEnabled);
+      console.log(isExtensionEnabled)
+      if (isExtensionEnabled) {
+        getUserLocationsInStorage().then((userLocations) => {
+          console.log(userLocations);
+          console.log(listingLocations);
+          chrome.runtime.sendMessage(
+            {
+              userLocations: userLocations,
+              listingLocations: listingLocations
+            },
+            (response) => {
+              console.log(response);
+              setTimeAndDistanceInfoArray((prevTimeAndDistanceInfoArray) => [
+                ...prevTimeAndDistanceInfoArray,
+                ...TimeAndDistanceInfoArrayFromResponse(userLocations, response)
+              ]);
+            }
+          );
+        });
+      }
     });
   }, []);
 
@@ -50,10 +57,7 @@ const App: React.FC<{ listingLocations: (string | null)[] }> = ({
             `${userLocations[i].locationTitle}: ${data.rows[i].elements[j].distance.text}, ${data.rows[i].elements[j].duration.text}`
           );
         }
-      } else
-        infoArray.push(
-          `Error: Incorrect address for ${userLocations[i].locationTitle}`
-        );
+      } else infoArray.push(`Error: Unable to retrieve information`);
     }
 
     return infoArray;
@@ -77,7 +81,7 @@ if (document.readyState !== 'complete') {
     if (this.readyState === 'complete') {
       const observer = new MutationObserver(() => {
         const propertyCards = document.querySelectorAll(
-          'tm-property-search-card-address-subtitle'
+          'tm-property-search-card-listing-title'
         );
         if (propertyCards.length > 0) {
           propertyCards.forEach((element) => {
