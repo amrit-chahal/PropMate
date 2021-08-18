@@ -43055,21 +43055,15 @@ __webpack_require__.r(__webpack_exports__);
 
 
 const App = ({ listingLocations }) => {
-    const [isExtensionEnabled, setIsExtensionEnabled] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(true);
     const [timeAndDistanceInfoArray, setTimeAndDistanceInfoArray] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]);
     (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
         (0,_utils_storage__WEBPACK_IMPORTED_MODULE_3__.getIsExtensionEnabledInStorage)().then((isExtensionEnabled) => {
-            setIsExtensionEnabled(isExtensionEnabled);
-            console.log(isExtensionEnabled);
             if (isExtensionEnabled) {
                 (0,_utils_storage__WEBPACK_IMPORTED_MODULE_3__.getUserLocationsInStorage)().then((userLocations) => {
-                    console.log(userLocations);
-                    console.log(listingLocations);
                     chrome.runtime.sendMessage({
                         userLocations: userLocations,
                         listingLocations: listingLocations
                     }, (response) => {
-                        console.log(response);
                         setTimeAndDistanceInfoArray((prevTimeAndDistanceInfoArray) => [
                             ...prevTimeAndDistanceInfoArray,
                             ...TimeAndDistanceInfoArrayFromResponse(userLocations, response)
@@ -43095,75 +43089,47 @@ const App = ({ listingLocations }) => {
     return (react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", null,
         react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_5__.default, { display: 'flex', mb: '5px', flexWrap: 'wrap' }, timeAndDistanceInfoArray.map((item, index) => (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_InformationChip_InformationChip__WEBPACK_IMPORTED_MODULE_4__.InformationChip, { timeAndDistanceInformaton: item, key: index }))))));
 };
+let isExtensionEnabled = true;
+(0,_utils_storage__WEBPACK_IMPORTED_MODULE_3__.getIsExtensionEnabledInStorage)().then((res) => {
+    isExtensionEnabled = res;
+});
 if (document.readyState !== 'complete') {
     document.addEventListener('readystatechange', function (event) {
-        console.log('event listner loaded');
-        if (this.readyState === 'complete') {
+        if (this.readyState === 'complete' && isExtensionEnabled) {
             const observer = new MutationObserver(() => {
+                const listingContainers = Array.from(document.getElementsByClassName('tm-property-premium-listing-card__details-container'));
+                if (listingContainers && listingContainers.length > 0) {
+                    listingContainers.forEach((element) => {
+                        element.style.height = 'fit-content';
+                    });
+                }
                 let url = window.location.toString();
                 const isRentalUrl = /.*residential\/rent\/(?!.*listing).*/.test(url);
                 const isSaleUrl = /.*residential\/sale\/(?!.*listing).*/.test(url);
                 const isListingUrl = /.*(rent|sale).*listing.*/.test(url);
                 let propertyAddresses = null;
-                console.log(`Listing page: ${isListingUrl} Sale page:${isSaleUrl} Rental page: ${isRentalUrl}`);
-                const listingContainers = Array.from(document.getElementsByClassName('tm-property-premium-listing-card__details-container'));
-                if (listingContainers && listingContainers.length > 0) {
-                    listingContainers.forEach((element) => {
-                        element.style.height = 'fit-content';
-                        console.log('container changed');
-                    });
-                }
                 if (isRentalUrl) {
                     propertyAddresses = document.querySelectorAll('tm-property-search-card-listing-title');
-                    if (propertyAddresses && propertyAddresses.length > 0) {
-                        propertyAddresses.forEach((element) => {
-                            if (!document.querySelector('.MuiChip-label')) {
-                                observer.disconnect();
-                                const listingLocations = [element.textContent];
-                                const root = document.createElement('div');
-                                console.log('root injected');
-                                element.appendChild(root);
-                                react_dom__WEBPACK_IMPORTED_MODULE_1__.render(react__WEBPACK_IMPORTED_MODULE_0__.createElement(App, { listingLocations: listingLocations }), root);
-                                setTimeout(() => {
-                                    observe();
-                                }, 3000);
-                            }
-                        });
-                    }
                 }
                 else if (isSaleUrl) {
                     propertyAddresses = document.querySelectorAll('tm-property-search-card-address-subtitle');
-                    if (propertyAddresses && propertyAddresses.length > 0) {
-                        propertyAddresses.forEach((element) => {
-                            if (!document.querySelector('.MuiChip-label')) {
-                                observer.disconnect();
-                                const listingLocations = [element.textContent];
-                                const root = document.createElement('div');
-                                console.log('root injected');
-                                element.appendChild(root);
-                                react_dom__WEBPACK_IMPORTED_MODULE_1__.render(react__WEBPACK_IMPORTED_MODULE_0__.createElement(App, { listingLocations: listingLocations }), root);
-                                setTimeout(() => {
-                                    observe();
-                                }, 3000);
-                            }
-                        });
-                    }
                 }
                 else if (isListingUrl) {
-                    const listingLocation = document.querySelector('.tm-property-listing-body__location');
-                    if (!document.querySelector('.MuiChip-label') && listingLocation) {
-                        console.log('listingLocation found');
-                        observer.disconnect();
-                        const listingLocations = [listingLocation.textContent];
-                        const root = document.createElement('div');
-                        console.log('root injected');
-                        console.log(listingLocation);
-                        listingLocation.appendChild(root);
-                        react_dom__WEBPACK_IMPORTED_MODULE_1__.render(react__WEBPACK_IMPORTED_MODULE_0__.createElement(App, { listingLocations: listingLocations }), root);
-                        setTimeout(() => {
-                            observe();
-                        }, 3000);
-                    }
+                    propertyAddresses = document.querySelectorAll('.tm-property-listing-body__location');
+                }
+                if (propertyAddresses && propertyAddresses.length > 0) {
+                    propertyAddresses.forEach((element) => {
+                        if (!document.querySelector('.MuiChip-label')) {
+                            observer.disconnect();
+                            const listingLocations = [element.textContent];
+                            const root = document.createElement('div');
+                            element.appendChild(root);
+                            react_dom__WEBPACK_IMPORTED_MODULE_1__.render(react__WEBPACK_IMPORTED_MODULE_0__.createElement(App, { listingLocations: listingLocations }), root);
+                            setTimeout(() => {
+                                observe();
+                            }, 3000);
+                        }
+                    });
                 }
             });
             observe();

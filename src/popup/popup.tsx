@@ -126,14 +126,6 @@ const App: React.FC<{}> = () => {
       (prevUserLocations) => (prevUserLocations = [...newUserLocations])
     );
     setUserLocationsInStorage(newUserLocations);
-    console.log(
-      'popuptitle from Update ' +
-        titleInput +
-        ' popuplocation from update ' +
-        locationInput
-    );
-
-    console.log('Userlocations ' + userLocations);
   };
   const addUserLocation = (titleInput: string, locationInput: string) => {
     setUserLocations(
@@ -154,9 +146,6 @@ const App: React.FC<{}> = () => {
         userLocation: locationInput
       }
     ]);
-    console.log('popuptitle ' + titleInput + ' popuplocation ' + locationInput);
-
-    console.log(userLocations);
   };
 
   const handleLocationDeleteBtnClick = (index: number) => {
@@ -201,7 +190,7 @@ const App: React.FC<{}> = () => {
       }
     });
     setIsExtensionEnabledInStorage(event.target.checked);
-
+    chrome.runtime.sendMessage({isEnabled:  event.target.checked})
     if (event.target.checked) {
       chrome.action.setIcon({ path: 'icon.png' });
     } else {

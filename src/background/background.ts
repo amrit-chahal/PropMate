@@ -1,12 +1,4 @@
 import { fetchTimeAndDistance } from '../utils/api';
-import { setUserLocationsInStorage } from '../utils/storage';
-
-chrome.runtime.onInstalled.addListener(() => {
-  setUserLocationsInStorage([
-    { locationTitle: 'Home', userLocation: 'Auckland' },
-    { locationTitle: 'Work', userLocation: 'Porirua' }
-  ]);
-});
 
 chrome.runtime.onMessage.addListener((message, sender, response) => {
   if (message.userLocations && message.listingLocations) {
@@ -20,6 +12,4 @@ chrome.runtime.onMessage.addListener((message, sender, response) => {
 
   return true;
 });
-
-
 

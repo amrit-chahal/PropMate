@@ -59,61 +59,6 @@ function checkForValidAddress(address) {
 }
 
 
-/***/ }),
-
-/***/ "./src/utils/storage.ts":
-/*!******************************!*\
-  !*** ./src/utils/storage.ts ***!
-  \******************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "setUserLocationsInStorage": () => (/* binding */ setUserLocationsInStorage),
-/* harmony export */   "getUserLocationsInStorage": () => (/* binding */ getUserLocationsInStorage),
-/* harmony export */   "setIsExtensionEnabledInStorage": () => (/* binding */ setIsExtensionEnabledInStorage),
-/* harmony export */   "getIsExtensionEnabledInStorage": () => (/* binding */ getIsExtensionEnabledInStorage)
-/* harmony export */ });
-function setUserLocationsInStorage(userLocations) {
-    const vals = {
-        userLocations
-    };
-    return new Promise((resolve) => {
-        chrome.storage.sync.set(vals, () => {
-            resolve();
-        });
-    });
-}
-function getUserLocationsInStorage() {
-    const keys = ['userLocations'];
-    return new Promise((resolve) => {
-        chrome.storage.sync.get(keys, (res) => {
-            var _a;
-            resolve((_a = res.userLocations) !== null && _a !== void 0 ? _a : []);
-        });
-    });
-}
-function setIsExtensionEnabledInStorage(isExtensionEnabled) {
-    const vals = {
-        isExtensionEnabled
-    };
-    return new Promise((resolve) => {
-        chrome.storage.sync.set(vals, () => {
-            resolve();
-        });
-    });
-}
-function getIsExtensionEnabledInStorage() {
-    const key = ['isExtensionEnabled'];
-    return new Promise((resolve) => {
-        chrome.storage.sync.get(key, (res) => {
-            var _a;
-            resolve((_a = res.isExtensionEnabled) !== null && _a !== void 0 ? _a : true);
-        });
-    });
-}
-
-
 /***/ })
 
 /******/ 	});
@@ -180,15 +125,7 @@ var __webpack_exports__ = {};
   \**************************************/
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _utils_api__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../utils/api */ "./src/utils/api.ts");
-/* harmony import */ var _utils_storage__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../utils/storage */ "./src/utils/storage.ts");
 
-
-chrome.runtime.onInstalled.addListener(() => {
-    (0,_utils_storage__WEBPACK_IMPORTED_MODULE_1__.setUserLocationsInStorage)([
-        { locationTitle: 'Home', userLocation: 'Auckland' },
-        { locationTitle: 'Work', userLocation: 'Porirua' }
-    ]);
-});
 chrome.runtime.onMessage.addListener((message, sender, response) => {
     if (message.userLocations && message.listingLocations) {
         console.log(message.userLocations, message.listingLocation);
