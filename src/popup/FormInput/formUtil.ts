@@ -3,11 +3,11 @@ import { ACTIONS, FormActions, FormState, Input } from './FormInput';
 
 export async function onFocusOut(
   name: string,
-  value: string,
+  input: string,
   dispatch: React.Dispatch<FormActions>,
   formState: FormState
 ): Promise<any> {
-  const { hasError, error } = await validateInput(name, value);
+  const { hasError, error, value } = await validateInput(name, input);
   let isFormValid = true;
   let key: keyof FormState;
   for (key in formState) {
@@ -33,50 +33,69 @@ export async function onFocusOut(
     }
   });
 }
-export default async function validateInput(name: string, value: string) {
+export default async function validateInput(name: string, input: string) {
   let hasError: boolean = false,
-    error: string = '';
+    error: string = '',
+    value: string = input;
 
   switch (name) {
     case 'title':
       if (value.trim() === '') {
         hasError = true;
         error = 'Title cannot be empty';
-      } else if (value.trim().length > 16) {
+      } else if (value.length > 16) {
         hasError = true;
         error = 'Title cannot be longer than 16 characters';
       } else {
         hasError = false;
         error = '';
+        value = formatInput(value);
       }
       break;
     case 'location':
-      const addressIsValid = await checkForValidAddress(value.trim());
+      const { isValidAddress, addressFromResponse } =
+        await checkForValidAddress(value.trim());
 
       if (value.trim() === '') {
         hasError = true;
         error = 'Address cannot be empty';
-      } else if (value.trim().length > 60) {
+      } else if (value.length > 60) {
         hasError = true;
         error = 'Address too long! Please enter a shorter address';
       } else if (
         !/^(\d{0,10}\s)?(((\d{0,10}[a-zA-Z]{0,3})|(\d{0,10}(\/|\\)(([a-zA-Z]{0,3})|(\d{1,5}))))\s)?([a-zA-Z]{1,30},?\s?)*(\s?[a-zA-Z]{1,30})$/.test(
-          value.trim()
+          value
         )
       ) {
         hasError = true;
         error = 'Error: Please check the address';
-      } else if (!addressIsValid) {
+      } else if (!isValidAddress) {
         hasError = true;
         error = 'Cannot find address please enter correct address';
       } else {
         hasError = false;
         error = '';
+        value = addressFromResponse;
       }
       break;
 
     default:
       break;
   }
-  return { hasError, error };
+  return { hasError, error, value };
 }
+
+const formatInput = (input: string): string => {
+  if (!input) {
+    return '';
+  }
+  var wordArray = input.trim().split(' ');
+  const arrayCapitalized: string[] = [];
+  wordArray.map((item) => {
+    arrayCapitalized.push(
+      item[0].toUpperCase() + item.substring(1).toLowerCase()
+    );
+  });
+
+  return arrayCapitalized.join(' ');
+};

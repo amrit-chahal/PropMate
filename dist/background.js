@@ -42,18 +42,21 @@ function fetchTimeAndDistance(userLocations, listingLocations) {
 }
 function checkForValidAddress(address) {
     return __awaiter(this, void 0, void 0, function* () {
+        let isValidAddress = false;
+        let addressFromResponse = address;
         const res = yield fetch(`https://maps.googleapis.com/maps/api/distancematrix/json?units=metric&origins=
     ${address}&destinations=auckland%20newzealand&key=${MAPS_API_KEY}`);
         if (res.ok) {
             const data = yield res.json();
-            return data.rows[0].elements[0].status !== 'ZERO_RESULTS';
+            if (data.rows[0].elements[0].status === 'OK') {
+                isValidAddress = true;
+                addressFromResponse = data.origin_addresses[0];
+                return { isValidAddress, addressFromResponse };
+            }
         }
-        else {
-            return false;
-        }
+        return { isValidAddress, addressFromResponse };
     });
 }
-;
 
 
 /***/ }),

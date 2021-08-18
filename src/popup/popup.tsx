@@ -93,9 +93,10 @@ const popupReducer = (state: PopupState, action: any) => {
 const App: React.FC<{}> = () => {
   const [userLocations, setUserLocations] = useState<UserLocationItems>([]);
   const [popupState, dispatch] = useReducer(popupReducer, initialState);
-  const [location, setLocation] = useState<string>('');
-  const [title, setTitle] = useState<string>('');
+  const [editLocation, setEditLocation] = useState<string>('');
+  const [editTitle, setEditTitle] = useState<string>('');
   const [editIndex, setEditIndex] = useState<number>();
+  const [isListFull, setIsListFull] = useState<boolean>(false);
 
   useEffect(() => {
     getIsExtensionEnabledInStorage().then((response) => {
@@ -106,9 +107,12 @@ const App: React.FC<{}> = () => {
           bottomNavigation: response ? 'myPlaces' : 'extensionDisabled'
         }
       });
-      getUserLocationsInStorage().then((userLocations) =>
-        setUserLocations(userLocations)
-      );
+      getUserLocationsInStorage().then((userLocations) => {
+        setUserLocations(userLocations);
+        if (userLocations.length >= 4) {
+          setIsListFull(true);
+        }
+      });
     });
   }, []);
 
@@ -139,6 +143,9 @@ const App: React.FC<{}> = () => {
           { locationTitle: titleInput, userLocation: locationInput }
         ])
     );
+    if (userLocations.length >= 4) {
+      setIsListFull(true);
+    }
 
     setUserLocationsInStorage([
       ...userLocations,
@@ -156,12 +163,13 @@ const App: React.FC<{}> = () => {
     userLocations.splice(index, 1);
     setUserLocations((prevUserlocations) => [...prevUserlocations]);
     setUserLocationsInStorage(userLocations);
+    setIsListFull(false);
   };
 
   const handleLocationEditBtnClick = (index: number) => {
     setEditIndex(index);
-    setTitle(userLocations[index].locationTitle);
-    setLocation(userLocations[index].userLocation);
+    setEditTitle(userLocations[index].locationTitle);
+    setEditLocation(userLocations[index].userLocation);
     dispatch({
       type: ACTIONS.EDITSTATE,
       data: {
@@ -246,13 +254,16 @@ const App: React.FC<{}> = () => {
       <div className='propMate-inner'>
         {popupState.bottomNavigation === 'editPlace' && (
           <FormInput
-            title={title}
-            location={location}
+            title={editTitle}
+            location={editLocation}
             updateUserLocation={updateUserLocation}
           ></FormInput>
         )}
         {popupState.bottomNavigation === 'addNewPlace' && (
-          <FormInput addUserLocation={addUserLocation}></FormInput>
+          <FormInput
+            addUserLocation={addUserLocation}
+            isListFull={isListFull}
+          ></FormInput>
         )}
         {popupState.bottomNavigation === 'myPlaces' && (
           <div className='propMate-location-cards'>

@@ -42902,12 +42902,9 @@ __webpack_require__.r(__webpack_exports__);
 
 
 const InformationChip = ({ timeAndDistanceInformaton }) => {
-    if (timeAndDistanceInformaton.split(' ').includes('Error:')) {
-        return (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_1__.default, { mr: '5px', mt: '5px' },
-            react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_2__.default, { color: 'secondary', variant: 'outlined', icon: react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_icons__WEBPACK_IMPORTED_MODULE_3__.default, null), label: timeAndDistanceInformaton })));
-    }
+    const notFound = /Address not found/.test(timeAndDistanceInformaton);
     return (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_1__.default, { mr: '5px', mt: '5px' },
-        react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_2__.default, { icon: react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_icons__WEBPACK_IMPORTED_MODULE_3__.default, null), label: timeAndDistanceInformaton })));
+        react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_2__.default, { color: notFound ? 'secondary' : 'default', icon: react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_icons__WEBPACK_IMPORTED_MODULE_3__.default, null), label: timeAndDistanceInformaton, size: 'small', variant: notFound ? 'outlined' : 'default' })));
 };
 
 
@@ -43091,7 +43088,7 @@ const App = ({ listingLocations }) => {
                 }
             }
             else
-                infoArray.push(`Error: Unable to retrieve information`);
+                infoArray.push(`${userLocations[i].locationTitle}: Address not found`);
         }
         return infoArray;
     };
@@ -43103,24 +43100,56 @@ if (document.readyState !== 'complete') {
         console.log('event listner loaded');
         if (this.readyState === 'complete') {
             const observer = new MutationObserver(() => {
-                const propertyCards = document.querySelectorAll('tm-property-search-card-listing-title');
-                if (propertyCards.length > 0) {
-                    propertyCards.forEach((element) => {
-                        var _a, _b, _c, _d;
-                        if (!document.querySelector('.MuiChip-label')) {
-                            observer.disconnect();
-                            const listingLocations = [element.textContent];
-                            const root = document.createElement('div');
-                            console.log('root injected');
-                            (_d = (_c = (_b = (_a = element.parentElement) === null || _a === void 0 ? void 0 : _a.parentElement) === null || _b === void 0 ? void 0 : _b.parentElement) === null || _c === void 0 ? void 0 : _c.parentElement) === null || _d === void 0 ? void 0 : _d.appendChild(root);
-                            react_dom__WEBPACK_IMPORTED_MODULE_1__.render(react__WEBPACK_IMPORTED_MODULE_0__.createElement(App, { listingLocations: listingLocations }), root);
-                            setTimeout(() => {
-                                observe();
-                            }, 3000);
-                        }
+                let url = window.location.toString();
+                const isRentalUrl = /.*residential\/rent\/(?!.*listing).*/.test(url);
+                const isSaleUrl = /.*residential\/sale\/(?!.*listing).*/.test(url);
+                const isListingUrl = /.*(rent|sale).*listing.*/.test(url);
+                let propertyAddresses = null;
+                console.log(`Listing page: ${isListingUrl} Sale page:${isSaleUrl} Rental page: ${isRentalUrl}`);
+                const listingContainers = Array.from(document.getElementsByClassName('tm-property-premium-listing-card__details-container'));
+                if (listingContainers && listingContainers.length > 0) {
+                    listingContainers.forEach((element) => {
+                        element.style.height = 'fit-content';
+                        console.log('container changed');
                     });
                 }
-                else {
+                if (isRentalUrl) {
+                    propertyAddresses = document.querySelectorAll('tm-property-search-card-listing-title');
+                    if (propertyAddresses && propertyAddresses.length > 0) {
+                        propertyAddresses.forEach((element) => {
+                            if (!document.querySelector('.MuiChip-label')) {
+                                observer.disconnect();
+                                const listingLocations = [element.textContent];
+                                const root = document.createElement('div');
+                                console.log('root injected');
+                                element.appendChild(root);
+                                react_dom__WEBPACK_IMPORTED_MODULE_1__.render(react__WEBPACK_IMPORTED_MODULE_0__.createElement(App, { listingLocations: listingLocations }), root);
+                                setTimeout(() => {
+                                    observe();
+                                }, 3000);
+                            }
+                        });
+                    }
+                }
+                else if (isSaleUrl) {
+                    propertyAddresses = document.querySelectorAll('tm-property-search-card-address-subtitle');
+                    if (propertyAddresses && propertyAddresses.length > 0) {
+                        propertyAddresses.forEach((element) => {
+                            if (!document.querySelector('.MuiChip-label')) {
+                                observer.disconnect();
+                                const listingLocations = [element.textContent];
+                                const root = document.createElement('div');
+                                console.log('root injected');
+                                element.appendChild(root);
+                                react_dom__WEBPACK_IMPORTED_MODULE_1__.render(react__WEBPACK_IMPORTED_MODULE_0__.createElement(App, { listingLocations: listingLocations }), root);
+                                setTimeout(() => {
+                                    observe();
+                                }, 3000);
+                            }
+                        });
+                    }
+                }
+                else if (isListingUrl) {
                     const listingLocation = document.querySelector('.tm-property-listing-body__location');
                     if (!document.querySelector('.MuiChip-label') && listingLocation) {
                         console.log('listingLocation found');

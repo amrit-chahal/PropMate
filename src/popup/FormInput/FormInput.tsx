@@ -36,13 +36,14 @@ export interface FormActions {
 export const ACTIONS = {
   EDIT: 'edit',
   ADD: 'add',
-  INPUT_CHANGE: 'input change'
+  INPUT_CHANGE: 'input change',
+  RESET_FORM: 'resetForm'
 };
 
 const initialState: FormState = {
   title: { value: '', touched: false, hasError: false, error: '' },
   location: { value: '', touched: false, hasError: false, error: '' },
-  isFormValid: false
+  isFormValid: true
 };
 const formReducer = (state: FormState, action: any) => {
   switch (action.type) {
@@ -77,6 +78,8 @@ const formReducer = (state: FormState, action: any) => {
         [name]: { ...(state[name as keyof FormState] as Input), value }
       };
     }
+    case ACTIONS.RESET_FORM:
+      return initialState;
     default:
       return state;
   }
@@ -87,7 +90,8 @@ export const FormInput: React.FC<{
   location?: string;
   addUserLocation?: (title: string, location: string) => void;
   updateUserLocation?: (title: string, location: string) => void;
-}> = ({ title, location, addUserLocation, updateUserLocation }) => {
+  isListFull?: boolean;
+}> = ({ title, location, addUserLocation, updateUserLocation, isListFull }) => {
   const [formState, dispatch] = useReducer(formReducer, initialState);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [formHeading, setFormHeading] = useState<string>('Add new place');
@@ -95,9 +99,9 @@ export const FormInput: React.FC<{
   const [sucessMessage, setSucessMessage] = useState<string>(
     'Sucess: New place added'
   );
-  const [isSubmitted,setIsSubmitted] = useState<boolean>(false)
+  const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
+  const isMountedRef = useRef(true);
   useEffect(() => {
-    console.log('Initial render formstate ' + formState.isFormValid);
     if (title && location) {
       dispatch({
         type: ACTIONS.EDIT,
@@ -119,6 +123,23 @@ export const FormInput: React.FC<{
       setSucessMessage('Sucess: Place updated');
     }
   }, []);
+  useEffect(() => {
+    if (isSubmitted) {
+      if (formMode === 'Add' && addUserLocation) {
+        addUserLocation(formState.title.value, formState.location.value);
+        console.log('location ' + formState.location.value);
+        dispatch({ type: ACTIONS.RESET_FORM });
+      }
+      if (formMode === 'Update' && updateUserLocation) {
+        updateUserLocation(formState.title.value, formState.location.value);
+      }
+    }
+  }, [isSubmitted]);
+  useEffect(() => {
+    return () => {
+      isMountedRef.current = false;
+    };
+  }, []);
 
   const handleFormSubmit = async (event: any) => {
     event.preventDefault();
@@ -131,8 +152,9 @@ export const FormInput: React.FC<{
     for (name in formState) {
       const item = formState[name] as Input;
       const { value } = item;
-      const { hasError, error } = await validateInput(name, value);
-      if (hasError) {
+      const result = await validateInput(name, value);
+
+      if (result.hasError) {
         isFormValid = false;
       }
       if (name) {
@@ -140,51 +162,36 @@ export const FormInput: React.FC<{
           type: ACTIONS.ADD,
           data: {
             name,
-            value,
-            hasError,
-            error,
+            value: result.value,
+            hasError: result.hasError,
+            error: result.error,
             touched: true,
             isFormValid
           }
         });
       }
+
       console.log(
-        'name ' + name + ' value ' + value + ' has Error ' + hasError
+        'name ' +
+          name +
+          ' value ' +
+          result.value +
+          ' has Error ' +
+          result.hasError +
+          ' ' +
+          formState.location.value
       );
     }
-    console.log('After submit ');
-    console.log(formState);
-    console.log('form valid ' + isFormValid);
-    console.log('formstate valid ' + formState.isFormValid);
-
     if (isFormValid) {
-      if (formMode === 'Add' && addUserLocation) {
-        addUserLocation(formState.title.value, formState.location.value);
-      }
-      if (formMode === 'Update' && updateUserLocation) {
-        updateUserLocation(formState.title.value, formState.location.value);
-      }
+      setIsSubmitted(true);
     }
-    setIsLoading(false);
-    setIsSubmitted(true);
-    setTimeout(() => {
-      setIsSubmitted(false)
-      
-    }, 5000);
-  };
-  const formatInput = (input: string): string => {
-    if (!input) {
-      return '';
-    }
-    var wordArray = input.trim().split(/(\s|,)+/);
-    const arrayCapitalized: string[] = [];
-    wordArray.map((item) => {
-      arrayCapitalized.push(
-        item[0].toUpperCase() + item.substring(1).toLowerCase()
-      );
-    });
 
-    return arrayCapitalized.join(' ');
+    setIsLoading(false);
+    if (isMountedRef.current) {
+      setTimeout(() => {
+        setIsSubmitted(false);
+      }, 3000);
+    }
   };
 
   return (
@@ -195,7 +202,7 @@ export const FormInput: React.FC<{
             noValidate
             autoComplete='off'
             onSubmit={async (event) => {
-             await  handleFormSubmit(event);
+              await handleFormSubmit(event);
             }}
           >
             <Grid
@@ -206,8 +213,12 @@ export const FormInput: React.FC<{
             >
               <Grid item>
                 <Box margin='5px'>
-                  <Typography variant='subtitle2' color='primary'>
-                    <Box fontWeight='bold'>{formHeading}</Box>
+                  <Typography
+                    style={{ fontWeight: 'bold' }}
+                    variant='subtitle2'
+                    color='primary'
+                  >
+                    {formHeading}
                   </Typography>
                 </Box>
               </Grid>
@@ -215,6 +226,7 @@ export const FormInput: React.FC<{
                 <Box margin='5px'>
                   <TextField
                     error={formState.title.hasError}
+                    disabled={isListFull}
                     size='small'
                     autoFocus
                     name='title'
@@ -234,7 +246,7 @@ export const FormInput: React.FC<{
                     onBlur={async (event) => {
                       await onFocusOut(
                         'title',
-                        formatInput(event.target.value),
+                        event.target.value,
                         dispatch,
                         formState
                       );
@@ -257,6 +269,7 @@ export const FormInput: React.FC<{
                 <Box margin='5px'>
                   <TextField
                     size='small'
+                    disabled={isListFull}
                     error={formState.location.hasError}
                     name='location'
                     label='Address'
@@ -275,7 +288,7 @@ export const FormInput: React.FC<{
                     onBlur={async (event) => {
                       await onFocusOut(
                         'location',
-                        formatInput(event.target.value),
+                        event.target.value,
                         dispatch,
                         formState
                       );
@@ -290,9 +303,18 @@ export const FormInput: React.FC<{
                       <span>{formState.location.error}</span>
                     </Typography>
                   )}
-                  {formState.isFormValid && isSubmitted &&(
+
+                  {formState.isFormValid && isSubmitted && (
                     <Typography variant='caption' style={{ color: 'green' }}>
                       {sucessMessage}
+                    </Typography>
+                  )}
+                  {isListFull && !isSubmitted && (
+                    <Typography variant='caption' color='secondary'>
+                      <span>
+                        Max capacity of 5 addresses reached please delete older
+                        items to add new
+                      </span>
                     </Typography>
                   )}
                 </Box>
@@ -301,7 +323,7 @@ export const FormInput: React.FC<{
               <Grid item>
                 <Box margin='5px'>
                   <Button
-                    disabled={isLoading}
+                    disabled={isLoading || isListFull}
                     type='submit'
                     variant='contained'
                     color='primary'

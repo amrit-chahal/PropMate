@@ -120,12 +120,13 @@ var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _argume
 const ACTIONS = {
     EDIT: 'edit',
     ADD: 'add',
-    INPUT_CHANGE: 'input change'
+    INPUT_CHANGE: 'input change',
+    RESET_FORM: 'resetForm'
 };
 const initialState = {
     title: { value: '', touched: false, hasError: false, error: '' },
     location: { value: '', touched: false, hasError: false, error: '' },
-    isFormValid: false
+    isFormValid: true
 };
 const formReducer = (state, action) => {
     switch (action.type) {
@@ -144,19 +145,21 @@ const formReducer = (state, action) => {
             const { name, value } = action.data;
             return Object.assign(Object.assign({}, state), { [name]: Object.assign(Object.assign({}, state[name]), { value }) });
         }
+        case ACTIONS.RESET_FORM:
+            return initialState;
         default:
             return state;
     }
 };
-const FormInput = ({ title, location, addUserLocation, updateUserLocation }) => {
+const FormInput = ({ title, location, addUserLocation, updateUserLocation, isListFull }) => {
     const [formState, dispatch] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useReducer)(formReducer, initialState);
     const [isLoading, setIsLoading] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
     const [formHeading, setFormHeading] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('Add new place');
     const [formMode, setFormMode] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('Add');
     const [sucessMessage, setSucessMessage] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('Sucess: New place added');
     const [isSubmitted, setIsSubmitted] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
+    const isMountedRef = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)(true);
     (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
-        console.log('Initial render formstate' + formState.isFormValid);
         if (title && location) {
             dispatch({
                 type: ACTIONS.EDIT,
@@ -176,7 +179,24 @@ const FormInput = ({ title, location, addUserLocation, updateUserLocation }) => 
             setFormMode('Update');
             setSucessMessage('Sucess: Place updated');
         }
-    }, [formState.isFormValid]);
+    }, []);
+    (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
+        if (isSubmitted) {
+            if (formMode === 'Add' && addUserLocation) {
+                addUserLocation(formState.title.value, formState.location.value);
+                console.log('location ' + formState.location.value);
+                dispatch({ type: ACTIONS.RESET_FORM });
+            }
+            if (formMode === 'Update' && updateUserLocation) {
+                updateUserLocation(formState.title.value, formState.location.value);
+            }
+        }
+    }, [isSubmitted]);
+    (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
+        return () => {
+            isMountedRef.current = false;
+        };
+    }, []);
     const handleFormSubmit = (event) => __awaiter(void 0, void 0, void 0, function* () {
         event.preventDefault();
         console.log('Before submit ');
@@ -188,8 +208,8 @@ const FormInput = ({ title, location, addUserLocation, updateUserLocation }) => 
         for (name in formState) {
             const item = formState[name];
             const { value } = item;
-            const { hasError, error } = yield (0,_formUtil__WEBPACK_IMPORTED_MODULE_1__.default)(name, value);
-            if (hasError) {
+            const result = yield (0,_formUtil__WEBPACK_IMPORTED_MODULE_1__.default)(name, value);
+            if (result.hasError) {
                 isFormValid = false;
             }
             if (name) {
@@ -197,45 +217,33 @@ const FormInput = ({ title, location, addUserLocation, updateUserLocation }) => 
                     type: ACTIONS.ADD,
                     data: {
                         name,
-                        value,
-                        hasError,
-                        error,
+                        value: result.value,
+                        hasError: result.hasError,
+                        error: result.error,
                         touched: true,
                         isFormValid
                     }
                 });
             }
-            console.log('name ' + name + ' value ' + value + ' has Error ' + hasError);
+            console.log('name ' +
+                name +
+                ' value ' +
+                result.value +
+                ' has Error ' +
+                result.hasError +
+                ' ' +
+                formState.location.value);
         }
-        console.log('After submit ');
-        console.log(formState);
-        console.log('form valid ' + isFormValid);
-        console.log('formstate valid ' + formState.isFormValid);
         if (isFormValid) {
-            if (formMode === 'Add' && addUserLocation) {
-                addUserLocation(formState.title.value, formState.location.value);
-            }
-            if (formMode === 'Update' && updateUserLocation) {
-                updateUserLocation(formState.title.value, formState.location.value);
-            }
+            setIsSubmitted(true);
         }
         setIsLoading(false);
-        setIsSubmitted(true);
-        setTimeout(() => {
-            setIsSubmitted(false);
-        }, 5000);
-    });
-    const formatInput = (input) => {
-        if (!input) {
-            return '';
+        if (isMountedRef.current) {
+            setTimeout(() => {
+                setIsSubmitted(false);
+            }, 3000);
         }
-        var wordArray = input.trim().split(/(\s|,)+/);
-        const arrayCapitalized = [];
-        wordArray.map((item) => {
-            arrayCapitalized.push(item[0].toUpperCase() + item.substring(1).toLowerCase());
-        });
-        return arrayCapitalized.join(' ');
-    };
+    });
     return (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_2__.default, { margin: '8px' },
         react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_3__.default, { elevation: 3 },
             react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_2__.default, { px: '8px', py: '4px' },
@@ -245,25 +253,24 @@ const FormInput = ({ title, location, addUserLocation, updateUserLocation }) => 
                     react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_4__.default, { container: true, direction: 'column', justifyContent: 'center', alignItems: 'center' },
                         react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_4__.default, { item: true },
                             react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_2__.default, { margin: '5px' },
-                                react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_5__.default, { variant: 'subtitle2', color: 'primary' },
-                                    react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_2__.default, { fontWeight: 'bold' }, formHeading)))),
+                                react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_5__.default, { style: { fontWeight: 'bold' }, variant: 'subtitle2', color: 'primary' }, formHeading))),
                         react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_4__.default, { item: true },
                             react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_2__.default, { margin: '5px' },
-                                react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_6__.default, { error: formState.title.hasError, size: 'small', autoFocus: true, name: 'title', label: 'Title', variant: 'outlined', color: 'primary', value: formState.title.value, onChange: (event) => dispatch({
+                                react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_6__.default, { error: formState.title.hasError, disabled: isListFull, size: 'small', autoFocus: true, name: 'title', label: 'Title', variant: 'outlined', color: 'primary', value: formState.title.value, onChange: (event) => dispatch({
                                         type: ACTIONS.INPUT_CHANGE,
                                         data: {
                                             name: 'title',
                                             value: event.target.value
                                         }
                                     }), onBlur: (event) => __awaiter(void 0, void 0, void 0, function* () {
-                                        yield (0,_formUtil__WEBPACK_IMPORTED_MODULE_1__.onFocusOut)('title', formatInput(event.target.value), dispatch, formState);
+                                        yield (0,_formUtil__WEBPACK_IMPORTED_MODULE_1__.onFocusOut)('title', event.target.value, dispatch, formState);
                                     }) }))),
                         react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_4__.default, { item: true },
                             react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_2__.default, { height: '10px', marginBottom: '5px' }, formState.title.touched && formState.title.hasError && (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_5__.default, { variant: 'caption', color: 'secondary' },
                                 react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", { className: 'propMate-submit-message' }, formState.title.error))))),
                         react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_4__.default, { item: true },
                             react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_2__.default, { margin: '5px' },
-                                react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_6__.default, { size: 'small', error: formState.location.hasError, name: 'location', label: 'Address', variant: 'outlined', color: 'primary', value: formState.location.value, onChange: (event) => dispatch({
+                                react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_6__.default, { size: 'small', disabled: isListFull, error: formState.location.hasError, name: 'location', label: 'Address', variant: 'outlined', color: 'primary', value: formState.location.value, onChange: (event) => dispatch({
                                         type: ACTIONS.INPUT_CHANGE,
                                         data: {
                                             name: 'location',
@@ -276,10 +283,12 @@ const FormInput = ({ title, location, addUserLocation, updateUserLocation }) => 
                             react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_2__.default, { height: '35px', marginBottom: '5px', textAlign: 'center' },
                                 formState.location.touched && formState.location.hasError && (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_5__.default, { variant: 'caption', color: 'secondary' },
                                     react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", null, formState.location.error))),
-                                formState.isFormValid && isSubmitted && (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_5__.default, { variant: 'caption', style: { color: 'green' } }, sucessMessage)))),
+                                formState.isFormValid && isSubmitted && (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_5__.default, { variant: 'caption', style: { color: 'green' } }, sucessMessage)),
+                                isListFull && !isSubmitted && (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_5__.default, { variant: 'caption', color: 'secondary' },
+                                    react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", null, "Max capacity of 5 addresses reached please delete older items to add new"))))),
                         react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_4__.default, { item: true },
                             react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_2__.default, { margin: '5px' },
-                                react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_7__.default, { disabled: isLoading, type: 'submit', variant: 'contained', color: 'primary', size: 'small', startIcon: formMode === 'Update' ? react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_icons__WEBPACK_IMPORTED_MODULE_8__.default, null) : react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_icons__WEBPACK_IMPORTED_MODULE_9__.default, null), onClick: handleFormSubmit }, formMode),
+                                react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_7__.default, { disabled: isLoading || isListFull, type: 'submit', variant: 'contained', color: 'primary', size: 'small', startIcon: formMode === 'Update' ? react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_icons__WEBPACK_IMPORTED_MODULE_8__.default, null) : react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_icons__WEBPACK_IMPORTED_MODULE_9__.default, null), onClick: handleFormSubmit }, formMode),
                                 isLoading && (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_10__.default, { size: 20, style: {
                                         position: 'absolute',
                                         zIndex: 1,
@@ -315,9 +324,9 @@ var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _argume
 };
 
 
-function onFocusOut(name, value, dispatch, formState) {
+function onFocusOut(name, input, dispatch, formState) {
     return __awaiter(this, void 0, void 0, function* () {
-        const { hasError, error } = yield validateInput(name, value);
+        const { hasError, error, value } = yield validateInput(name, input);
         let isFormValid = true;
         let key;
         for (key in formState) {
@@ -344,53 +353,66 @@ function onFocusOut(name, value, dispatch, formState) {
         });
     });
 }
-function validateInput(name, value) {
+function validateInput(name, input) {
     return __awaiter(this, void 0, void 0, function* () {
-        let hasError = false, error = '';
+        let hasError = false, error = '', value = input;
         switch (name) {
             case 'title':
                 if (value.trim() === '') {
                     hasError = true;
                     error = 'Title cannot be empty';
                 }
-                else if (value.trim().length > 16) {
+                else if (value.length > 16) {
                     hasError = true;
                     error = 'Title cannot be longer than 16 characters';
                 }
                 else {
                     hasError = false;
                     error = '';
+                    value = formatInput(value);
                 }
                 break;
             case 'location':
-                const addressIsValid = yield (0,_utils_api__WEBPACK_IMPORTED_MODULE_0__.checkForValidAddress)(value.trim());
+                const { isValidAddress, addressFromResponse } = yield (0,_utils_api__WEBPACK_IMPORTED_MODULE_0__.checkForValidAddress)(value.trim());
                 if (value.trim() === '') {
                     hasError = true;
                     error = 'Address cannot be empty';
                 }
-                else if (value.trim().length > 60) {
+                else if (value.length > 60) {
                     hasError = true;
                     error = 'Address too long! Please enter a shorter address';
                 }
-                else if (!/^(\d{0,10}\s)?(((\d{0,10}[a-zA-Z]{0,3})|(\d{0,10}(\/|\\)(([a-zA-Z]{0,3})|(\d{1,5}))))\s)?([a-zA-Z]{1,30},?\s?)*(\s?[a-zA-Z]{1,30})$/.test(value.trim())) {
+                else if (!/^(\d{0,10}\s)?(((\d{0,10}[a-zA-Z]{0,3})|(\d{0,10}(\/|\\)(([a-zA-Z]{0,3})|(\d{1,5}))))\s)?([a-zA-Z]{1,30},?\s?)*(\s?[a-zA-Z]{1,30})$/.test(value)) {
                     hasError = true;
                     error = 'Error: Please check the address';
                 }
-                else if (!addressIsValid) {
+                else if (!isValidAddress) {
                     hasError = true;
                     error = 'Cannot find address please enter correct address';
                 }
                 else {
                     hasError = false;
                     error = '';
+                    value = addressFromResponse;
                 }
                 break;
             default:
                 break;
         }
-        return { hasError, error };
+        return { hasError, error, value };
     });
 }
+const formatInput = (input) => {
+    if (!input) {
+        return '';
+    }
+    var wordArray = input.trim().split(' ');
+    const arrayCapitalized = [];
+    wordArray.map((item) => {
+        arrayCapitalized.push(item[0].toUpperCase() + item.substring(1).toLowerCase());
+    });
+    return arrayCapitalized.join(' ');
+};
 
 
 /***/ }),
@@ -552,9 +574,10 @@ const popupReducer = (state, action) => {
 const App = () => {
     const [userLocations, setUserLocations] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]);
     const [popupState, dispatch] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useReducer)(popupReducer, initialState);
-    const [location, setLocation] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('');
-    const [title, setTitle] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('');
+    const [editLocation, setEditLocation] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('');
+    const [editTitle, setEditTitle] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('');
     const [editIndex, setEditIndex] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)();
+    const [isListFull, setIsListFull] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
     (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
         (0,_utils_storage__WEBPACK_IMPORTED_MODULE_4__.getIsExtensionEnabledInStorage)().then((response) => {
             dispatch({
@@ -564,7 +587,12 @@ const App = () => {
                     bottomNavigation: response ? 'myPlaces' : 'extensionDisabled'
                 }
             });
-            (0,_utils_storage__WEBPACK_IMPORTED_MODULE_4__.getUserLocationsInStorage)().then((userLocations) => setUserLocations(userLocations));
+            (0,_utils_storage__WEBPACK_IMPORTED_MODULE_4__.getUserLocationsInStorage)().then((userLocations) => {
+                setUserLocations(userLocations);
+                if (userLocations.length >= 4) {
+                    setIsListFull(true);
+                }
+            });
         });
     }, []);
     const updateUserLocation = (titleInput, locationInput) => {
@@ -586,6 +614,9 @@ const App = () => {
             ...prevUserLocations,
             { locationTitle: titleInput, userLocation: locationInput }
         ]));
+        if (userLocations.length >= 4) {
+            setIsListFull(true);
+        }
         (0,_utils_storage__WEBPACK_IMPORTED_MODULE_4__.setUserLocationsInStorage)([
             ...userLocations,
             {
@@ -600,11 +631,12 @@ const App = () => {
         userLocations.splice(index, 1);
         setUserLocations((prevUserlocations) => [...prevUserlocations]);
         (0,_utils_storage__WEBPACK_IMPORTED_MODULE_4__.setUserLocationsInStorage)(userLocations);
+        setIsListFull(false);
     };
     const handleLocationEditBtnClick = (index) => {
         setEditIndex(index);
-        setTitle(userLocations[index].locationTitle);
-        setLocation(userLocations[index].userLocation);
+        setEditTitle(userLocations[index].locationTitle);
+        setEditLocation(userLocations[index].userLocation);
         dispatch({
             type: ACTIONS.EDITSTATE,
             data: {
@@ -653,8 +685,8 @@ const App = () => {
                         react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_11__.default, null,
                             react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_12__.default, { style: { margin: 0 }, control: react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_13__.default, { size: 'small', checked: popupState.extensionEnabled, "aria-label": 'turn on or off', onChange: handleExtensionEnabledChange }), label: popupState.extensionEnabled ? 'On' : 'Off' })))))),
         react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { className: 'propMate-inner' },
-            popupState.bottomNavigation === 'editPlace' && (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_FormInput_FormInput__WEBPACK_IMPORTED_MODULE_5__.FormInput, { title: title, location: location, updateUserLocation: updateUserLocation })),
-            popupState.bottomNavigation === 'addNewPlace' && (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_FormInput_FormInput__WEBPACK_IMPORTED_MODULE_5__.FormInput, { addUserLocation: addUserLocation })),
+            popupState.bottomNavigation === 'editPlace' && (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_FormInput_FormInput__WEBPACK_IMPORTED_MODULE_5__.FormInput, { title: editTitle, location: editLocation, updateUserLocation: updateUserLocation })),
+            popupState.bottomNavigation === 'addNewPlace' && (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_FormInput_FormInput__WEBPACK_IMPORTED_MODULE_5__.FormInput, { addUserLocation: addUserLocation, isListFull: isListFull })),
             popupState.bottomNavigation === 'myPlaces' && (react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { className: 'propMate-location-cards' }, userLocations.map((location, index) => (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_LocationCard__WEBPACK_IMPORTED_MODULE_3__.default, { userLocation: location.userLocation, locationTitle: location.locationTitle, key: index, onDelete: () => handleLocationDeleteBtnClick(index), onEdit: () => handleLocationEditBtnClick(index) }))))),
             popupState.bottomNavigation === 'extensionDisabled' && (react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", null,
                 react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_14__.default, { style: { margin: '70px 40px' } },
@@ -712,18 +744,21 @@ function fetchTimeAndDistance(userLocations, listingLocations) {
 }
 function checkForValidAddress(address) {
     return __awaiter(this, void 0, void 0, function* () {
+        let isValidAddress = false;
+        let addressFromResponse = address;
         const res = yield fetch(`https://maps.googleapis.com/maps/api/distancematrix/json?units=metric&origins=
     ${address}&destinations=auckland%20newzealand&key=${MAPS_API_KEY}`);
         if (res.ok) {
             const data = yield res.json();
-            return data.rows[0].elements[0].status !== 'ZERO_RESULTS';
+            if (data.rows[0].elements[0].status === 'OK') {
+                isValidAddress = true;
+                addressFromResponse = data.origin_addresses[0];
+                return { isValidAddress, addressFromResponse };
+            }
         }
-        else {
-            return false;
-        }
+        return { isValidAddress, addressFromResponse };
     });
 }
-;
 
 
 /***/ }),

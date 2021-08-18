@@ -2,7 +2,7 @@ export interface SyncStorage {
   userLocations?: UserLocationItems;
   isExtensionEnabled?: boolean;
 }
-export interface UserLocationItems extends Array<UserLocationItem> { }
+export interface UserLocationItems extends Array<UserLocationItem> {}
 export interface UserLocationItem {
   userLocation: string;
   locationTitle: string;

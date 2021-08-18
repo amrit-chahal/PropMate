@@ -22,7 +22,7 @@ const App: React.FC<{ listingLocations: (string | null)[] }> = ({
   useEffect(() => {
     getIsExtensionEnabledInStorage().then((isExtensionEnabled) => {
       setIsExtensionEnabled(isExtensionEnabled);
-      console.log(isExtensionEnabled)
+      console.log(isExtensionEnabled);
       if (isExtensionEnabled) {
         getUserLocationsInStorage().then((userLocations) => {
           console.log(userLocations);
@@ -57,7 +57,8 @@ const App: React.FC<{ listingLocations: (string | null)[] }> = ({
             `${userLocations[i].locationTitle}: ${data.rows[i].elements[j].distance.text}, ${data.rows[i].elements[j].duration.text}`
           );
         }
-      } else infoArray.push(`Error: Unable to retrieve information`);
+      } else
+        infoArray.push(`${userLocations[i].locationTitle}: Address not found`);
     }
 
     return infoArray;
@@ -80,29 +81,71 @@ if (document.readyState !== 'complete') {
 
     if (this.readyState === 'complete') {
       const observer = new MutationObserver(() => {
-        const propertyCards = document.querySelectorAll(
-          'tm-property-search-card-listing-title'
+        let url = window.location.toString();
+        const isRentalUrl = /.*residential\/rent\/(?!.*listing).*/.test(url);
+        const isSaleUrl = /.*residential\/sale\/(?!.*listing).*/.test(url);
+        const isListingUrl = /.*(rent|sale).*listing.*/.test(url);
+        let propertyAddresses = null;
+        console.log(
+          `Listing page: ${isListingUrl} Sale page:${isSaleUrl} Rental page: ${isRentalUrl}`
         );
-        if (propertyCards.length > 0) {
-          propertyCards.forEach((element) => {
-            if (!document.querySelector('.MuiChip-label')) {
-              observer.disconnect();
-              const listingLocations = [element.textContent];
-              const root = document.createElement('div');
-              console.log('root injected');
-              element.parentElement?.parentElement?.parentElement?.parentElement?.appendChild(
-                root
-              );
-              ReactDOM.render(
-                <App listingLocations={listingLocations} />,
-                root
-              );
-              setTimeout(() => {
-                observe();
-              }, 3000);
-            }
+        const listingContainers = Array.from(
+          document.getElementsByClassName(
+            'tm-property-premium-listing-card__details-container'
+          ) as HTMLCollectionOf<HTMLElement>
+        );
+        if (listingContainers && listingContainers.length > 0) {
+          listingContainers.forEach((element) => {
+            element.style.height = 'fit-content';
+            console.log('container changed');
           });
-        } else {
+        }
+
+        if (isRentalUrl) {
+          propertyAddresses = document.querySelectorAll(
+            'tm-property-search-card-listing-title'
+          );
+          if (propertyAddresses && propertyAddresses.length > 0) {
+            propertyAddresses!.forEach((element) => {
+              if (!document.querySelector('.MuiChip-label')) {
+                observer.disconnect();
+                const listingLocations = [element.textContent];
+                const root = document.createElement('div');
+                console.log('root injected');
+                element.appendChild(root);
+                ReactDOM.render(
+                  <App listingLocations={listingLocations} />,
+                  root
+                );
+                setTimeout(() => {
+                  observe();
+                }, 3000);
+              }
+            });
+          }
+        } else if (isSaleUrl) {
+          propertyAddresses = document.querySelectorAll(
+            'tm-property-search-card-address-subtitle'
+          );
+          if (propertyAddresses && propertyAddresses.length > 0) {
+            propertyAddresses!.forEach((element) => {
+              if (!document.querySelector('.MuiChip-label')) {
+                observer.disconnect();
+                const listingLocations = [element.textContent];
+                const root = document.createElement('div');
+                console.log('root injected');
+                element.appendChild(root);
+                ReactDOM.render(
+                  <App listingLocations={listingLocations} />,
+                  root
+                );
+                setTimeout(() => {
+                  observe();
+                }, 3000);
+              }
+            });
+          }
+        } else if (isListingUrl) {
           const listingLocation: HTMLElement | null = document.querySelector(
             '.tm-property-listing-body__location'
           );
