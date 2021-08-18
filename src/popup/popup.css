@@ -12,29 +12,28 @@ body {
   width: 280px;
   height: 380px;
 }
-sup{
+sup {
   font-size: xx-small;
 }
 
 .propMate-location-cards {
   max-height: 266px;
+  margin-top: 10px;
   overflow-y: scroll;
 }
-::-webkit-scrollbar {
+.propMate-location-cards::-webkit-scrollbar {
   width: 6px;
-  height: 6px;
 }
-::-webkit-scrollbar-track {
-  border-radius: 10px;
+.propMate-location-cards::-webkit-scrollbar-track {
   background: rgba(0, 0, 0, 0.1);
 }
-::-webkit-scrollbar-thumb {
+.propMate-location-cards::-webkit-scrollbar-thumb {
   border-radius: 10px;
   background: rgba(0, 0, 0, 0.2);
 }
-::-webkit-scrollbar-thumb:hover {
+.propMate-location-cards::-webkit-scrollbar-thumb:hover {
   background: rgba(0, 0, 0, 0.4);
 }
-::-webkit-scrollbar-thumb:active {
+.propMate-location-cards::-webkit-scrollbar-thumb:active {
   background: rgba(0, 0, 0, 0.9);
 }
