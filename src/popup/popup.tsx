@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState, useReducer } from 'react';
+import React, { useEffect, useState, useReducer } from 'react';
 import ReactDOM from 'react-dom';
 import './popup.css';
 import LocationCard from './LocationCard';
@@ -29,7 +29,7 @@ import {
   setIsExtensionEnabledInStorage,
   getIsExtensionEnabledInStorage
 } from '../utils/storage';
-import { FormInput } from './FormInput/FormInput';
+import { FormInput } from './FormInput/formInput';
 interface PopupState {
   extensionEnabled: boolean;
   bottomNavigation: string;
@@ -190,7 +190,7 @@ const App: React.FC<{}> = () => {
       }
     });
     setIsExtensionEnabledInStorage(event.target.checked);
-    chrome.runtime.sendMessage({isEnabled:  event.target.checked})
+    chrome.runtime.sendMessage({ isEnabled: event.target.checked });
     if (event.target.checked) {
       chrome.action.setIcon({ path: 'icon.png' });
     } else {
@@ -256,15 +256,26 @@ const App: React.FC<{}> = () => {
         )}
         {popupState.bottomNavigation === 'myPlaces' && (
           <div className='propMate-location-cards'>
-            {userLocations.map((location, index) => (
-              <LocationCard
-                userLocation={location.userLocation}
-                locationTitle={location.locationTitle}
-                key={index}
-                onDelete={() => handleLocationDeleteBtnClick(index)}
-                onEdit={() => handleLocationEditBtnClick(index)}
-              />
-            ))}
+            {userLocations.length > 0 &&
+              userLocations.map((location, index) => (
+                <LocationCard
+                  userLocation={location.userLocation}
+                  locationTitle={location.locationTitle}
+                  key={index}
+                  onDelete={() => handleLocationDeleteBtnClick(index)}
+                  onEdit={() => handleLocationEditBtnClick(index)}
+                />
+              ))}
+            {userLocations.length <= 0 && (
+              <Card style={{ margin: '70px 40px' }}>
+                <CardContent style={{ textAlign: 'center' }}>
+                  <Typography variant='body2'>
+                    Looks like its empty here! Click 'Add new place' to add a
+                    new address.
+                  </Typography>
+                </CardContent>
+              </Card>
+            )}
           </div>
         )}
         {popupState.bottomNavigation === 'extensionDisabled' && (

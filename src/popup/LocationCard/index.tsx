@@ -1,2 +1,2 @@
-import { LocationCard } from './LocationCard';
+import { LocationCard } from './locationCard';
 export default LocationCard;

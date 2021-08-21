@@ -42883,9 +42883,9 @@ function warning(condition, message) {
 
 /***/ }),
 
-/***/ "./src/contentScript/InformationChip/InformationChip.tsx":
+/***/ "./src/contentScript/InformationChip/informationChip.tsx":
 /*!***************************************************************!*\
-  !*** ./src/contentScript/InformationChip/InformationChip.tsx ***!
+  !*** ./src/contentScript/InformationChip/informationChip.tsx ***!
   \***************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
@@ -43047,7 +43047,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _material_ui_core__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @material-ui/core */ "./node_modules/@material-ui/core/esm/Box/Box.js");
 /* harmony import */ var _contentScript_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./contentScript.css */ "./src/contentScript/contentScript.css");
 /* harmony import */ var _utils_storage__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../utils/storage */ "./src/utils/storage.ts");
-/* harmony import */ var _InformationChip_InformationChip__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./InformationChip/InformationChip */ "./src/contentScript/InformationChip/InformationChip.tsx");
+/* harmony import */ var _InformationChip_informationChip__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./InformationChip/informationChip */ "./src/contentScript/InformationChip/informationChip.tsx");
 
 
 
@@ -43087,7 +43087,7 @@ const App = ({ listingLocations }) => {
         return infoArray;
     };
     return (react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", null,
-        react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_5__.default, { display: 'flex', mb: '5px', flexWrap: 'wrap' }, timeAndDistanceInfoArray.map((item, index) => (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_InformationChip_InformationChip__WEBPACK_IMPORTED_MODULE_4__.InformationChip, { timeAndDistanceInformaton: item, key: index }))))));
+        react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_5__.default, { display: 'flex', mb: '5px', flexWrap: 'wrap' }, timeAndDistanceInfoArray.map((item, index) => (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_InformationChip_informationChip__WEBPACK_IMPORTED_MODULE_4__.InformationChip, { timeAndDistanceInformaton: item, key: index }))))));
 };
 let isExtensionEnabled = true;
 (0,_utils_storage__WEBPACK_IMPORTED_MODULE_3__.getIsExtensionEnabledInStorage)().then((res) => {

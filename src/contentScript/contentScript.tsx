@@ -8,7 +8,7 @@ import {
   getUserLocationsInStorage,
   UserLocationItems
 } from '../utils/storage';
-import { InformationChip } from './InformationChip/InformationChip';
+import { InformationChip } from './InformationChip/informationChip';
 import { MapsData } from '../utils/api';
 
 const App: React.FC<{ listingLocations: (string | null)[] }> = ({

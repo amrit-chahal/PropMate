@@ -122,24 +122,24 @@ export const FormInput: React.FC<{
       setFormMode('Update');
       setSucessMessage('Sucess: Place updated');
     }
+    return () => {
+      isMountedRef.current = false;
+    };
   }, []);
   useEffect(() => {
     if (isSubmitted) {
       if (formMode === 'Add' && addUserLocation) {
         addUserLocation(formState.title.value, formState.location.value);
-        console.log('location ' + formState.location.value);
         dispatch({ type: ACTIONS.RESET_FORM });
       }
       if (formMode === 'Update' && updateUserLocation) {
         updateUserLocation(formState.title.value, formState.location.value);
       }
     }
-  }, [isSubmitted]);
-  useEffect(() => {
     return () => {
       isMountedRef.current = false;
     };
-  }, []);
+  }, [isSubmitted]);
 
   const handleFormSubmit = async (event: any) => {
     event.preventDefault();
@@ -170,17 +170,6 @@ export const FormInput: React.FC<{
           }
         });
       }
-
-      console.log(
-        'name ' +
-          name +
-          ' value ' +
-          result.value +
-          ' has Error ' +
-          result.hasError +
-          ' ' +
-          formState.location.value
-      );
     }
     if (isFormValid) {
       setIsSubmitted(true);

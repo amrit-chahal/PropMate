@@ -82,9 +82,9 @@ var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js
 
 /***/ }),
 
-/***/ "./src/popup/FormInput/FormInput.tsx":
+/***/ "./src/popup/FormInput/formInput.tsx":
 /*!*******************************************!*\
-  !*** ./src/popup/FormInput/FormInput.tsx ***!
+  !*** ./src/popup/FormInput/formInput.tsx ***!
   \*******************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
@@ -179,24 +179,24 @@ const FormInput = ({ title, location, addUserLocation, updateUserLocation, isLis
             setFormMode('Update');
             setSucessMessage('Sucess: Place updated');
         }
+        return () => {
+            isMountedRef.current = false;
+        };
     }, []);
     (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
         if (isSubmitted) {
             if (formMode === 'Add' && addUserLocation) {
                 addUserLocation(formState.title.value, formState.location.value);
-                console.log('location ' + formState.location.value);
                 dispatch({ type: ACTIONS.RESET_FORM });
             }
             if (formMode === 'Update' && updateUserLocation) {
                 updateUserLocation(formState.title.value, formState.location.value);
             }
         }
-    }, [isSubmitted]);
-    (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
         return () => {
             isMountedRef.current = false;
         };
-    }, []);
+    }, [isSubmitted]);
     const handleFormSubmit = (event) => __awaiter(void 0, void 0, void 0, function* () {
         event.preventDefault();
         console.log('Before submit ');
@@ -225,14 +225,6 @@ const FormInput = ({ title, location, addUserLocation, updateUserLocation, isLis
                     }
                 });
             }
-            console.log('name ' +
-                name +
-                ' value ' +
-                result.value +
-                ' has Error ' +
-                result.hasError +
-                ' ' +
-                formState.location.value);
         }
         if (isFormValid) {
             setIsSubmitted(true);
@@ -312,7 +304,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (/* binding */ validateInput)
 /* harmony export */ });
 /* harmony import */ var _utils_api__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../utils/api */ "./src/utils/api.ts");
-/* harmony import */ var _FormInput__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./FormInput */ "./src/popup/FormInput/FormInput.tsx");
+/* harmony import */ var _formInput__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./formInput */ "./src/popup/FormInput/formInput.tsx");
 var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -341,7 +333,7 @@ function onFocusOut(name, input, dispatch, formState) {
             }
         }
         dispatch({
-            type: _FormInput__WEBPACK_IMPORTED_MODULE_1__.ACTIONS.ADD,
+            type: _formInput__WEBPACK_IMPORTED_MODULE_1__.ACTIONS.ADD,
             data: {
                 name,
                 value,
@@ -366,6 +358,10 @@ function validateInput(name, input) {
                     hasError = true;
                     error = 'Title cannot be longer than 16 characters';
                 }
+                else if (!/^[\w\d\s]*$/.test(value.trim())) {
+                    hasError = true;
+                    error = 'Only letters and numbers allowed';
+                }
                 else {
                     hasError = false;
                     error = '';
@@ -373,7 +369,6 @@ function validateInput(name, input) {
                 }
                 break;
             case 'location':
-                const { isValidAddress, addressFromResponse } = yield (0,_utils_api__WEBPACK_IMPORTED_MODULE_0__.checkForValidAddress)(value.trim());
                 if (value.trim() === '') {
                     hasError = true;
                     error = 'Address cannot be empty';
@@ -382,18 +377,21 @@ function validateInput(name, input) {
                     hasError = true;
                     error = 'Address too long! Please enter a shorter address';
                 }
-                else if (!/^(\d{0,10}\s)?(((\d{0,10}[a-zA-Z]{0,3})|(\d{0,10}(\/|\\)(([a-zA-Z]{0,3})|(\d{1,5}))))\s)?([a-zA-Z]{1,30},?\s?)*(\s?[a-zA-Z]{1,30})$/.test(value)) {
+                else if (!/^(\d{0,10}\s)?(((\d{0,10}[a-zA-Z]{0,3})|(\d{0,10}(\/|\\)(([a-zA-Z]{0,3})|(\d{1,5}))))\s)?([a-zA-Z]{1,30},?\s?)*(\s?[a-zA-Z]{1,30})$/.test(value.trim())) {
                     hasError = true;
-                    error = 'Error: Please check the address';
-                }
-                else if (!isValidAddress) {
-                    hasError = true;
-                    error = 'Cannot find address please enter correct address';
+                    error = 'Pleaes enter valid address';
                 }
                 else {
-                    hasError = false;
-                    error = '';
-                    value = addressFromResponse;
+                    const { isValidAddress, addressFromResponse } = yield (0,_utils_api__WEBPACK_IMPORTED_MODULE_0__.checkForValidAddress)(value.trim());
+                    if (!isValidAddress) {
+                        hasError = true;
+                        error = 'Cannot find address please enter valid address';
+                    }
+                    else {
+                        hasError = false;
+                        error = '';
+                        value = addressFromResponse;
+                    }
                 }
                 break;
             default:
@@ -417,9 +415,26 @@ const formatInput = (input) => {
 
 /***/ }),
 
-/***/ "./src/popup/LocationCard/LocationCard.tsx":
+/***/ "./src/popup/LocationCard/index.tsx":
+/*!******************************************!*\
+  !*** ./src/popup/LocationCard/index.tsx ***!
+  \******************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _locationCard__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./locationCard */ "./src/popup/LocationCard/locationCard.tsx");
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_locationCard__WEBPACK_IMPORTED_MODULE_0__.LocationCard);
+
+
+/***/ }),
+
+/***/ "./src/popup/LocationCard/locationCard.tsx":
 /*!*************************************************!*\
-  !*** ./src/popup/LocationCard/LocationCard.tsx ***!
+  !*** ./src/popup/LocationCard/locationCard.tsx ***!
   \*************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
@@ -486,23 +501,6 @@ const LocationCard = ({ userLocation, locationTitle, onEdit, onDelete }) => {
 
 /***/ }),
 
-/***/ "./src/popup/LocationCard/index.tsx":
-/*!******************************************!*\
-  !*** ./src/popup/LocationCard/index.tsx ***!
-  \******************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var _LocationCard__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./LocationCard */ "./src/popup/LocationCard/LocationCard.tsx");
-
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_LocationCard__WEBPACK_IMPORTED_MODULE_0__.LocationCard);
-
-
-/***/ }),
-
 /***/ "./src/popup/popup.tsx":
 /*!*****************************!*\
   !*** ./src/popup/popup.tsx ***!
@@ -530,7 +528,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _material_ui_icons__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! @material-ui/icons */ "./node_modules/@material-ui/icons/esm/LocationOn.js");
 /* harmony import */ var _material_ui_icons__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! @material-ui/icons */ "./node_modules/@material-ui/icons/esm/AddCircle.js");
 /* harmony import */ var _utils_storage__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../utils/storage */ "./src/utils/storage.ts");
-/* harmony import */ var _FormInput_FormInput__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./FormInput/FormInput */ "./src/popup/FormInput/FormInput.tsx");
+/* harmony import */ var _FormInput_formInput__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./FormInput/formInput */ "./src/popup/FormInput/formInput.tsx");
 
 
 
@@ -679,9 +677,14 @@ const App = () => {
                         react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_11__.default, null,
                             react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_12__.default, { style: { margin: 0 }, control: react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_13__.default, { size: 'small', checked: popupState.extensionEnabled, "aria-label": 'turn on or off', onChange: handleExtensionEnabledChange }), label: popupState.extensionEnabled ? 'On' : 'Off' })))))),
         react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { className: 'propMate-inner' },
-            popupState.bottomNavigation === 'editPlace' && (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_FormInput_FormInput__WEBPACK_IMPORTED_MODULE_5__.FormInput, { title: editTitle, location: editLocation, updateUserLocation: updateUserLocation })),
-            popupState.bottomNavigation === 'addNewPlace' && (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_FormInput_FormInput__WEBPACK_IMPORTED_MODULE_5__.FormInput, { addUserLocation: addUserLocation, isListFull: isListFull })),
-            popupState.bottomNavigation === 'myPlaces' && (react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { className: 'propMate-location-cards' }, userLocations.map((location, index) => (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_LocationCard__WEBPACK_IMPORTED_MODULE_3__.default, { userLocation: location.userLocation, locationTitle: location.locationTitle, key: index, onDelete: () => handleLocationDeleteBtnClick(index), onEdit: () => handleLocationEditBtnClick(index) }))))),
+            popupState.bottomNavigation === 'editPlace' && (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_FormInput_formInput__WEBPACK_IMPORTED_MODULE_5__.FormInput, { title: editTitle, location: editLocation, updateUserLocation: updateUserLocation })),
+            popupState.bottomNavigation === 'addNewPlace' && (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_FormInput_formInput__WEBPACK_IMPORTED_MODULE_5__.FormInput, { addUserLocation: addUserLocation, isListFull: isListFull })),
+            popupState.bottomNavigation === 'myPlaces' && (react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { className: 'propMate-location-cards' },
+                userLocations.length > 0 &&
+                    userLocations.map((location, index) => (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_LocationCard__WEBPACK_IMPORTED_MODULE_3__.default, { userLocation: location.userLocation, locationTitle: location.locationTitle, key: index, onDelete: () => handleLocationDeleteBtnClick(index), onEdit: () => handleLocationEditBtnClick(index) }))),
+                userLocations.length <= 0 && (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_14__.default, { style: { margin: '70px 40px' } },
+                    react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_15__.default, { style: { textAlign: 'center' } },
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_10__.default, { variant: 'body2' }, "Looks like its empty here! Click 'Add new place' to add a new address.")))))),
             popupState.bottomNavigation === 'extensionDisabled' && (react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", null,
                 react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_14__.default, { style: { margin: '70px 40px' } },
                     react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_15__.default, { style: { textAlign: 'center' } },

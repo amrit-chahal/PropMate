@@ -1,5 +1,5 @@
 import { checkForValidAddress } from '../../utils/api';
-import { ACTIONS, FormActions, FormState, Input } from './FormInput';
+import { ACTIONS, FormActions, FormState, Input } from './formInput';
 
 export async function onFocusOut(
   name: string,
@@ -46,6 +46,9 @@ export default async function validateInput(name: string, input: string) {
       } else if (value.length > 16) {
         hasError = true;
         error = 'Title cannot be longer than 16 characters';
+      } else if (!/^[\w\d\s]*$/.test(value.trim())) {
+        hasError = true;
+        error = 'Only letters and numbers allowed';
       } else {
         hasError = false;
         error = '';
@@ -53,9 +56,6 @@ export default async function validateInput(name: string, input: string) {
       }
       break;
     case 'location':
-      const { isValidAddress, addressFromResponse } =
-        await checkForValidAddress(value.trim());
-
       if (value.trim() === '') {
         hasError = true;
         error = 'Address cannot be empty';
@@ -64,18 +64,22 @@ export default async function validateInput(name: string, input: string) {
         error = 'Address too long! Please enter a shorter address';
       } else if (
         !/^(\d{0,10}\s)?(((\d{0,10}[a-zA-Z]{0,3})|(\d{0,10}(\/|\\)(([a-zA-Z]{0,3})|(\d{1,5}))))\s)?([a-zA-Z]{1,30},?\s?)*(\s?[a-zA-Z]{1,30})$/.test(
-          value
+          value.trim()
         )
       ) {
         hasError = true;
-        error = 'Error: Please check the address';
-      } else if (!isValidAddress) {
-        hasError = true;
-        error = 'Cannot find address please enter correct address';
+        error = 'Pleaes enter valid address';
       } else {
-        hasError = false;
-        error = '';
-        value = addressFromResponse;
+        const { isValidAddress, addressFromResponse } =
+          await checkForValidAddress(value.trim());
+        if (!isValidAddress) {
+          hasError = true;
+          error = 'Cannot find address please enter valid address';
+        } else {
+          hasError = false;
+          error = '';
+          value = addressFromResponse;
+        }
       }
       break;
 

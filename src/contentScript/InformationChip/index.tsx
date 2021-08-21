@@ -1,2 +1,2 @@
-import { InformationChip } from './InformationChip';
+import { InformationChip } from './informationChip';
 export default InformationChip;
