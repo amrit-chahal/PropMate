@@ -33,3 +33,11 @@ Propmate is a chrome extension that adds time and distance information to proper
 - google api working
 
 
+##Future Roadmap:
+- Allow users to select address from webpage and save to addresses
+- fetch property valuation from valuation websties and rental stats for rental listings
+- feedback and feature request landing page
+- error logging
+- setup CI/CD
+- unit testing
+
