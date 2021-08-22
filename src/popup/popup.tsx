@@ -17,11 +17,7 @@ import {
   Toolbar,
   Typography
 } from '@material-ui/core';
-import {
-  AddCircle as AddIcon,
-  FormatShapesTwoTone,
-  LocationOn
-} from '@material-ui/icons';
+import { AddCircle as AddIcon, LocationOn } from '@material-ui/icons';
 import {
   setUserLocationsInStorage,
   getUserLocationsInStorage,
