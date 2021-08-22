@@ -11,24 +11,24 @@ Propmate is a chrome extension that adds time and distance information to proper
 - update or delete existing addresses
 
 ## History:
-####version 0.9.1:
+###version 0.9.1:
 - general bug fixes
 - maximum addresses limited to 5
 - message added to empty page
 - validation updated to prohibit symbols or other characters
 
-####version 0.8.1:
+###version 0.8.1:
 - state updates correctly when updating or adding new address
 - general bug fixes
 
-####veriosn 0.4.1:
+###veriosn 0.4.1:
 - update button enabled
-####version 0.3.1
+###version 0.3.1
 - added capability to add title and location separately 
 - ui updated for better flow
 - delete button enabled
 
-####version 0.1.0
+###version 0.1.0
 - skeleton ready
 - google api working
 
