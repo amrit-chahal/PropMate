@@ -27,10 +27,20 @@ const App: React.FC<{ listingLocations: (string | null)[] }> = ({
               listingLocations: listingLocations
             },
             (response) => {
-              setTimeAndDistanceInfoArray((prevTimeAndDistanceInfoArray) => [
-                ...prevTimeAndDistanceInfoArray,
-                ...TimeAndDistanceInfoArrayFromResponse(userLocations, response)
-              ]);
+              if (response) {
+                console.log(response);
+                setTimeAndDistanceInfoArray((prevTimeAndDistanceInfoArray) => [
+                  ...prevTimeAndDistanceInfoArray,
+                  ...TimeAndDistanceInfoArrayFromResponse(
+                    userLocations,
+                    response
+                  )
+                ]);
+              } else {
+                setTimeAndDistanceInfoArray([
+                  'Error: Cannot retrieve info, Pleae try again'
+                ]);
+              }
             }
           );
         });
@@ -51,7 +61,9 @@ const App: React.FC<{ listingLocations: (string | null)[] }> = ({
           );
         }
       } else
-        infoArray.push(`${userLocations[i].locationTitle}: Address not found`);
+        infoArray.push(
+          `Error: Address not found for ${userLocations[i].locationTitle} `
+        );
     }
 
     return infoArray;

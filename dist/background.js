@@ -22,39 +22,48 @@ var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _argume
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-const MAPS_API_KEY = "AIzaSyAdOskc_QLpLZ9xrV-mv1Er3Da1jDtFuqI";
+const MAPS_API_KEY = "AIzaSyAdOskc_QLpLZ9xrV-mv1Er3Da1jDtFuqiI";
 function fetchTimeAndDistance(userLocations, listingLocations) {
     return __awaiter(this, void 0, void 0, function* () {
         const userLocationsToString = userLocations
             .map((item) => item.userLocation)
             .join('|');
-        const listingLocationsToString = listingLocations
-            .map((item) => item)
-            .join('|');
-        const res = yield fetch(`https://maps.googleapis.com/maps/api/distancematrix/json?units=metric&origins=
-    ${userLocationsToString}&destinations=${listingLocationsToString}&key=${MAPS_API_KEY}`);
-        if (!res.ok) {
-            throw new Error('Sorry something went wrong :(');
+        const listingLocationsToString = listingLocations.join('|');
+        try {
+            const res = yield fetch(`https://maps.googleapis.com/maps/api/distancematrix/json?units=metric&origins=
+      ${userLocationsToString}&destinations=${listingLocationsToString}&key=${MAPS_API_KEY}`);
+            if (!res.ok) {
+                return;
+            }
+            const data = yield res.json();
+            if (data.status === 'OK') {
+                return data;
+            }
         }
-        const data = yield res.json();
-        return data;
+        catch (e) {
+            return;
+        }
     });
 }
 function checkForValidAddress(address) {
     return __awaiter(this, void 0, void 0, function* () {
         let isValidAddress = false;
         let addressFromResponse = address;
-        const res = yield fetch(`https://maps.googleapis.com/maps/api/distancematrix/json?units=metric&origins=
-    ${address}&destinations=auckland%20newzealand&key=${MAPS_API_KEY}`);
-        if (res.ok) {
-            const data = yield res.json();
-            if (data.rows[0].elements[0].status === 'OK') {
-                isValidAddress = true;
-                addressFromResponse = data.origin_addresses[0];
-                return { isValidAddress, addressFromResponse };
+        try {
+            const res = yield fetch(`https://maps.googleapis.com/maps/api/distancematrix/json?units=metric&origins=
+      ${address}&destinations=auckland%20newzealand&key=${MAPS_API_KEY}`);
+            if (res.ok) {
+                const data = yield res.json();
+                if (data.rows[0].elements[0].status === 'OK') {
+                    isValidAddress = true;
+                    addressFromResponse = data.origin_addresses[0];
+                }
             }
+            return { isValidAddress, addressFromResponse };
         }
-        return { isValidAddress, addressFromResponse };
+        catch (e) {
+            return { isValidAddress, addressFromResponse };
+        }
     });
 }
 
@@ -128,12 +137,11 @@ __webpack_require__.r(__webpack_exports__);
 
 chrome.runtime.onMessage.addListener((message, sender, response) => {
     if (message.userLocations && message.listingLocations) {
-        console.log(message.userLocations, message.listingLocation);
         (0,_utils_api__WEBPACK_IMPORTED_MODULE_0__.fetchTimeAndDistance)(message.userLocations, message.listingLocations)
             .then((data) => {
             response(data);
         })
-            .catch((err) => console.log(err));
+            .catch((err) => response());
     }
     return true;
 });

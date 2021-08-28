@@ -62,13 +62,6 @@ const popupReducer = (state: PopupState, action: any) => {
         extensionEnabled: action.data.extensionEnabled
       };
 
-    // case ACTIONS.ERRORSTATE:
-    //   return {
-    //     ...state,
-    //     extensionEnabled: true,
-    //     bottomNavigation: 'addNewPlace',
-    //     functionalError: true,
-    //   };
     case ACTIONS.EDITSTATE:
       return {
         ...state,

@@ -23,41 +23,47 @@ export interface MapsData {
 export async function fetchTimeAndDistance(
   userLocations: UserLocationItem[],
   listingLocations: string[]
-): Promise<MapsData> {
+): Promise<MapsData | undefined> {
   const userLocationsToString = userLocations
     .map((item) => item.userLocation)
     .join('|');
-  const listingLocationsToString = listingLocations
-    .map((item) => item)
-    .join('|');
-  const res = await fetch(
-    `https://maps.googleapis.com/maps/api/distancematrix/json?units=metric&origins=
-    ${userLocationsToString}&destinations=${listingLocationsToString}&key=${MAPS_API_KEY}`
-  );
+  const listingLocationsToString = listingLocations.join('|');
+  try {
+    const res = await fetch(
+      `https://maps.googleapis.com/maps/api/distancematrix/json?units=metric&origins=
+      ${userLocationsToString}&destinations=${listingLocationsToString}&key=${MAPS_API_KEY}`
+    );
 
-  if (!res.ok) {
-    throw new Error('Sorry something went wrong :(');
+    if (!res.ok) {
+      return;
+    }
+    const data: MapsData = await res.json();
+    if (data.status === 'OK') {
+      return data;
+    }
+  } catch (e) {
+    return;
   }
-
-  const data: MapsData = await res.json();
-
-  return data;
 }
 
 export async function checkForValidAddress(address: string) {
   let isValidAddress: boolean = false;
   let addressFromResponse: string = address;
-  const res = await fetch(
-    `https://maps.googleapis.com/maps/api/distancematrix/json?units=metric&origins=
-    ${address}&destinations=auckland%20newzealand&key=${MAPS_API_KEY}`
-  );
-  if (res.ok) {
-    const data: MapsData = await res.json();
-    if (data.rows[0].elements[0].status === 'OK') {
-      isValidAddress = true;
-      addressFromResponse = data.origin_addresses[0];
-      return { isValidAddress, addressFromResponse };
+  try {
+    const res = await fetch(
+      `https://maps.googleapis.com/maps/api/distancematrix/json?units=metric&origins=
+      ${address}&destinations=auckland%20newzealand&key=${MAPS_API_KEY}`
+    );
+    if (res.ok) {
+      const data: MapsData = await res.json();
+      if (data.rows[0].elements[0].status === 'OK') {
+        isValidAddress = true;
+        addressFromResponse = data.origin_addresses[0];
+      }
     }
+
+    return { isValidAddress, addressFromResponse };
+  } catch (e) {
+    return { isValidAddress, addressFromResponse };
   }
-  return { isValidAddress, addressFromResponse };
 }

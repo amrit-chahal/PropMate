@@ -1,11 +1,11 @@
 {
   "name": "propmate",
-  "version": "0.9.1",
+  "version": "0.9.2",
   "description": "Enhance your property browsing experience on trademe with propmate",
   "main": "index.js",
   "scripts": {
     "start": "webpack --progress --config webpack.dev.js",
-    "build": "webpack --watch --progress --config webpack.prod.js"
+    "build": "webpack --watch --progress --config webpack.prod.js, npm version patch"
   },
   "repository": {
     "type": "git",

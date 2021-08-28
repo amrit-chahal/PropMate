@@ -42902,9 +42902,9 @@ __webpack_require__.r(__webpack_exports__);
 
 
 const InformationChip = ({ timeAndDistanceInformaton }) => {
-    const notFound = /Address not found/.test(timeAndDistanceInformaton);
+    const error = /Error/.test(timeAndDistanceInformaton);
     return (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_1__.default, { mr: '5px', mt: '5px' },
-        react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_2__.default, { color: notFound ? 'secondary' : 'default', icon: react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_icons__WEBPACK_IMPORTED_MODULE_3__.default, null), label: timeAndDistanceInformaton, size: 'small', variant: notFound ? 'outlined' : 'default' })));
+        react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_2__.default, { color: error ? 'secondary' : 'default', icon: react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_icons__WEBPACK_IMPORTED_MODULE_3__.default, null), label: timeAndDistanceInformaton, size: 'small', variant: error ? 'outlined' : 'default' })));
 };
 
 
@@ -43064,10 +43064,18 @@ const App = ({ listingLocations }) => {
                         userLocations: userLocations,
                         listingLocations: listingLocations
                     }, (response) => {
-                        setTimeAndDistanceInfoArray((prevTimeAndDistanceInfoArray) => [
-                            ...prevTimeAndDistanceInfoArray,
-                            ...TimeAndDistanceInfoArrayFromResponse(userLocations, response)
-                        ]);
+                        if (response) {
+                            console.log(response);
+                            setTimeAndDistanceInfoArray((prevTimeAndDistanceInfoArray) => [
+                                ...prevTimeAndDistanceInfoArray,
+                                ...TimeAndDistanceInfoArrayFromResponse(userLocations, response)
+                            ]);
+                        }
+                        else {
+                            setTimeAndDistanceInfoArray([
+                                'Error: Cannot retrieve info, Pleae try again'
+                            ]);
+                        }
                     });
                 });
             }
@@ -43082,7 +43090,7 @@ const App = ({ listingLocations }) => {
                 }
             }
             else
-                infoArray.push(`${userLocations[i].locationTitle}: Address not found`);
+                infoArray.push(`Error: Address not found for ${userLocations[i].locationTitle} `);
         }
         return infoArray;
     };
