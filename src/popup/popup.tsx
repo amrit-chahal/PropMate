@@ -13,11 +13,17 @@ import {
   FormGroup,
   Grid,
   Icon,
+  IconButton,
   Switch,
   Toolbar,
+  Tooltip,
   Typography
 } from '@material-ui/core';
-import { AddCircle as AddIcon, LocationOn } from '@material-ui/icons';
+import {
+  AddCircle as AddIcon,
+  ContactSupport as ContactSupportIcon,
+  LocationOn
+} from '@material-ui/icons';
 import {
   setUserLocationsInStorage,
   getUserLocationsInStorage,
@@ -155,6 +161,12 @@ const App: React.FC<{}> = () => {
       }
     });
   };
+  const handleHelpButtonClick = () => {
+    chrome.tabs.create({
+      active: true,
+      url: 'https://www.f12.website/contact'
+    });
+  };
   const handleBottomNavigationChange = (
     event: React.ChangeEvent<{}>,
     newValue: string
@@ -178,6 +190,7 @@ const App: React.FC<{}> = () => {
         extensionEnabled: event.target.checked
       }
     });
+
     setIsExtensionEnabledInStorage(event.target.checked);
     chrome.runtime.sendMessage({ isEnabled: event.target.checked });
     if (event.target.checked) {
@@ -200,13 +213,21 @@ const App: React.FC<{}> = () => {
             justifyContent='space-between'
             alignItems='center'
           >
-            <Grid item xs={3}>
+            <Grid item xs={1}>
               <Icon>
-                <img height='32px' className='proMate-icon' src='icon.svg' />
+                <img height='24px' className='proMate-icon' src='icon.png' />
               </Icon>
             </Grid>
+            <Grid item xs={1}>
+              <Tooltip title='Help and feedback'>
+                <IconButton color='inherit' onClick={handleHelpButtonClick}>
+                  <ContactSupportIcon />
+                </IconButton>
+              </Tooltip>
+            </Grid>
+            <Grid item xs={1}></Grid>
             <Grid item xs={6}>
-              <Typography align='center' variant='h6' noWrap>
+              <Typography align='center' variant='body1' noWrap>
                 Propmate<sup>beta</sup>
               </Typography>
             </Grid>
@@ -280,6 +301,7 @@ const App: React.FC<{}> = () => {
           </div>
         )}
       </div>
+
       <Box
         width='100%'
         position='fixed'

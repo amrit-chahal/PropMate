@@ -28,7 +28,6 @@ const App: React.FC<{ listingLocations: (string | null)[] }> = ({
             },
             (response) => {
               if (response) {
-                console.log(response);
                 setTimeAndDistanceInfoArray((prevTimeAndDistanceInfoArray) => [
                   ...prevTimeAndDistanceInfoArray,
                   ...TimeAndDistanceInfoArrayFromResponse(
@@ -73,7 +72,7 @@ const App: React.FC<{ listingLocations: (string | null)[] }> = ({
     <div>
       <Box display='flex' mb='5px' flexWrap='wrap'>
         {timeAndDistanceInfoArray.map((item, index) => (
-          <InformationChip timeAndDistanceInformaton={item} key={index} />
+          <InformationChip  timeAndDistanceInformaton={item} key={index} />
         ))}
       </Box>
     </div>
@@ -118,10 +117,12 @@ if (document.readyState !== 'complete') {
             '.tm-property-listing-body__location'
           );
         }
+
         if (propertyAddresses && propertyAddresses.length > 0) {
           propertyAddresses!.forEach((element) => {
             if (!document.querySelector('.MuiChip-label')) {
               observer.disconnect();
+
               const listingLocations = [element.textContent];
               const root = document.createElement('div');
               element.appendChild(root);

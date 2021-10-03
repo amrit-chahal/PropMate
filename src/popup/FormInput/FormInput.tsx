@@ -97,7 +97,7 @@ export const FormInput: React.FC<{
   const [formHeading, setFormHeading] = useState<string>('Add new place');
   const [formMode, setFormMode] = useState<string>('Add');
   const [sucessMessage, setSucessMessage] = useState<string>(
-    'Sucess: New place added'
+    'Success: New place added'
   );
   const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
   const isMountedRef = useRef(true);
@@ -136,18 +136,15 @@ export const FormInput: React.FC<{
         updateUserLocation(formState.title.value, formState.location.value);
       }
     }
-    return () => {
-      isMountedRef.current = false;
-    };
+   
   }, [isSubmitted]);
 
   const handleFormSubmit = async (event: any) => {
     event.preventDefault();
-    console.log('Before submit ');
-    console.log(formState);
+
     let isFormValid = true;
     setIsLoading(true);
-    console.log('isloading ' + isLoading);
+
     let name: keyof FormState;
     for (name in formState) {
       const item = formState[name] as Input;

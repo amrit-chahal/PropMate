@@ -22,7 +22,7 @@ var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _argume
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-const MAPS_API_KEY = "AIzaSyAdOskc_QLpLZ9xrV-mv1Er3Da1jDtFuqiI";
+const MAPS_API_KEY = "AIzaSyAdOskc_QLpLZ9xrV-mv1Er3Da1jDtFuqI";
 function fetchTimeAndDistance(userLocations, listingLocations) {
     return __awaiter(this, void 0, void 0, function* () {
         const userLocationsToString = userLocations

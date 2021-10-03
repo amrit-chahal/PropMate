@@ -156,7 +156,7 @@ const FormInput = ({ title, location, addUserLocation, updateUserLocation, isLis
     const [isLoading, setIsLoading] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
     const [formHeading, setFormHeading] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('Add new place');
     const [formMode, setFormMode] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('Add');
-    const [sucessMessage, setSucessMessage] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('Sucess: New place added');
+    const [sucessMessage, setSucessMessage] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('Success: New place added');
     const [isSubmitted, setIsSubmitted] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
     const isMountedRef = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)(true);
     (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
@@ -193,17 +193,11 @@ const FormInput = ({ title, location, addUserLocation, updateUserLocation, isLis
                 updateUserLocation(formState.title.value, formState.location.value);
             }
         }
-        return () => {
-            isMountedRef.current = false;
-        };
     }, [isSubmitted]);
     const handleFormSubmit = (event) => __awaiter(void 0, void 0, void 0, function* () {
         event.preventDefault();
-        console.log('Before submit ');
-        console.log(formState);
         let isFormValid = true;
         setIsLoading(true);
-        console.log('isloading ' + isLoading);
         let name;
         for (name in formState) {
             const item = formState[name];
@@ -516,17 +510,20 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _material_ui_core__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @material-ui/core */ "./node_modules/@material-ui/core/esm/Toolbar/Toolbar.js");
 /* harmony import */ var _material_ui_core__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @material-ui/core */ "./node_modules/@material-ui/core/esm/Grid/Grid.js");
 /* harmony import */ var _material_ui_core__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @material-ui/core */ "./node_modules/@material-ui/core/esm/Icon/Icon.js");
-/* harmony import */ var _material_ui_core__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! @material-ui/core */ "./node_modules/@material-ui/core/esm/Typography/Typography.js");
-/* harmony import */ var _material_ui_core__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! @material-ui/core */ "./node_modules/@material-ui/core/esm/FormGroup/FormGroup.js");
-/* harmony import */ var _material_ui_core__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! @material-ui/core */ "./node_modules/@material-ui/core/esm/FormControlLabel/FormControlLabel.js");
-/* harmony import */ var _material_ui_core__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! @material-ui/core */ "./node_modules/@material-ui/core/esm/Switch/Switch.js");
-/* harmony import */ var _material_ui_core__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! @material-ui/core */ "./node_modules/@material-ui/core/esm/Card/Card.js");
-/* harmony import */ var _material_ui_core__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! @material-ui/core */ "./node_modules/@material-ui/core/esm/CardContent/CardContent.js");
-/* harmony import */ var _material_ui_core__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! @material-ui/core */ "./node_modules/@material-ui/core/esm/Box/Box.js");
-/* harmony import */ var _material_ui_core__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! @material-ui/core */ "./node_modules/@material-ui/core/esm/BottomNavigation/BottomNavigation.js");
-/* harmony import */ var _material_ui_core__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! @material-ui/core */ "./node_modules/@material-ui/core/esm/BottomNavigationAction/BottomNavigationAction.js");
-/* harmony import */ var _material_ui_icons__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! @material-ui/icons */ "./node_modules/@material-ui/icons/esm/LocationOn.js");
-/* harmony import */ var _material_ui_icons__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! @material-ui/icons */ "./node_modules/@material-ui/icons/esm/AddCircle.js");
+/* harmony import */ var _material_ui_core__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! @material-ui/core */ "./node_modules/@material-ui/core/esm/Tooltip/Tooltip.js");
+/* harmony import */ var _material_ui_core__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! @material-ui/core */ "./node_modules/@material-ui/core/esm/IconButton/IconButton.js");
+/* harmony import */ var _material_ui_core__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! @material-ui/core */ "./node_modules/@material-ui/core/esm/Typography/Typography.js");
+/* harmony import */ var _material_ui_core__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! @material-ui/core */ "./node_modules/@material-ui/core/esm/FormGroup/FormGroup.js");
+/* harmony import */ var _material_ui_core__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! @material-ui/core */ "./node_modules/@material-ui/core/esm/FormControlLabel/FormControlLabel.js");
+/* harmony import */ var _material_ui_core__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! @material-ui/core */ "./node_modules/@material-ui/core/esm/Switch/Switch.js");
+/* harmony import */ var _material_ui_core__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! @material-ui/core */ "./node_modules/@material-ui/core/esm/Card/Card.js");
+/* harmony import */ var _material_ui_core__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! @material-ui/core */ "./node_modules/@material-ui/core/esm/CardContent/CardContent.js");
+/* harmony import */ var _material_ui_core__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! @material-ui/core */ "./node_modules/@material-ui/core/esm/Box/Box.js");
+/* harmony import */ var _material_ui_core__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! @material-ui/core */ "./node_modules/@material-ui/core/esm/BottomNavigation/BottomNavigation.js");
+/* harmony import */ var _material_ui_core__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! @material-ui/core */ "./node_modules/@material-ui/core/esm/BottomNavigationAction/BottomNavigationAction.js");
+/* harmony import */ var _material_ui_icons__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! @material-ui/icons */ "./node_modules/@material-ui/icons/esm/ContactSupport.js");
+/* harmony import */ var _material_ui_icons__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! @material-ui/icons */ "./node_modules/@material-ui/icons/esm/LocationOn.js");
+/* harmony import */ var _material_ui_icons__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! @material-ui/icons */ "./node_modules/@material-ui/icons/esm/AddCircle.js");
 /* harmony import */ var _utils_storage__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../utils/storage */ "./src/utils/storage.ts");
 /* harmony import */ var _FormInput_formInput__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./FormInput/formInput */ "./src/popup/FormInput/formInput.tsx");
 
@@ -628,6 +625,12 @@ const App = () => {
             }
         });
     };
+    const handleHelpButtonClick = () => {
+        chrome.tabs.create({
+            active: true,
+            url: 'https://www.f12.website/contact'
+        });
+    };
     const handleBottomNavigationChange = (event, newValue) => {
         dispatch({
             type: ACTIONS.SWITCHTABS,
@@ -659,33 +662,38 @@ const App = () => {
         react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_6__.default, { position: 'static', color: popupState.extensionEnabled ? 'primary' : 'transparent' },
             react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_7__.default, null,
                 react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_8__.default, { container: true, direction: 'row', justifyContent: 'space-between', alignItems: 'center' },
-                    react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_8__.default, { item: true, xs: 3 },
+                    react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_8__.default, { item: true, xs: 1 },
                         react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_9__.default, null,
-                            react__WEBPACK_IMPORTED_MODULE_0__.createElement("img", { height: '32px', className: 'proMate-icon', src: 'icon.svg' }))),
+                            react__WEBPACK_IMPORTED_MODULE_0__.createElement("img", { height: '24px', className: 'proMate-icon', src: 'icon.png' }))),
+                    react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_8__.default, { item: true, xs: 1 },
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_10__.default, { title: 'Help and feedback' },
+                            react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_11__.default, { color: 'inherit', onClick: handleHelpButtonClick },
+                                react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_icons__WEBPACK_IMPORTED_MODULE_12__.default, null)))),
+                    react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_8__.default, { item: true, xs: 1 }),
                     react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_8__.default, { item: true, xs: 6 },
-                        react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_10__.default, { align: 'center', variant: 'h6', noWrap: true },
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_13__.default, { align: 'center', variant: 'body1', noWrap: true },
                             "Propmate",
                             react__WEBPACK_IMPORTED_MODULE_0__.createElement("sup", null, "beta"))),
                     react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_8__.default, { item: true, xs: 3 },
-                        react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_11__.default, null,
-                            react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_12__.default, { style: { margin: 0 }, control: react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_13__.default, { size: 'small', checked: popupState.extensionEnabled, "aria-label": 'turn on or off', onChange: handleExtensionEnabledChange }), label: popupState.extensionEnabled ? 'On' : 'Off' })))))),
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_14__.default, null,
+                            react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_15__.default, { style: { margin: 0 }, control: react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_16__.default, { size: 'small', checked: popupState.extensionEnabled, "aria-label": 'turn on or off', onChange: handleExtensionEnabledChange }), label: popupState.extensionEnabled ? 'On' : 'Off' })))))),
         react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { className: 'propMate-inner' },
             popupState.bottomNavigation === 'editPlace' && (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_FormInput_formInput__WEBPACK_IMPORTED_MODULE_5__.FormInput, { title: editTitle, location: editLocation, updateUserLocation: updateUserLocation })),
             popupState.bottomNavigation === 'addNewPlace' && (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_FormInput_formInput__WEBPACK_IMPORTED_MODULE_5__.FormInput, { addUserLocation: addUserLocation, isListFull: isListFull })),
             popupState.bottomNavigation === 'myPlaces' && (react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { className: 'propMate-location-cards' },
                 userLocations.length > 0 &&
                     userLocations.map((location, index) => (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_LocationCard__WEBPACK_IMPORTED_MODULE_3__.default, { userLocation: location.userLocation, locationTitle: location.locationTitle, key: index, onDelete: () => handleLocationDeleteBtnClick(index), onEdit: () => handleLocationEditBtnClick(index) }))),
-                userLocations.length <= 0 && (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_14__.default, { style: { margin: '70px 40px' } },
-                    react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_15__.default, { style: { textAlign: 'center' } },
-                        react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_10__.default, { variant: 'body2' }, "Looks like its empty here! Click 'Add new place' to add a new address.")))))),
+                userLocations.length <= 0 && (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_17__.default, { style: { margin: '70px 40px' } },
+                    react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_18__.default, { style: { textAlign: 'center' } },
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_13__.default, { variant: 'body2' }, "Looks like its empty here! Click 'Add new place' to add a new address.")))))),
             popupState.bottomNavigation === 'extensionDisabled' && (react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", null,
-                react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_14__.default, { style: { margin: '70px 40px' } },
-                    react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_15__.default, { style: { textAlign: 'center' } },
-                        react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_10__.default, { variant: 'body2', style: { color: 'grey' } }, "Propmate is currently turned off, Please click the enable button on top right corner in order to turn it on.")))))),
-        react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_16__.default, { width: '100%', position: 'fixed', bottom: '0', borderTop: '1px solid rgba(0, 0, 0, 0.1)' },
-            react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_17__.default, { showLabels: true, value: popupState.bottomNavigation, onChange: handleBottomNavigationChange },
-                react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_18__.default, { label: 'My places', value: 'myPlaces', disabled: !popupState.extensionEnabled, icon: react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_icons__WEBPACK_IMPORTED_MODULE_19__.default, null), style: { borderRight: '1px solid rgba(0, 0, 0, 0.1)' } }),
-                react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_18__.default, { disabled: !popupState.extensionEnabled, label: 'Add new place', value: 'addNewPlace', icon: react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_icons__WEBPACK_IMPORTED_MODULE_20__.default, null) })))));
+                react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_17__.default, { style: { margin: '70px 40px' } },
+                    react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_18__.default, { style: { textAlign: 'center' } },
+                        react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_13__.default, { variant: 'body2', style: { color: 'grey' } }, "Propmate is currently turned off, Please click the enable button on top right corner in order to turn it on.")))))),
+        react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_19__.default, { width: '100%', position: 'fixed', bottom: '0', borderTop: '1px solid rgba(0, 0, 0, 0.1)' },
+            react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_20__.default, { showLabels: true, value: popupState.bottomNavigation, onChange: handleBottomNavigationChange },
+                react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_21__.default, { label: 'My places', value: 'myPlaces', disabled: !popupState.extensionEnabled, icon: react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_icons__WEBPACK_IMPORTED_MODULE_22__.default, null), style: { borderRight: '1px solid rgba(0, 0, 0, 0.1)' } }),
+                react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_core__WEBPACK_IMPORTED_MODULE_21__.default, { disabled: !popupState.extensionEnabled, label: 'Add new place', value: 'addNewPlace', icon: react__WEBPACK_IMPORTED_MODULE_0__.createElement(_material_ui_icons__WEBPACK_IMPORTED_MODULE_23__.default, null) })))));
 };
 const root = document.createElement('div');
 document.body.appendChild(root);
@@ -714,7 +722,7 @@ var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _argume
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-const MAPS_API_KEY = "AIzaSyAdOskc_QLpLZ9xrV-mv1Er3Da1jDtFuqiI";
+const MAPS_API_KEY = "AIzaSyAdOskc_QLpLZ9xrV-mv1Er3Da1jDtFuqI";
 function fetchTimeAndDistance(userLocations, listingLocations) {
     return __awaiter(this, void 0, void 0, function* () {
         const userLocationsToString = userLocations
@@ -902,6 +910,18 @@ function getIsExtensionEnabledInStorage() {
 /******/ 		};
 /******/ 	})();
 /******/ 	
+/******/ 	/* webpack/runtime/global */
+/******/ 	(() => {
+/******/ 		__webpack_require__.g = (function() {
+/******/ 			if (typeof globalThis === 'object') return globalThis;
+/******/ 			try {
+/******/ 				return this || new Function('return this')();
+/******/ 			} catch (e) {
+/******/ 				if (typeof window === 'object') return window;
+/******/ 			}
+/******/ 		})();
+/******/ 	})();
+/******/ 	
 /******/ 	/* webpack/runtime/hasOwnProperty shorthand */
 /******/ 	(() => {
 /******/ 		__webpack_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
@@ -974,7 +994,7 @@ function getIsExtensionEnabledInStorage() {
 /******/ 	// startup
 /******/ 	// Load entry module and return exports
 /******/ 	// This entry module depends on other loaded chunks and execution need to be delayed
-/******/ 	var __webpack_exports__ = __webpack_require__.O(undefined, ["vendors-node_modules_prop-types_index_js-node_modules_react-dom_index_js","vendors-node_modules_material-ui_core_esm_AppBar_AppBar_js-node_modules_material-ui_core_esm_-d8aa20"], () => (__webpack_require__("./src/popup/popup.tsx")))
+/******/ 	var __webpack_exports__ = __webpack_require__.O(undefined, ["vendors-node_modules_prop-types_index_js-node_modules_react-dom_index_js","vendors-node_modules_material-ui_core_esm_AppBar_AppBar_js-node_modules_material-ui_core_esm_-e3c203"], () => (__webpack_require__("./src/popup/popup.tsx")))
 /******/ 	__webpack_exports__ = __webpack_require__.O(__webpack_exports__);
 /******/ 	
 /******/ })()

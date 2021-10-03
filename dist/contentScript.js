@@ -43065,7 +43065,6 @@ const App = ({ listingLocations }) => {
                         listingLocations: listingLocations
                     }, (response) => {
                         if (response) {
-                            console.log(response);
                             setTimeAndDistanceInfoArray((prevTimeAndDistanceInfoArray) => [
                                 ...prevTimeAndDistanceInfoArray,
                                 ...TimeAndDistanceInfoArrayFromResponse(userLocations, response)
