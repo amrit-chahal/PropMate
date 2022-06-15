@@ -28,6 +28,7 @@ const App: React.FC<{ listingLocations: (string | null)[] }> = ({
             },
             (response) => {
               if (response) {
+                console.log(response);
                 setTimeAndDistanceInfoArray((prevTimeAndDistanceInfoArray) => [
                   ...prevTimeAndDistanceInfoArray,
                   ...TimeAndDistanceInfoArrayFromResponse(
@@ -36,9 +37,7 @@ const App: React.FC<{ listingLocations: (string | null)[] }> = ({
                   )
                 ]);
               } else {
-                setTimeAndDistanceInfoArray([
-                  'Error: Cannot retrieve info, Pleae try again'
-                ]);
+                setTimeAndDistanceInfoArray(['Error: Unable to retrieve info']);
               }
             }
           );
@@ -72,7 +71,7 @@ const App: React.FC<{ listingLocations: (string | null)[] }> = ({
     <div>
       <Box display='flex' mb='5px' flexWrap='wrap'>
         {timeAndDistanceInfoArray.map((item, index) => (
-          <InformationChip  timeAndDistanceInformaton={item} key={index} />
+          <InformationChip timeAndDistanceInformaton={item} key={index} />
         ))}
       </Box>
     </div>

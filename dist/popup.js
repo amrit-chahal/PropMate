@@ -628,7 +628,7 @@ const App = () => {
     const handleHelpButtonClick = () => {
         chrome.tabs.create({
             active: true,
-            url: 'https://www.f12.website/contact'
+            url: 'mailto:xdev.f12@gmail.com'
         });
     };
     const handleBottomNavigationChange = (event, newValue) => {

@@ -139,9 +139,10 @@ chrome.runtime.onMessage.addListener((message, sender, response) => {
     if (message.userLocations && message.listingLocations) {
         (0,_utils_api__WEBPACK_IMPORTED_MODULE_0__.fetchTimeAndDistance)(message.userLocations, message.listingLocations)
             .then((data) => {
+            console.log(data);
             response(data);
         })
-            .catch((err) => response());
+            .catch((err) => console.log(err));
     }
     return true;
 });

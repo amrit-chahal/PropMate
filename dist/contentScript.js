@@ -43065,15 +43065,14 @@ const App = ({ listingLocations }) => {
                         listingLocations: listingLocations
                     }, (response) => {
                         if (response) {
+                            console.log(response);
                             setTimeAndDistanceInfoArray((prevTimeAndDistanceInfoArray) => [
                                 ...prevTimeAndDistanceInfoArray,
                                 ...TimeAndDistanceInfoArrayFromResponse(userLocations, response)
                             ]);
                         }
                         else {
-                            setTimeAndDistanceInfoArray([
-                                'Error: Cannot retrieve info, Pleae try again'
-                            ]);
+                            setTimeAndDistanceInfoArray(['Error: Unable to retrieve info']);
                         }
                     });
                 });
