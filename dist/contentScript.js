@@ -43099,9 +43099,9 @@ let isExtensionEnabled = true;
 (0,_utils_storage__WEBPACK_IMPORTED_MODULE_3__.getIsExtensionEnabledInStorage)().then((res) => {
     isExtensionEnabled = res;
 });
-if (document.readyState !== 'complete') {
+if (isExtensionEnabled && document.readyState !== 'complete') {
     document.addEventListener('readystatechange', function (event) {
-        if (this.readyState === 'complete' && isExtensionEnabled) {
+        if (this.readyState === 'complete') {
             const observer = new MutationObserver(() => {
                 const listingContainers = Array.from(document.getElementsByClassName('tm-property-premium-listing-card__details-container'));
                 if (listingContainers && listingContainers.length > 0) {
@@ -43113,8 +43113,9 @@ if (document.readyState !== 'complete') {
                 const isRentalUrl = /.*residential\/rent\/(?!.*listing).*/.test(url);
                 const isSaleUrl = /.*residential\/sale\/(?!.*listing).*/.test(url);
                 const isListingUrl = /.*(rent|sale).*listing.*/.test(url);
+                const isWatchlistUrl = /.*watchlist/.test(url);
                 let propertyAddresses = null;
-                if (isRentalUrl) {
+                if (isRentalUrl || isWatchlistUrl) {
                     propertyAddresses = document.querySelectorAll('tm-property-search-card-listing-title');
                 }
                 else if (isSaleUrl) {
