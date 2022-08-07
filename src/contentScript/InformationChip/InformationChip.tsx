@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Box, Chip } from '@material-ui/core';
 
 import { LocationOn } from '@material-ui/icons';
-export const InformationChip: React.FC<{ timeAndDistanceInformaton: string }> =
+const InformationChip: React.FC<{ timeAndDistanceInformaton: string }> =
   ({ timeAndDistanceInformaton }) => {
     const error = /Error/.test(timeAndDistanceInformaton)
 
@@ -18,3 +18,4 @@ export const InformationChip: React.FC<{ timeAndDistanceInformaton: string }> =
       </Box>
     );
   };
+  export default InformationChip
