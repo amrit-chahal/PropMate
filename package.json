@@ -1,12 +1,14 @@
 {
   "name": "propmate",
-  "version": "0.9.4",
+  "version": "0.0.0-development",
   "description": "Enhance your property browsing experience on trademe with propmate",
   "main": "index.js",
   "scripts": {
     "start": "webpack --progress --config webpack.dev.js",
     "build": "webpack --watch --progress --config webpack.prod.js, npm version patch",
-    "commit":"git-cz"
+    "commit": "git-cz",
+    "deploy": "node deploy.js",
+    "semantic-release": "semantic-release"
   },
   "repository": {
     "type": "git",
@@ -19,7 +21,7 @@
     "extension"
   ],
   "author": "ap@F12",
-  "license": "UNLICENSED",
+  "license": "MIT",
   "dependencies": {
     "dotenv-webpack": "^7.1.1"
   },
@@ -61,5 +63,9 @@
     "commitizen": {
       "path": "./node_modules/cz-conventional-changelog"
     }
+  },
+  "overrides": {
+    "minimist": "1.2.6",
+   
   }
 }
