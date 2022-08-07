@@ -85,7 +85,7 @@ const formReducer = (state: FormState, action: any) => {
   }
 };
 
-export const FormInput: React.FC<{
+const FormInput: React.FC<{
   title?: string;
   location?: string;
   addUserLocation?: (title: string, location: string) => void;
@@ -136,7 +136,6 @@ export const FormInput: React.FC<{
         updateUserLocation(formState.title.value, formState.location.value);
       }
     }
-   
   }, [isSubmitted]);
 
   const handleFormSubmit = async (event: any) => {
@@ -341,3 +340,4 @@ export const FormInput: React.FC<{
     </Box>
   );
 };
+export default FormInput;

@@ -1,0 +1,27 @@
+name: CI
+
+
+on:
+  push:
+    branches: [ beta ]
+  pull_request:
+    branches: [ main ]
+
+
+jobs:
+  
+  build:
+    
+    runs-on: windows-latest
+
+   
+
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+
+      
+      - name: Compile Extension
+        run: |
+          npm install
+          npm run build

@@ -16,7 +16,7 @@ import {
 
 import { Delete, Edit, LocationOn } from '@material-ui/icons';
 
-export const LocationCard: React.FC<{
+const LocationCard: React.FC<{
   userLocation: string;
   locationTitle: string;
   onEdit: () => void;
@@ -94,3 +94,4 @@ export const LocationCard: React.FC<{
     </Box>
   );
 };
+export default LocationCard;

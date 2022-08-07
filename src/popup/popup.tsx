@@ -31,7 +31,7 @@ import {
   setIsExtensionEnabledInStorage,
   getIsExtensionEnabledInStorage
 } from '../utils/storage';
-import { FormInput } from './FormInput/formInput';
+import  FormInput  from './FormInput/formInput';
 interface PopupState {
   extensionEnabled: boolean;
   bottomNavigation: string;
