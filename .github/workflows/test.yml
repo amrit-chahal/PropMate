@@ -13,6 +13,6 @@ jobs:
       
         
       - name: Open Web Client Directory
-        working-directory: src
+        working-directory: src/contentScript
         run: |
           ls -la
