@@ -33,8 +33,9 @@ module.exports = {
       cleanStaleWebpackAssets: false
     }),
     new Dotenv({
-      path: path.resolve('src', '.env') | './.env'
+      path: './.env'
     }),
+
     new CopyPlugin({
       patterns: [
         {
