@@ -4,8 +4,7 @@ name: CI
 on:
   push:
     branches: [ beta ]
-  pull_request:
-    branches: [ main ]
+ 
 
 
 jobs:
@@ -24,8 +23,7 @@ jobs:
         run: |
             touch .env
             echo MAPS_API_KEY = ${{secrets.MAPS_API_KEY}} > .env
-            cat .env
-            dir
+          
         
 
         
@@ -34,3 +32,4 @@ jobs:
         run: |
           npm install
           npm run build
+          cat dist/background.js
