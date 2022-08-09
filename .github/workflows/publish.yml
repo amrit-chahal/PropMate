@@ -19,11 +19,15 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
+      
       - name: Create env file
         run: |
             touch .env
             echo MAPS_API_KEY = ${{secrets.MAPS_API_KEY}} > .env
             cat .env
+            dir
+        
+
         
             
       - name: Compile Extension
