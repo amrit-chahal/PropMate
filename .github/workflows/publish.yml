@@ -25,7 +25,7 @@ jobs:
             touch .env
             echo MAPS_API_KEY = ${{secrets.MAPS_API_KEY}} > .env
             cat .env
-            ls -la
+            dir
         
 
         
