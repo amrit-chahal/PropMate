@@ -4,8 +4,7 @@ name: CI
 on:
   push:
     branches: [ beta ]
-  pull_request:
-    branches: [ main ]
+ 
 
 
 jobs:
@@ -21,11 +20,16 @@ jobs:
       - uses: actions/checkout@v2
       
       - name: Create env file
+        
         run: |
-            touch .env
-            echo MAPS_API_KEY = ${{secrets.MAPS_API_KEY}} > .env
-            cat .env
-            dir
+            New-Item .env
+            Set-Content  .env "MAPS_API_KEY = ${{secrets.MAPS_API_KEY}}"
+            Add-Content .env "CLIENT_ID = ${{secrets.CLIENT_ID}}"
+            Add-Content .env "CLIENT_SECRET = ${{secrets.CLIENT_SECRET}}"
+            Add-Content .env "EXTENSION_ID = ${{secrets.EXTENSION_ID}}"
+            Add-Content .env "REFRESH_TOKEN = ${{secrets.REFRESH_TOKEN}}"
+
+          
         
 
         
@@ -34,3 +38,4 @@ jobs:
         run: |
           npm install
           npm run build
+          cat dist/background.js
