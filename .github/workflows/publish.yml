@@ -1,9 +1,12 @@
-name: CI
+name: Build and Deploy Extension
 
 
 on:
   push:
-    branches: [ beta ]
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+    
  
 
 
@@ -16,7 +19,7 @@ jobs:
    
 
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      
       - uses: actions/checkout@v2
       
       - name: Create env file
@@ -38,5 +41,8 @@ jobs:
         run: |
           npm install
           npm run build
+          
+      - name: Deploy Extension
+        run: |
           npm run deploy
-          cat dist/background.js
+         
