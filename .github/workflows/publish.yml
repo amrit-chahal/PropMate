@@ -1,9 +1,15 @@
-name: CI
+name: Build and Deploy Extension
 
 
 on:
   push:
-    branches: [ beta ]
+
+    branches: [ release/** ]
+  
+    
+
+    
+
  
 
 
@@ -16,15 +22,20 @@ jobs:
    
 
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      
       - uses: actions/checkout@v2
       
       - name: Create env file
+        
         run: |
-            touch .env
-            echo MAPS_API_KEY = ${{secrets.MAPS_API_KEY}} > .env
-            cat .env
-            dir
+            New-Item .env
+            Set-Content  .env "MAPS_API_KEY = ${{secrets.MAPS_API_KEY}}"
+            Add-Content .env "CLIENT_ID = ${{secrets.CLIENT_ID}}"
+            Add-Content .env "CLIENT_SECRET = ${{secrets.CLIENT_SECRET}}"
+            Add-Content .env "EXTENSION_ID = ${{secrets.EXTENSION_ID}}"
+            Add-Content .env "REFRESH_TOKEN = ${{secrets.REFRESH_TOKEN}}"
+
+          
         
 
         
@@ -33,3 +44,8 @@ jobs:
         run: |
           npm install
           npm run build
+          
+      - name: Deploy Extension
+        run: |
+          npm run deploy
+         

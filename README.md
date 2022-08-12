@@ -54,3 +54,7 @@ Propmate is a chrome extension that adds time and distance information to proper
 - error logging
 - setup CI/CD
 - unit testing
+
+## Attributes:
+- [Propmate store Icon](https://www.flaticon.com/)
+- [Automating Chrome webstore deployment](https://blog.ganeshjaiwal.dev/automate-chrome-extension-publish-using-an-automated-script#lets-change-our-extension-folder-structure)
