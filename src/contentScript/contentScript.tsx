@@ -82,6 +82,7 @@ const App: React.FC<{ listingLocations: (string | null)[] }> = ({
 let isExtensionEnabled = true;
 getIsExtensionEnabledInStorage().then((res) => {
   isExtensionEnabled = res;
+  console.log('extension enabled');
 });
 
 if (isExtensionEnabled && document.readyState !== 'complete') {
@@ -98,18 +99,32 @@ if (isExtensionEnabled && document.readyState !== 'complete') {
             element.style.height = 'fit-content';
           });
         }
-        let url = window.location.toString();
-        const isRentalUrl = /.*residential\/rent\/(?!.*listing).*/.test(url);
-        const isSaleUrl = /.*residential\/sale\/(?!.*listing).*/.test(url);
-        const isListingUrl = /.*(rent|sale).*listing.*/.test(url);
+        let url: string = window.location.toString();
+        console.log(url);
+        // const isRentalUrl = /.*trademe.co.nz.*\/residential\/rent\/.*/.test(
+        //   url
+        // );
+        const isTmRentalSearchUrl =
+          /.*trademe.co.nz.*\/residential\/rent.*search.*/.test(url);
+        const isTmSaleSearchUrl =
+          /.*trademe.co.nz.*\/residential\/sale.*search.*/.test(url);
+        const isListingUrl = /.*\/(rent|sale)\/.*listing.*/.test(url);
         const isWatchlistUrl = /.*watchlist/.test(url);
+        const isMyRentUrl = /.*myrent.co.nz.*/.test(url);
+        const isOneRoofUrl = /.*oneroof.co.nz\/[^search].*/.test(url);
+        const isRealestateListingUrl = /.*realestate.co.nz\/\d{3,9}\/.*/.test(
+          url
+        );
+        const isRealestateUrl = /.*realestate.co.nz\/residential.*/.test(url);
+
         let propertyAddresses = null;
 
-        if (isRentalUrl || isWatchlistUrl) {
+        if (isWatchlistUrl || isTmRentalSearchUrl) {
           propertyAddresses = document.querySelectorAll(
             'tm-property-search-card-listing-title'
           );
-        } else if (isSaleUrl) {
+          console.log('watchlist or tmsearchurl');
+        } else if (isTmSaleSearchUrl) {
           propertyAddresses = document.querySelectorAll(
             'tm-property-search-card-address-subtitle'
           );
@@ -117,6 +132,27 @@ if (isExtensionEnabled && document.readyState !== 'complete') {
           propertyAddresses = document.querySelectorAll(
             '.tm-property-listing-body__location'
           );
+          console.log('tm listing url');
+        } else if (isMyRentUrl) {
+          propertyAddresses = document.querySelectorAll(
+            'div.listing__header-title'
+          );
+          console.log('my rent url');
+        } else if (isOneRoofUrl) {
+          propertyAddresses = document.querySelectorAll(
+            'div.house-info > div.address'
+          );
+          console.log('oneroof url');
+        } else if (isRealestateListingUrl) {
+          propertyAddresses = document.querySelectorAll(
+            "[data-test='listing-title']"
+          );
+          console.log('real estate listing');
+        } else if (isRealestateUrl) {
+          propertyAddresses = document.querySelectorAll(
+            "[data-test='tile__search-result__content__description'] > h3"
+          );
+          console.log(' real estate search url');
         }
 
         if (propertyAddresses && propertyAddresses.length > 0) {
@@ -127,6 +163,8 @@ if (isExtensionEnabled && document.readyState !== 'complete') {
               const listingLocations = [element.textContent];
               const root = document.createElement('div');
               element.appendChild(root);
+              console.log('hello from content script');
+              console.log(element.textContent);
               ReactDOM.render(
                 <App listingLocations={listingLocations} />,
                 root
