@@ -1,3 +1,6 @@
+/**
+ * invidual chip component
+ */
 import React, { useEffect, useState } from 'react';
 import { Box, Chip } from '@material-ui/core';
 

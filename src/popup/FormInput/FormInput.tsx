@@ -1,3 +1,6 @@
+/**
+ * from input modal for user to input title and location and does validation before writing to browse storage
+ */
 import {
   Box,
   Paper,

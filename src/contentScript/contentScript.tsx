@@ -1,87 +1,19 @@
-import React, { useEffect, useRef, useState } from 'react';
+/**
+ * waits for page load to complete and then adds mutation observers to watch for relevant elements
+ * or attributes to get addresses, then sends the addresses to background script
+ *  and recieves time and distance information and display below the listing/s
+ */
+import React from 'react';
 import ReactDOM from 'react-dom';
-import { Box } from '@material-ui/core';
 
 import './contentScript.css';
-import {
-  getIsExtensionEnabledInStorage,
-  getUserLocationsInStorage,
-  UserLocationItems
-} from '../utils/storage';
+import { getIsExtensionEnabledInStorage } from '../utils/storage';
 
-import { MapsData } from '../utils/api';
-import InformationChip from './InformationChip';
 import {
   changeElementStyleToFitContent,
   propertyAddressIdentifierFromUrl
 } from '../utils/contentScriptHelper';
-
-const App: React.FC<{ listingLocations: (string | null)[] }> = ({
-  listingLocations
-}) => {
-  const [timeAndDistanceInfoArray, setTimeAndDistanceInfoArray] = useState<
-    string[]
-  >([]);
-  useEffect(() => {
-    getIsExtensionEnabledInStorage().then((isExtensionEnabled) => {
-      if (isExtensionEnabled) {
-        getUserLocationsInStorage().then((userLocations) => {
-          chrome.runtime.sendMessage(
-            {
-              userLocations: userLocations,
-              listingLocations: listingLocations
-            },
-            (response) => {
-              if (response) {
-                console.log(response);
-                setTimeAndDistanceInfoArray((prevTimeAndDistanceInfoArray) => [
-                  ...prevTimeAndDistanceInfoArray,
-                  ...TimeAndDistanceInfoArrayFromResponse(
-                    userLocations,
-                    response
-                  )
-                ]);
-              } else {
-                setTimeAndDistanceInfoArray(['Error: Unable to retrieve info']);
-              }
-            }
-          );
-        });
-      }
-    });
-  }, []);
-
-  const TimeAndDistanceInfoArrayFromResponse = (
-    userLocations: UserLocationItems,
-    data: MapsData
-  ): string[] => {
-    const infoArray: string[] = [];
-    for (var i = 0; i < data.rows.length; i++) {
-      if (data.rows[i].elements[0].status === 'OK') {
-        for (var j = 0; j < data.rows[i].elements.length; j++) {
-          infoArray.push(
-            `${userLocations[i].locationTitle}: ${data.rows[i].elements[j].distance.text}, ${data.rows[i].elements[j].duration.text}`
-          );
-        }
-      } else
-        infoArray.push(
-          `Error: Address not found for ${userLocations[i].locationTitle} `
-        );
-    }
-
-    return infoArray;
-  };
-
-  return (
-    <div>
-      <Box display='flex' mb='5px' flexWrap='wrap'>
-        {timeAndDistanceInfoArray.map((item, index) => (
-          <InformationChip timeAndDistanceInformaton={item} key={index} />
-        ))}
-      </Box>
-    </div>
-  );
-};
+import InformationChipsArray from './InformationChipsArray';
 
 let isExtensionEnabled = true;
 getIsExtensionEnabledInStorage().then((res) => {
@@ -133,7 +65,10 @@ function getAddressesFromPageAndInsertTimeAndDistanceInformation() {
         element.appendChild(root);
         console.log('hello from content script');
         console.log(element.textContent);
-        ReactDOM.render(<App listingLocations={listingLocations} />, root);
+        ReactDOM.render(
+          <InformationChipsArray listingLocations={listingLocations} />,
+          root
+        );
         setTimeout(() => {
           observeMutationsAndAddInformation();
         }, 3000);

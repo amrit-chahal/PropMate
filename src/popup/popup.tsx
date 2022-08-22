@@ -1,3 +1,6 @@
+/**
+ * compiles to popup.html. This is the extension pop up which provide user the interface to add, update, delete their custom addresses
+ */
 import React, { useEffect, useState, useReducer } from 'react';
 import ReactDOM from 'react-dom';
 import './popup.css';

@@ -1,3 +1,6 @@
+/**
+ * copies version from package.json to both chrome and firefox manifest.json
+ */
 const fs = require('fs-extra');
 
 const { version } = JSON.parse(fs.readFileSync('./package.json'));

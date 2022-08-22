@@ -1,3 +1,6 @@
+/**
+ * listens to messages from content script that includes userdefined address and address from webpage and returns time and distance information back to content script via message
+ */
 import { fetchTimeAndDistance } from '../utils/api';
 
 chrome.runtime.onMessage.addListener((message, sender, response) => {
@@ -12,4 +15,3 @@ chrome.runtime.onMessage.addListener((message, sender, response) => {
 
   return true;
 });
-

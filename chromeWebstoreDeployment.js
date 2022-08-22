@@ -1,3 +1,6 @@
+/**
+ * deploy script to automate chrome webstore deployment
+ */
 require('dotenv').config();
 const fs = require('fs-extra');
 const zipper = require('zip-local');

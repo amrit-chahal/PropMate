@@ -1,3 +1,6 @@
+/**
+ * materi ui card that display individual user store location tile and address
+ */
 import React, { useEffect, useState } from 'react';
 
 import {
