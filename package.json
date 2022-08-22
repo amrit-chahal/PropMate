@@ -1,6 +1,6 @@
 {
   "name": "propmate",
-  "version": "0.10.1",
+  "version": "0.10.2",
   "description": "Enhance your property browsing experience on trademe with propmate",
   "main": "index.js",
   "scripts": {
