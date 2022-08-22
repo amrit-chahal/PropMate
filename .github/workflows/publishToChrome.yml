@@ -4,11 +4,8 @@ name: Build and Deploy Extension
 on:
   push:
 
-    branches: [ release/** ]
-  
-    
-
-    
+    tags:
+      - v.*  
 
  
 
@@ -43,6 +40,7 @@ jobs:
       - name: Compile Extension
         run: |
           npm install
+          npm run syncVersion
           npm run build
           
       - name: Deploy Extension
