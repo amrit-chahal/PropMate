@@ -3,25 +3,14 @@ name: Build and Deploy Extension
 
 on:
   push:
-
     tags:
       - 'v[0-9]+.[0-9]+.[0-9]+' 
-
- 
-
-
-jobs:
-  
-  build:
-    
+      
+jobs:  
+  build:    
     runs-on: windows-latest
-
-   
-
-    steps:
-      
-      - uses: actions/checkout@v2
-      
+    steps:      
+      - uses: actions/checkout@v2      
       - name: Create env file
         
         run: |
@@ -30,9 +19,7 @@ jobs:
             Add-Content .env "CLIENT_ID = ${{secrets.CLIENT_ID}}"
             Add-Content .env "CLIENT_SECRET = ${{secrets.CLIENT_SECRET}}"
             Add-Content .env "EXTENSION_ID = ${{secrets.EXTENSION_ID}}"
-            Add-Content .env "REFRESH_TOKEN = ${{secrets.REFRESH_TOKEN}}"
-
-          
+            Add-Content .env "REFRESH_TOKEN = ${{secrets.REFRESH_TOKEN}}"    
         
 
         
