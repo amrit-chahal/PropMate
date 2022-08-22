@@ -11,6 +11,10 @@ import {
 
 import { MapsData } from '../utils/api';
 import InformationChip from './InformationChip';
+import {
+  changeElementStyleToFitContent,
+  propertyAddressIdentifierFromUrl
+} from '../utils/contentScriptHelper';
 
 const App: React.FC<{ listingLocations: (string | null)[] }> = ({
   listingLocations
@@ -84,107 +88,64 @@ getIsExtensionEnabledInStorage().then((res) => {
   isExtensionEnabled = res;
   console.log('extension enabled');
 });
+const observerConfig = {
+  childList: true,
+  subtree: true,
+  characterData: true,
+  attributes: true
+};
+const mutationObserver = new MutationObserver(
+  getAddressesFromPageAndInsertTimeAndDistanceInformation
+);
+function observeMutationsAndAddInformation() {
+  mutationObserver.observe(document, observerConfig);
+}
+function getAddressesFromPageAndInsertTimeAndDistanceInformation() {
+  const url: string = window.location.href;
+  const propertyAddressIdentifierObject = propertyAddressIdentifierFromUrl(url);
+
+  const propertyAddressIdentifier =
+    propertyAddressIdentifierObject?.propertyAddressIdentifier as keyof HTMLElementTagNameMap;
+  if (
+    propertyAddressIdentifierObject?.name === 'TmSaleUrl' ||
+    propertyAddressIdentifierObject?.name === 'TmRentalUrl'
+  ) {
+    const listingContainers = Array.from(
+      document.getElementsByClassName(
+        'tm-property-premium-listing-card__details-container'
+      ) as HTMLCollectionOf<HTMLElement>
+    );
+    changeElementStyleToFitContent(listingContainers);
+  }
+
+  const propertyAddresses: NodeListOf<Element> = document.querySelectorAll(
+    propertyAddressIdentifier
+  );
+  const isAddressNotInserted = !document.querySelector('.MuiChip-label');
+
+  if (propertyAddresses && propertyAddresses.length > 0) {
+    propertyAddresses!.forEach((element) => {
+      if (isAddressNotInserted) {
+        mutationObserver.disconnect();
+
+        const listingLocations = [element.textContent];
+        const root = document.createElement('div');
+        element.appendChild(root);
+        console.log('hello from content script');
+        console.log(element.textContent);
+        ReactDOM.render(<App listingLocations={listingLocations} />, root);
+        setTimeout(() => {
+          observeMutationsAndAddInformation();
+        }, 3000);
+      }
+    });
+  }
+}
 
 if (isExtensionEnabled && document.readyState !== 'complete') {
   document.addEventListener('readystatechange', function (event) {
     if (this.readyState === 'complete') {
-      const observer = new MutationObserver(() => {
-        const listingContainers = Array.from(
-          document.getElementsByClassName(
-            'tm-property-premium-listing-card__details-container'
-          ) as HTMLCollectionOf<HTMLElement>
-        );
-        if (listingContainers && listingContainers.length > 0) {
-          listingContainers.forEach((element) => {
-            element.style.height = 'fit-content';
-          });
-        }
-        let url: string = window.location.toString();
-        console.log(url);
-        // const isRentalUrl = /.*trademe.co.nz.*\/residential\/rent\/.*/.test(
-        //   url
-        // );
-        const isTmRentalSearchUrl =
-          /.*trademe.co.nz.*\/residential\/rent.*search.*/.test(url);
-        const isTmSaleSearchUrl =
-          /.*trademe.co.nz.*\/residential\/sale.*search.*/.test(url);
-        const isListingUrl = /.*\/(rent|sale)\/.*listing.*/.test(url);
-        const isWatchlistUrl = /.*watchlist/.test(url);
-        const isMyRentUrl = /.*myrent.co.nz.*/.test(url);
-        const isOneRoofUrl = /.*oneroof.co.nz\/[^search].*/.test(url);
-        const isRealestateListingUrl = /.*realestate.co.nz\/\d{3,9}\/.*/.test(
-          url
-        );
-        const isRealestateUrl = /.*realestate.co.nz\/residential.*/.test(url);
-
-        let propertyAddresses = null;
-
-        if (isWatchlistUrl || isTmRentalSearchUrl) {
-          propertyAddresses = document.querySelectorAll(
-            'tm-property-search-card-listing-title'
-          );
-          console.log('watchlist or tmsearchurl');
-        } else if (isTmSaleSearchUrl) {
-          propertyAddresses = document.querySelectorAll(
-            'tm-property-search-card-address-subtitle'
-          );
-        } else if (isListingUrl) {
-          propertyAddresses = document.querySelectorAll(
-            '.tm-property-listing-body__location'
-          );
-          console.log('tm listing url');
-        } else if (isMyRentUrl) {
-          propertyAddresses = document.querySelectorAll(
-            'div.listing__header-title'
-          );
-          console.log('my rent url');
-        } else if (isOneRoofUrl) {
-          propertyAddresses = document.querySelectorAll(
-            'div.house-info > div.address'
-          );
-          console.log('oneroof url');
-        } else if (isRealestateListingUrl) {
-          propertyAddresses = document.querySelectorAll(
-            "[data-test='listing-title']"
-          );
-          console.log('real estate listing');
-        } else if (isRealestateUrl) {
-          propertyAddresses = document.querySelectorAll(
-            "[data-test='tile__search-result__content__description'] > h3"
-          );
-          console.log(' real estate search url');
-        }
-
-        if (propertyAddresses && propertyAddresses.length > 0) {
-          propertyAddresses!.forEach((element) => {
-            if (!document.querySelector('.MuiChip-label')) {
-              observer.disconnect();
-
-              const listingLocations = [element.textContent];
-              const root = document.createElement('div');
-              element.appendChild(root);
-              console.log('hello from content script');
-              console.log(element.textContent);
-              ReactDOM.render(
-                <App listingLocations={listingLocations} />,
-                root
-              );
-              setTimeout(() => {
-                observe();
-              }, 3000);
-            }
-          });
-        }
-      });
-      observe();
-      function observe() {
-        observer.observe(document, {
-          childList: true,
-          subtree: true,
-          characterData: true,
-          attributes: true
-        });
-      }
+      observeMutationsAndAddInformation();
     }
   });
 }

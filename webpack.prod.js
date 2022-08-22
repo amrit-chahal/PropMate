@@ -1,5 +1,11 @@
 const { merge } = require('webpack-merge');
 const common = require('./webpack.common');
-module.exports = merge(common, {
-  mode: 'production'
-});
+const configs = [];
+common.forEach((config) =>
+  configs.push(
+    merge(config, {
+      mode: 'production'
+    })
+  )
+);
+module.exports = configs;

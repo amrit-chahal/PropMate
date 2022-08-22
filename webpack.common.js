@@ -4,7 +4,8 @@ const { copyFile } = require('fs');
 const HtmlPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const Dotenv = require('dotenv-webpack');
-module.exports = {
+const _ = require('lodash');
+const commonConfig = {
   entry: {
     popup: path.resolve('src/popup/popup.tsx'),
     background: path.resolve('src/background/background.ts'),
@@ -35,23 +36,12 @@ module.exports = {
       path: './.env'
     }),
 
-    new CopyPlugin({
-      patterns: [
-        {
-          from: path.resolve('src/static'),
-          to: path.resolve('dist')
-        }
-      ]
-    }),
     ...getHtmlPlugins(['popup', 'options'])
   ],
   resolve: {
     extensions: ['.tsx', '.ts', '.js']
   },
-  output: {
-    filename: '[name].js',
-    path: path.resolve('dist')
-  },
+
   optimization: {
     splitChunks: {
       chunks(chunk) {
@@ -60,6 +50,56 @@ module.exports = {
     }
   }
 };
+const firefoxConfig = {
+  name: 'firefox',
+
+  plugins: [
+    new CopyPlugin({
+      patterns: [
+        {
+          from: path.resolve('src/static'),
+          to: path.resolve('dist-firefox')
+        },
+        {
+          from: path.resolve('src/firefox'),
+          to: path.resolve('dist-firefox')
+        }
+      ]
+    })
+  ],
+
+  output: {
+    filename: '[name].js',
+    path: path.resolve('dist-firefox')
+  }
+};
+const chromeConfig = {
+  name: 'chrome',
+  plugins: [
+    new CopyPlugin({
+      patterns: [
+        {
+          from: path.resolve('src/static'),
+          to: path.resolve('dist-chrome')
+        },
+        {
+          from: path.resolve('src/chrome'),
+          to: path.resolve('dist-chrome')
+        }
+      ]
+    })
+  ],
+  output: {
+    filename: '[name].js',
+    path: path.resolve('dist-chrome')
+  }
+};
+
+module.exports = [
+  _.merge({}, commonConfig, firefoxConfig),
+  _.merge({}, commonConfig, chromeConfig)
+];
+
 function getHtmlPlugins(chunks) {
   return chunks.map(
     (chunk) =>

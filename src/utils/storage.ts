@@ -14,18 +14,20 @@ export function setUserLocationsInStorage(userLocations: UserLocationItems): Pro
   const vals: SyncStorage = {
     userLocations
   };
+  
 
   return new Promise((resolve) => {
-    chrome.storage.sync.set(vals, () => {
+    chrome.storage.local.set(vals, () => {
       resolve();
     });
   });
+  
 }
 
 export function getUserLocationsInStorage(): Promise<UserLocationItems> {
   const keys: SyncStorageKeys[] = ['userLocations'];
   return new Promise((resolve) => {
-    chrome.storage.sync.get(keys, (res: SyncStorage) => {
+    chrome.storage.local.get(keys, (res: SyncStorage) => {
       resolve(res.userLocations ?? []);
     });
   });
@@ -35,7 +37,7 @@ export function setIsExtensionEnabledInStorage(isExtensionEnabled: boolean): Pro
     isExtensionEnabled
   };
   return new Promise((resolve) => {
-    chrome.storage.sync.set(vals, () => {
+    chrome.storage.local.set(vals, () => {
       resolve();
     })
   })
@@ -43,7 +45,7 @@ export function setIsExtensionEnabledInStorage(isExtensionEnabled: boolean): Pro
 export function getIsExtensionEnabledInStorage(): Promise<boolean>{
   const key: SyncStorageKeys[] = ['isExtensionEnabled'];
   return new Promise((resolve) => {
-    chrome.storage.sync.get(key, (res: SyncStorage) => {
+    chrome.storage.local.get(key, (res: SyncStorage) => {
       resolve(res.isExtensionEnabled ?? true);
     })
   })

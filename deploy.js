@@ -7,11 +7,11 @@ const ChromeWebStore = require('chrome-webstore-manager');
 
 const extensionId = process.env.EXTENSION_ID;
 
-zipper.sync.zip('./dist').compress().save('dist.zip');
+zipper.sync.zip('./dist-chrome').compress().save('dist-chrome.zip');
 
 console.log('after zip');
-const fileBin = fs.readFileSync(path.resolve('./dist.zip'));
-console.log(fileBin)
+const fileBin = fs.readFileSync(path.resolve('./dist-chrome.zip'));
+console.log(fileBin);
 
 const chromeWebStore = new ChromeWebStore(
   process.env.CLIENT_ID,
