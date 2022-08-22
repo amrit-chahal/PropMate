@@ -7,7 +7,8 @@
     "start": "webpack --progress --watch --config webpack.dev.js",
     "build": "webpack --config webpack.prod.js",
     "commit": "git-cz",
-    "deploy": "node deploy.js"
+    "deploy": "node chromeWebstoreDeployment.js",
+    "syncVersion": "node syncManifestVersion.js"
   },
   "repository": {
     "type": "git",

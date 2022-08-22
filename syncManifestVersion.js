@@ -1,6 +1,20 @@
+/**
+ * copies version from package.json to both chrome and firefox manifest.json
+ */
 const fs = require('fs-extra');
 
 const { version } = JSON.parse(fs.readFileSync('./package.json'));
-const manifest = JSON.parse(fs.readFileSync('./src/static/manifest.json'));
-manifest.version = version;
-fs.writeFileSync('./src/static/manifest.json', JSON.stringify(manifest));
+const firefoxManifest = JSON.parse(
+  fs.readFileSync('./src/firefox/manifest.json')
+);
+const chromeManifest = JSON.parse(
+  fs.readFileSync('./src/chrome/manifest.json')
+);
+
+firefoxManifest.version = version;
+chromeManifest.version = version;
+fs.writeFileSync(
+  './src/firefox/manifest.json',
+  JSON.stringify(firefoxManifest)
+);
+fs.writeFileSync('./src/chrome/manifest.json', JSON.stringify(chromeManifest));

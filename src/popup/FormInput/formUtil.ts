@@ -1,3 +1,6 @@
+/**
+ * includes helper functions to format and validate user input
+ */
 import { checkForValidAddress } from '../../utils/api';
 import { ACTIONS, FormActions, FormState, Input } from './formInput';
 

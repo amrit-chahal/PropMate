@@ -1,11 +1,12 @@
+/**
+ * deploy script to automate chrome webstore deployment
+ */
 require('dotenv').config();
 const fs = require('fs-extra');
 const zipper = require('zip-local');
 const jsonFile = require('jsonfile');
 const path = require('path');
 const ChromeWebStore = require('chrome-webstore-manager');
-
-const extensionId = process.env.EXTENSION_ID;
 
 zipper.sync.zip('./dist-chrome').compress().save('dist-chrome.zip');
 

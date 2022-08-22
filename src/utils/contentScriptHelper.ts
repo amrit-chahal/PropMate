@@ -1,10 +1,15 @@
-interface UrlTester {
+/**
+ *
+ *
+ */
+
+interface UrlPatternAndElementIdentifier {
   name: string;
   regex: RegExp;
   propertyAddressIdentifier: string;
 }
 
-const urlTester: UrlTester[] = [
+const urlObjects: UrlPatternAndElementIdentifier[] = [
   {
     name: 'TmSaleUrl',
     regex: /^(?!.*listing).*trademe.co.nz.*\/residential\/sale.*/,
@@ -49,21 +54,20 @@ const urlTester: UrlTester[] = [
 ];
 export function propertyAddressIdentifierFromUrl(
   url: string
-): UrlTester|undefined {
-  const identifierObject = urlTester.find(
+): UrlPatternAndElementIdentifier | undefined {
+  const identifierObject = urlObjects.find(
     (element) => element.regex.test(url) === true
   );
- 
+
   return identifierObject;
 }
 
-export function changeElementStyleToFitContent(elements:HTMLElement[]) {
-    
-      if (elements && elements.length > 0) {
-        elements.forEach((element) => {
-          element.style.height = 'fit-content';
-        });
-      }
+export function changeElementStyleToFitContent(elements: HTMLElement[]) {
+  if (elements && elements.length > 0) {
+    elements.forEach((element) => {
+      element.style.height = 'fit-content';
+    });
+  }
 }
 // export function propertyAddressesFromUrl(
 //   url: string
