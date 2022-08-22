@@ -31,7 +31,7 @@ import {
   setIsExtensionEnabledInStorage,
   getIsExtensionEnabledInStorage
 } from '../utils/storage';
-import  FormInput  from './FormInput/formInput';
+import FormInput from './FormInput/formInput';
 interface PopupState {
   extensionEnabled: boolean;
   bottomNavigation: string;
@@ -102,12 +102,14 @@ const App: React.FC<{}> = () => {
           bottomNavigation: response ? 'myPlaces' : 'extensionDisabled'
         }
       });
-      getUserLocationsInStorage().then((userLocations) => {
-        setUserLocations(userLocations);
-        if (userLocations.length >= 4) {
-          setIsListFull(true);
-        }
-      });
+      getUserLocationsInStorage()
+        .then((userLocations) => {
+          setUserLocations(userLocations);
+          if (userLocations.length >= 4) {
+            setIsListFull(true);
+          }
+        })
+        .catch((err) => console.log(err));
     });
   }, []);
 
@@ -120,7 +122,9 @@ const App: React.FC<{}> = () => {
     setUserLocations(
       (prevUserLocations) => (prevUserLocations = [...newUserLocations])
     );
-    setUserLocationsInStorage(newUserLocations);
+    setUserLocationsInStorage(newUserLocations).catch((err) =>
+      console.log(err)
+    );
   };
   const addUserLocation = (titleInput: string, locationInput: string) => {
     setUserLocations(
@@ -140,7 +144,7 @@ const App: React.FC<{}> = () => {
         locationTitle: titleInput,
         userLocation: locationInput
       }
-    ]);
+    ]).catch((err) => console.log(err));
   };
 
   const handleLocationDeleteBtnClick = (index: number) => {

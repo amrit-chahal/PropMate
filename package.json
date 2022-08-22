@@ -25,6 +25,7 @@
     "dotenv-webpack": "^7.1.1"
   },
   "devDependencies": {
+    "@types/firefox": "^0.0.31",
     "@material-ui/core": "^4.12.4",
     "@material-ui/icons": "^4.11.3",
     "@material-ui/lab": "^4.0.0-alpha.61",
