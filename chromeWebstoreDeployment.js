@@ -4,7 +4,6 @@
 require('dotenv').config();
 const fs = require('fs-extra');
 const zipper = require('zip-local');
-const jsonFile = require('jsonfile');
 const path = require('path');
 const ChromeWebStore = require('chrome-webstore-manager');
 

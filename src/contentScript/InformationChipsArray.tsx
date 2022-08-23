@@ -27,7 +27,7 @@ const InformationChipsArray: React.FC<{
             },
             (response) => {
               if (response) {
-                console.log(response);
+                
                 setTimeAndDistanceInfoArray((prevTimeAndDistanceInfoArray) => [
                   ...prevTimeAndDistanceInfoArray,
                   ...TimeAndDistanceInfoArrayFromResponse(

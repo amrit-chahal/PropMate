@@ -1,36 +1,31 @@
-name: Build and Deploy Extension
-
+name: Build and Deploy to Chrome Webstore
 
 on:
   push:
     tags:
-      - 'v[0-9]+.[0-9]+.[0-9]+' 
-      
-jobs:  
-  build:    
-    runs-on: windows-latest
-    steps:      
-      - uses: actions/checkout@v2      
-      - name: Create env file
-        
-        run: |
-            New-Item .env
-            Set-Content  .env "MAPS_API_KEY = ${{secrets.MAPS_API_KEY}}"
-            Add-Content .env "CLIENT_ID = ${{secrets.CLIENT_ID}}"
-            Add-Content .env "CLIENT_SECRET = ${{secrets.CLIENT_SECRET}}"
-            Add-Content .env "EXTENSION_ID = ${{secrets.EXTENSION_ID}}"
-            Add-Content .env "REFRESH_TOKEN = ${{secrets.REFRESH_TOKEN}}"    
-        
+      - 'v[0-9]+.[0-9]+.[0-9]+'
 
-        
-            
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Create env file
+
+        run: |
+          New-Item .env
+          Set-Content  .env "MAPS_API_KEY = ${{secrets.MAPS_API_KEY}}"
+          Add-Content .env "CLIENT_ID = ${{secrets.CLIENT_ID}}"
+          Add-Content .env "CLIENT_SECRET = ${{secrets.CLIENT_SECRET}}"
+          Add-Content .env "EXTENSION_ID = ${{secrets.EXTENSION_ID}}"
+          Add-Content .env "REFRESH_TOKEN = ${{secrets.REFRESH_TOKEN}}"
+
       - name: Compile Extension
         run: |
           npm install
           npm run syncVersion
           npm run build
-          
+
       - name: Deploy Extension
         run: |
-          npm run deploy
-         
+          npm run chromeDeploy
