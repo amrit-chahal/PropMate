@@ -10,16 +10,16 @@ interface UrlPatternAndElementIdentifier {
 }
 
 const urlObjects: UrlPatternAndElementIdentifier[] = [
-  {
-    name: 'TmSaleUrl',
-    regex: /^(?!.*listing).*trademe.co.nz.*\/residential\/sale.*/,
-    propertyAddressIdentifier: 'tm-property-search-card-address-subtitle'
-  },
-  {
-    name: 'TmRentalUrl',
-    regex: /^(?!.*listing).*trademe.co.nz.*\/residential\/rent.*/,
-    propertyAddressIdentifier: 'tm-property-search-card-listing-title'
-  },
+  // {
+  //   name: 'TmSaleUrl',
+  //   regex: /^(?!.*listing).*trademe.co.nz.*\/residential\/sale.*/,
+  //   propertyAddressIdentifier: 'tm-property-search-card-address-subtitle'
+  // },
+  // {
+  //   name: 'TmRentalUrl',
+  //   regex: /^(?!.*listing).*trademe.co.nz.*\/residential\/rent.*/,
+  //   propertyAddressIdentifier: 'tm-property-search-card-listing-title'
+  // },
   {
     name: 'TmWatchlistUrl',
     regex: /.*trademe.co.nz.*watchlist/,

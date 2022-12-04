@@ -1,6 +1,6 @@
 import { UserLocationItem } from './storage';
 
-const MAPS_API_KEY = process.env.MAPS_API_KEY;
+const MAPS_API_KEY = process.env.MAPS_API_KEY!;
 
 export interface MapsData {
   destination_addresses: string[];
@@ -29,10 +29,18 @@ export async function fetchTimeAndDistance(
     .join('|');
   const listingLocationsToString = listingLocations.join('|');
   try {
-    const res = await fetch(
-      `https://maps.googleapis.com/maps/api/distancematrix/json?units=metric&origins=
-      ${userLocationsToString}&destinations=${listingLocationsToString}&key=${MAPS_API_KEY}`
+    // const res = await fetch(
+    //   `https://maps.googleapis.com/maps/api/distancematrix/json?units=metric&origins=
+    //   ${userLocationsToString}&destinations=${listingLocationsToString}&key=${MAPS_API_KEY}`
+    // );
+    const url = new URL(
+      'https://maps.googleapis.com/maps/api/distancematrix/json'
     );
+    url.searchParams.append('units', 'metric');
+    url.searchParams.append('origins', userLocationsToString);
+    url.searchParams.append('destinations', listingLocationsToString);
+    url.searchParams.append('key', MAPS_API_KEY);
+    const res = await fetch(url.toString());
 
     if (!res.ok) {
       return;

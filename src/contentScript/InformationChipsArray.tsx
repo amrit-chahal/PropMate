@@ -27,7 +27,6 @@ const InformationChipsArray: React.FC<{
             },
             (response) => {
               if (response) {
-                
                 setTimeAndDistanceInfoArray((prevTimeAndDistanceInfoArray) => [
                   ...prevTimeAndDistanceInfoArray,
                   ...TimeAndDistanceInfoArrayFromResponse(
@@ -36,7 +35,7 @@ const InformationChipsArray: React.FC<{
                   )
                 ]);
               } else {
-                setTimeAndDistanceInfoArray(['Error: Unable to retrieve info']);
+                setTimeAndDistanceInfoArray(['Error: Daily Quota Exceeded']);
               }
             }
           );
